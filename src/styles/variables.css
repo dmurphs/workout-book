@@ -1,0 +1,25 @@
+:root {
+  /* colors */
+  --color-black: hsl(0, 0%, 4%);
+  --color-black-bis: hsl(0, 0%, 7%);
+  --color-black-ter: hsl(0, 0%, 14%);
+  --color-grey-darker: hsl(0, 0%, 21%);
+  --color-grey-dark: hsl(0, 0%, 29%);
+  --color-grey: hsl(0, 0%, 29%);
+  --color-grey-light: hsl(0, 0%, 71%);
+  --color-grey-lighter: hsl(0, 0%, 86%);
+  --color-white-ter: hsl(0, 0%, 96%);
+  --color-white-bis: hsl(0, 0%, 96%);
+  --color-white: hsl(0, 0%, 100%);
+  --color-orange: hsl(14, 100%, 53%);
+  --color-yellow: hsl(48, 100%, 67%);
+  --color-green: hsl(141, 71%, 48%);
+  --color-turquoise: hsl(171, 100%, 41%);
+  --color-blue: hsl(217, 71%, 53%);
+  --color-purple: hsl(271, 100%, 71%);
+  --color-red: hsl(348, 100%, 61%);
+
+  /* fonts */
+  --font-open-sans: 'OpenSans';
+  --font-monospace: 'Inconsolata';
+}

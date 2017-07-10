@@ -1,0 +1,11 @@
+/* fonts */
+@import url('https://fonts.googleapis.com/css?family=Inconsolata|Open+Sans:300,400,700');
+
+/* bulma.css */
+// custom variables
+@import 'node_modules/bulma/sass/utilities/initial-variables';
+
+$family-sans-serif: 'Open Sans', $family-sans-serif;
+$family-monospace: 'Inconsolata', $family-monospace;
+
+@import 'node_modules/bulma/bulma.sass';

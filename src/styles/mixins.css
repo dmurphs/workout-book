@@ -1,0 +1,8 @@
+/* stylelint-disable */
+@define-mixin font-awesome $value {
+  &::before {
+    content: $value;
+    font-family: 'FontAwesome';
+  }
+}
+/* stylelint-enable */
