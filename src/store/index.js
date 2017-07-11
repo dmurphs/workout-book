@@ -5,7 +5,7 @@ import { routerMiddleware } from 'react-router-redux';
 import { Iterable } from 'immutable';
 
 import history from '@/router/history';
-
+import api from '@/middleware/api';
 import reducer from './reducer';
 
 const logger = createLogger({
@@ -33,8 +33,9 @@ if (__DEV__) { // eslint-disable-line no-undef
   middlewares.push(logger);
 }
 
+const createStoreWithMiddleware = applyMiddleware(thunk, api)(createStore);
 
-const store = createStore(
+const store = createStoreWithMiddleware(
   reducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(), // eslint-disable-line no-underscore-dangle,max-len
   applyMiddleware(...middlewares),

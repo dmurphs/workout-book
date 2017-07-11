@@ -10,7 +10,7 @@ export default class CreateWorkout extends Component {
     const description = this.descriptionRef;
     const date = this.dateRef;
     const workoutData = {
-      workoutName: workoutName.value.trim(),
+      name: workoutName.value.trim(),
       description: description.value.trim(),
       date: date.value.trim(),
     };

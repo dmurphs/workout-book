@@ -1,5 +1,7 @@
 import { LOGIN_URL, CREATE_WORKOUT_URL } from '@/settings';
 
+import { CALL_API } from '@/middleware/api';
+
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
@@ -35,27 +37,38 @@ function loginError(errors) {
   };
 }
 
-function requestCreateWorkout(workoutData) {
-  return {
-    type: CREATE_WORKOUT_REQUEST,
-    isFetching: true,
-    workoutData,
-  };
-}
+// function requestCreateWorkout(workoutData) {
+//   return {
+//     type: CREATE_WORKOUT_REQUEST,
+//     isFetching: true,
+//     workoutData,
+//   };
+// }
 
-function receiveCreateWorkout(newWorkoutData) {
-  return {
-    type: CREATE_WORKOUT_SUCCESS,
-    isFetching: false,
-    newWorkoutData,
-  };
-}
+// function receiveCreateWorkout(newWorkoutData) {
+//   return {
+//     type: CREATE_WORKOUT_SUCCESS,
+//     isFetching: false,
+//     newWorkoutData,
+//   };
+// }
 
-function createWorkoutError(errors) {
+// function createWorkoutError(errors) {
+//   return {
+//     type: CREATE_WORKOUT_FAILURE,
+//     isFetching: false,
+//     errors,
+//   };
+// }
+
+export function createWorkout(workoutData) {
   return {
-    type: CREATE_WORKOUT_FAILURE,
-    isFetching: false,
-    errors,
+    [CALL_API]: {
+      endpoint: CREATE_WORKOUT_URL,
+      types: [CREATE_WORKOUT_REQUEST, CREATE_WORKOUT_SUCCESS, CREATE_WORKOUT_FAILURE],
+      requestMethod: 'POST',
+      requestData: workoutData,
+    },
   };
 }
 
@@ -87,32 +100,33 @@ export function loginUser(creds) {
             });
   };
 }
+/*eslint-disable*/
+// export function createWorkout(workoutData) {
+//   const token = localStorage.getItem('token');
 
-export function createWorkout(workoutData) {
-  const token = localStorage.getItem('token');
+//   const config = {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/x-www-form-urlencoded',
+//       Authorization: `Token ${token}`,
+//     },
+//     body: `name=${workoutData.workoutName}&description=${workoutData.description}&date=${workoutData.date}`,
+//   };
 
-  const config = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      Authorization: `Token ${token}`,
-    },
-    body: `name=${workoutData.workoutName}&description=${workoutData.description}&date=${workoutData.date}`,
-  };
+//   return (dispatch) => {
+//     dispatch(requestCreateWorkout(workoutData));
 
-  return (dispatch) => {
-    dispatch(requestCreateWorkout(workoutData));
-
-    return fetch(CREATE_WORKOUT_URL, config)
-      .then(response =>
-        response.json()
-          .then(responseData => ({ responseData, response })))
-            .then(({ responseData, response }) => {
-              if (response.ok) {
-                dispatch(receiveCreateWorkout(responseData));
-              } else {
-                dispatch(createWorkoutError(responseData));
-              }
-            }).catch(err => console.log('Error: ', err)); // eslint-disable-line no-console
-  };
-}
+//     return fetch(CREATE_WORKOUT_URL, config)
+//       .then(response =>
+//         response.json()
+//           .then(responseData => ({ responseData, response })))
+//             .then(({ responseData, response }) => {
+//               if (response.ok) {
+//                 dispatch(receiveCreateWorkout(responseData));
+//               } else {
+//                 dispatch(createWorkoutError(responseData));
+//               }
+//             }).catch(err => console.log('Error: ', err)); // eslint-disable-line no-console
+//   };
+// }
+/*eslint-enable*/
