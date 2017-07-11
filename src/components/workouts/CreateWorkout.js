@@ -1,43 +1,62 @@
 // components/workouts/CreateWorkout.js
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-export default class CreateWorkout extends Component {
+import { createWorkout } from '@/store/actions';
 
-  handleClick() {
+class CreateWorkout extends Component {
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+
     const date = new Date();
     const today = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     const workoutData = {
       date: today,
     };
-    this.props.onCreateClick(workoutData);
+    dispatch(createWorkout(workoutData));
   }
 
   render() {
-    const { isAuthenticated } = this.props;
+    const { created, id, isFetching } = this.props;
+
+    const redirectURL = `/workout/${id}`;
 
     return (
       <div>
-
-        { isAuthenticated &&
-          <div>
-            <button onClick={() => this.handleClick()}>
-              New Workout
-            </button>
-          </div>
+        { created &&
+          <Redirect to={redirectURL} />
         }
 
-        { !isAuthenticated &&
-          <h1>Please Login to create a workout</h1>
+        { isFetching &&
+          <h1>Creating Workout...</h1>
         }
-
       </div>
     );
   }
 }
 
 CreateWorkout.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired,
-  onCreateClick: PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  created: PropTypes.bool.isRequired,
+  id: PropTypes.number.isRequired,
+  isFetching: PropTypes.bool.isRequired,
 };
+
+function mapStateToProps(state) {
+  const { workoutCreation } = state;
+  const { created, data, isFetching } = workoutCreation;
+
+  const id = data.id;
+
+  return {
+    created,
+    id,
+    isFetching,
+  };
+}
+
+export default connect(mapStateToProps)(CreateWorkout);

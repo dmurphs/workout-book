@@ -4,6 +4,7 @@ import { routerReducer } from 'react-router-redux';
 import {
   LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, // LOGOUT_SUCCESS,
   CREATE_WORKOUT_REQUEST, CREATE_WORKOUT_SUCCESS, CREATE_WORKOUT_FAILURE,
+  WORKOUT_DETAIL_REQUEST, WORKOUT_DETAIL_SUCCESS, WORKOUT_DETAIL_FAILURE,
 } from './actions';
 
 // The auth reducer. The starting state sets authentication
@@ -30,7 +31,7 @@ function auth(state = {
       return Object.assign({}, state, {
         isFetching: false,
         isAuthenticated: false,
-        errorMessage: action.message,
+        errorMessage: action.errors,
       });
     // case LOGOUT_SUCCESS:
     //   return Object.assign({}, state, {
@@ -45,6 +46,7 @@ function auth(state = {
 function workoutCreation(state = {
   isFetching: false,
   created: false,
+  data: {},
 }, action) {
   switch (action.type) {
     case CREATE_WORKOUT_REQUEST:
@@ -57,11 +59,42 @@ function workoutCreation(state = {
       return Object.assign({}, state, {
         isFetching: false,
         created: true,
+        data: action.response,
       });
     case CREATE_WORKOUT_FAILURE:
       return Object.assign({}, state, {
         isFetching: false,
         created: false,
+        errors: action.errors,
+      });
+    default:
+      return state;
+  }
+}
+
+function workoutDetail(state = {
+  isFetching: false,
+  received: false,
+  data: {},
+}, action) {
+  switch (action.type) {
+    case WORKOUT_DETAIL_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        received: false,
+        data: {},
+      });
+    case WORKOUT_DETAIL_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        received: true,
+        data: action.response,
+      });
+    case WORKOUT_DETAIL_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: false,
+        received: false,
+        errors: action.errors,
       });
     default:
       return state;
@@ -73,5 +106,6 @@ function workoutCreation(state = {
 export default combineReducers({
   auth,
   workoutCreation,
+  workoutDetail,
   routerReducer,
 });

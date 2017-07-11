@@ -1,4 +1,4 @@
-import { LOGIN_URL, CREATE_WORKOUT_URL } from '@/settings';
+import { LOGIN_URL, CREATE_WORKOUT_URL, WORKOUT_DETAIL_URL } from '@/settings';
 
 import { CALL_API } from '@/middleware/api';
 
@@ -9,6 +9,10 @@ export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 export const CREATE_WORKOUT_REQUEST = 'CREATE_WORKOUT_REQUEST';
 export const CREATE_WORKOUT_SUCCESS = 'CREATE_WORKOUT_SUCCESS';
 export const CREATE_WORKOUT_FAILURE = 'CREATE_WORKOUT_FAILURE';
+
+export const WORKOUT_DETAIL_REQUEST = 'WORKOUT_DETAIL_REQUEST';
+export const WORKOUT_DETAIL_SUCCESS = 'WORKOUT_DETAIL_SUCCESS';
+export const WORKOUT_DETAIL_FAILURE = 'WORKOUT_DETAIL_FAILURE';
 
 function requestLogin(creds) {
   return {
@@ -37,30 +41,6 @@ function loginError(errors) {
   };
 }
 
-// function requestCreateWorkout(workoutData) {
-//   return {
-//     type: CREATE_WORKOUT_REQUEST,
-//     isFetching: true,
-//     workoutData,
-//   };
-// }
-
-// function receiveCreateWorkout(newWorkoutData) {
-//   return {
-//     type: CREATE_WORKOUT_SUCCESS,
-//     isFetching: false,
-//     newWorkoutData,
-//   };
-// }
-
-// function createWorkoutError(errors) {
-//   return {
-//     type: CREATE_WORKOUT_FAILURE,
-//     isFetching: false,
-//     errors,
-//   };
-// }
-
 export function createWorkout(workoutData) {
   return {
     [CALL_API]: {
@@ -68,6 +48,17 @@ export function createWorkout(workoutData) {
       types: [CREATE_WORKOUT_REQUEST, CREATE_WORKOUT_SUCCESS, CREATE_WORKOUT_FAILURE],
       requestMethod: 'POST',
       requestData: workoutData,
+    },
+  };
+}
+
+export function getWorkoutDetail(workoutID) {
+  return {
+    [CALL_API]: {
+      endpoint: `${WORKOUT_DETAIL_URL}${workoutID}/`,
+      types: [WORKOUT_DETAIL_REQUEST, WORKOUT_DETAIL_SUCCESS, WORKOUT_DETAIL_FAILURE],
+      requestMethod: 'GET',
+      requestData: {},
     },
   };
 }
@@ -100,33 +91,3 @@ export function loginUser(creds) {
             });
   };
 }
-/*eslint-disable*/
-// export function createWorkout(workoutData) {
-//   const token = localStorage.getItem('token');
-
-//   const config = {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/x-www-form-urlencoded',
-//       Authorization: `Token ${token}`,
-//     },
-//     body: `name=${workoutData.workoutName}&description=${workoutData.description}&date=${workoutData.date}`,
-//   };
-
-//   return (dispatch) => {
-//     dispatch(requestCreateWorkout(workoutData));
-
-//     return fetch(CREATE_WORKOUT_URL, config)
-//       .then(response =>
-//         response.json()
-//           .then(responseData => ({ responseData, response })))
-//             .then(({ responseData, response }) => {
-//               if (response.ok) {
-//                 dispatch(receiveCreateWorkout(responseData));
-//               } else {
-//                 dispatch(createWorkoutError(responseData));
-//               }
-//             }).catch(err => console.log('Error: ', err)); // eslint-disable-line no-console
-//   };
-// }
-/*eslint-enable*/

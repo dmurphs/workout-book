@@ -1,20 +1,16 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
-import CreateWorkout from '@/components/workouts/CreateWorkout';
-import { createWorkout } from '@/store/actions';
 
 /*eslint-disable*/
 export default class Dashboard extends Component{
 
   render(){
-    const { dispatch, isAuthenticated } = this.props;
+    const { isAuthenticated } = this.props;
 
     return(
       <div>
-        <CreateWorkout 
-          isAuthenticated={isAuthenticated} 
-          onCreateClick={workoutData => dispatch(createWorkout(workoutData))} />
+        <Link to="/create_workout">Create New Workout</Link>
       </div>
     );
   }
@@ -23,5 +19,4 @@ export default class Dashboard extends Component{
 
 Dashboard.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
-  dispatch: PropTypes.func.isRequired,
 };
