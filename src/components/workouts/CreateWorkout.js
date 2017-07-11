@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { createWorkout } from '@/store/actions';
+import { createWorkout, resetCreateWorkout } from '@/store/actions';
 
 class CreateWorkout extends Component {
 
@@ -21,13 +21,19 @@ class CreateWorkout extends Component {
   }
 
   render() {
-    const { created, id, isFetching } = this.props;
+    const { dispatch, created, id, isFetching } = this.props;
+
+    const shouldRedirect = created;
+
+    if (shouldRedirect) {
+      dispatch(resetCreateWorkout());
+    }
 
     const redirectURL = `/workout/${id}`;
 
     return (
       <div>
-        { created &&
+        { shouldRedirect &&
           <Redirect to={redirectURL} />
         }
 
