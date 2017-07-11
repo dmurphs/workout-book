@@ -6,13 +6,10 @@ import PropTypes from 'prop-types';
 export default class CreateWorkout extends Component {
 
   handleClick() {
-    const workoutName = this.workoutNameRef;
-    const description = this.descriptionRef;
-    const date = this.dateRef;
+    const date = new Date();
+    const today = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     const workoutData = {
-      name: workoutName.value.trim(),
-      description: description.value.trim(),
-      date: date.value.trim(),
+      date: today,
     };
     this.props.onCreateClick(workoutData);
   }
@@ -25,11 +22,8 @@ export default class CreateWorkout extends Component {
 
         { isAuthenticated &&
           <div>
-            <input type="text" ref={(el) => { this.workoutNameRef = el; }} placeholder="Workout Name" />
-            <input type="text" ref={(el) => { this.descriptionRef = el; }} placeholder="Description" />
-            <input type="text" ref={(el) => { this.dateRef = el; }} placeholder="Date" />
             <button onClick={() => this.handleClick()}>
-              Create Workout
+              New Workout
             </button>
           </div>
         }

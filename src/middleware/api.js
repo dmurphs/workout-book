@@ -44,7 +44,7 @@ function callApi(endpointURL, requestMethod, requestData = {}) {
       }
 
       return responseData;
-    }).catch(err => console.log(err)); // eslint-disable-line no-console
+    });
 }
 
 export const CALL_API = Symbol('Call API');
@@ -61,8 +61,6 @@ export default () => next => (action) => {
 
   const [requestType, successType, errorType] = types; // eslint-disable-line no-unused-vars
 
-  // Passing the authenticated boolean back in
-  // our data will let us distinguish between normal and secret quotes
   return callApi(endpoint, requestMethod, requestData).then(
     response =>
       next({
@@ -70,7 +68,7 @@ export default () => next => (action) => {
         type: successType,
       }),
     error => next({
-      error: error.message || 'There was an error.',
+      error: error || 'There was an error.',
       type: errorType,
     }),
   );
