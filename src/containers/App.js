@@ -37,7 +37,7 @@ class App extends Component{
       <Provider store={store}>
         <Router history={history}>
           <div>
-            <Root />
+            <Root isAuthenticated={isAuthenticated} />
             <Route exact path="/" component={DashboardWrapper} />
             <Route path="/login" component={LoginWrapper} />
           </div>

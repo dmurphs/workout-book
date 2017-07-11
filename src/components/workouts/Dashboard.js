@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import CreateWorkout from '@/components/workouts/CreateWorkout';
 import { createWorkout } from '@/store/actions';
@@ -19,3 +20,8 @@ export default class Dashboard extends Component{
   }
 }
 /*eslint-enable*/
+
+Dashboard.propTypes = {
+  isAuthenticated: PropTypes.bool.isRequired,
+  dispatch: PropTypes.func.isRequired,
+};

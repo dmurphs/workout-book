@@ -1,9 +1,28 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import styles from './index.css';
 
-export default() => (
-  <header className={styles.header}>
-    header goes here
-  </header>
-);
+/*eslint-disable*/
+export default class Header extends Component {
+  render() {
+
+    const { isAuthenticated } = this.props;
+
+    return (
+      <header className={styles.header}>
+        <Link to="/">Dashboard</Link>
+
+        { isAuthenticated &&
+          <Link to="/logout">Logout</Link>
+        }
+
+        { !isAuthenticated &&
+          <Link to="/login">Login</Link>
+        }
+
+      </header>
+    );
+  }
+}
+/*eslint-enable*/

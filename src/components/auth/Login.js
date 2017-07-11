@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 export default class Login extends Component {
@@ -14,7 +13,6 @@ export default class Login extends Component {
   render() {
     return (
       <div>
-        <Link to={'/'}>Dashboard</Link>
         <div>
           <input type="text" ref={(el) => { this.usernameRef = el; }} placeholder="Username" />
           <input type="password" ref={(el) => { this.passwordRef = el; }} placeholder="Password" />
