@@ -9,7 +9,6 @@ import history from '@/router/history';
 import Root from '@/components/Root';
 import Login from '@/components/auth/Login';
 import Dashboard from '@/components/workouts/Dashboard';
-import CreateWorkout from '@/components/workouts/CreateWorkout';
 import Workout from '@/components/workouts/Workout';
 
 import { loginUser } from '@/store/actions';
@@ -32,11 +31,7 @@ class App extends Component{
     );
 
     const DashboardWrapper = () => (
-      <Dashboard isAuthenticated={isAuthenticated} />
-    );
-
-    const CreateWorkoutWrapper = () => (
-      <CreateWorkout dispatch={store.dispatch} />
+      <Dashboard isAuthenticated={isAuthenticated} dispatch={store.dispatch} />
     );
 
     const WorkoutWrapper = ({ match }) => (
@@ -50,7 +45,6 @@ class App extends Component{
             <Root isAuthenticated={isAuthenticated} />
             <Route exact path="/" component={DashboardWrapper} />
             <Route path="/login" component={LoginWrapper} />
-            <Route path="/create_workout" component={CreateWorkoutWrapper} />
             <Route path="/workout/:workoutID" component={WorkoutWrapper} />
           </div>
         </Router>

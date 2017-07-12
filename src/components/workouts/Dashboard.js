@@ -1,22 +1,41 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { push } from 'react-router-redux';
 import PropTypes from 'prop-types';
 
-/*eslint-disable*/
-export default class Dashboard extends Component{
+import { createWorkout } from '@/store/actions';
 
-  render(){
-    const { isAuthenticated } = this.props;
+export default class Dashboard extends Component {
 
-    return(
+  handleWorkoutCreateClick() {
+    const { dispatch } = this.props;
+
+    const date = new Date();
+    const today = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    const workoutData = {
+      date: today,
+    };
+
+    dispatch(createWorkout(workoutData)).then(
+      (success) => {
+        const response = success.response;
+        const workoutID = response.id;
+
+        dispatch(push(`/workout/${workoutID}`));
+      },
+      (error) => {
+        console.log(error); // eslint-disable-line
+      });
+  }
+
+  render() {
+    return (
       <div>
-        <Link to="/create_workout">Create New Workout</Link>
+        <button onClick={() => this.handleWorkoutCreateClick()}>Create New Workout</button>
       </div>
     );
   }
 }
-/*eslint-enable*/
 
 Dashboard.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired,
+  dispatch: PropTypes.func.isRequired,
 };

@@ -9,7 +9,6 @@ export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 export const CREATE_WORKOUT_REQUEST = 'CREATE_WORKOUT_REQUEST';
 export const CREATE_WORKOUT_SUCCESS = 'CREATE_WORKOUT_SUCCESS';
 export const CREATE_WORKOUT_FAILURE = 'CREATE_WORKOUT_FAILURE';
-export const CREATE_WORKOUT_RESET = 'CREATE_WORKOUT_RESET';
 
 export const WORKOUT_DETAIL_REQUEST = 'WORKOUT_DETAIL_REQUEST';
 export const WORKOUT_DETAIL_SUCCESS = 'WORKOUT_DETAIL_SUCCESS';
@@ -50,12 +49,6 @@ export function createWorkout(workoutData) {
       requestMethod: 'POST',
       requestData: workoutData,
     },
-  };
-}
-
-export function resetCreateWorkout() {
-  return {
-    type: CREATE_WORKOUT_RESET,
   };
 }
 

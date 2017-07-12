@@ -7,6 +7,8 @@ import { getWorkoutDetail } from '@/store/actions';
 class Workout extends Component {
 
   componentDidMount() {
+    console.log('component mounted'); // eslint-disable-line
+
     const { dispatch, workoutID } = this.props;
 
     dispatch(getWorkoutDetail(workoutID));

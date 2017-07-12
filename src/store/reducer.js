@@ -3,7 +3,7 @@ import { routerReducer } from 'react-router-redux';
 
 import {
   LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, // LOGOUT_SUCCESS,
-  CREATE_WORKOUT_REQUEST, CREATE_WORKOUT_SUCCESS, CREATE_WORKOUT_FAILURE, CREATE_WORKOUT_RESET,
+  CREATE_WORKOUT_REQUEST, CREATE_WORKOUT_SUCCESS, CREATE_WORKOUT_FAILURE,
   WORKOUT_DETAIL_REQUEST, WORKOUT_DETAIL_SUCCESS, WORKOUT_DETAIL_FAILURE,
 } from './actions';
 
@@ -66,12 +66,6 @@ function workoutCreation(state = {
         isFetching: false,
         created: false,
         errors: action.errors,
-      });
-    case CREATE_WORKOUT_RESET:
-      return Object.assign({}, state, {
-        isFetching: false,
-        created: false,
-        data: {},
       });
     default:
       return state;
