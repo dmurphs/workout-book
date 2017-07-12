@@ -46,6 +46,31 @@ function auth(state = {
   }
 }
 
+function defaultAPIGetReducer(requestType, successType, failureType, state, action) {
+  switch (action.type) {
+    case requestType:
+      return Object.assign({}, state, {
+        isFetching: true,
+        received: false,
+        data: action.workoutData,
+      });
+    case successType:
+      return Object.assign({}, state, {
+        isFetching: false,
+        received: true,
+        data: action.response,
+      });
+    case failureType:
+      return Object.assign({}, state, {
+        isFetching: false,
+        received: false,
+        errors: action.errors,
+      });
+    default:
+      return state;
+  }
+}
+
 function workoutCreation(state = {
   isFetching: false,
   created: false,
@@ -80,28 +105,12 @@ function workoutDetail(state = {
   received: false,
   data: {},
 }, action) {
-  switch (action.type) {
-    case WORKOUT_DETAIL_REQUEST:
-      return Object.assign({}, state, {
-        isFetching: true,
-        received: false,
-        data: {},
-      });
-    case WORKOUT_DETAIL_SUCCESS:
-      return Object.assign({}, state, {
-        isFetching: false,
-        received: true,
-        data: action.response,
-      });
-    case WORKOUT_DETAIL_FAILURE:
-      return Object.assign({}, state, {
-        isFetching: false,
-        received: false,
-        errors: action.errors,
-      });
-    default:
-      return state;
-  }
+  return defaultAPIGetReducer(
+    WORKOUT_DETAIL_REQUEST,
+    WORKOUT_DETAIL_SUCCESS,
+    WORKOUT_DETAIL_FAILURE,
+    state,
+    action);
 }
 
 function liftEntryList(state = {
@@ -109,28 +118,12 @@ function liftEntryList(state = {
   received: false,
   data: [],
 }, action) {
-  switch (action.type) {
-    case LIFT_ENTRY_LIST_REQUEST:
-      return Object.assign({}, state, {
-        isFetching: true,
-        received: false,
-        data: [],
-      });
-    case LIFT_ENTRY_LIST_SUCCESS:
-      return Object.assign({}, state, {
-        isFetching: false,
-        received: true,
-        data: action.response,
-      });
-    case LIFT_ENTRY_LIST_FAILURE:
-      return Object.assign({}, state, {
-        isFetching: true,
-        received: false,
-        data: action.errors,
-      });
-    default:
-      return state;
-  }
+  return defaultAPIGetReducer(
+    LIFT_ENTRY_LIST_REQUEST,
+    LIFT_ENTRY_LIST_SUCCESS,
+    LIFT_ENTRY_LIST_FAILURE,
+    state,
+    action);
 }
 
 function setList(state = {
@@ -138,28 +131,12 @@ function setList(state = {
   received: false,
   data: [],
 }, action) {
-  switch (action.type) {
-    case SET_LIST_REQUEST:
-      return Object.assign({}, state, {
-        isFetching: true,
-        received: false,
-        data: [],
-      });
-    case SET_LIST_SUCCESS:
-      return Object.assign({}, state, {
-        isFetching: false,
-        received: true,
-        data: action.response,
-      });
-    case SET_LIST_FAILURE:
-      return Object.assign({}, state, {
-        isFetching: true,
-        received: false,
-        data: action.errors,
-      });
-    default:
-      return state;
-  }
+  return defaultAPIGetReducer(
+    SET_LIST_REQUEST,
+    SET_LIST_SUCCESS,
+    SET_LIST_FAILURE,
+    state,
+    action);
 }
 
 function runEntryList(state = {
@@ -167,28 +144,12 @@ function runEntryList(state = {
   received: false,
   data: [],
 }, action) {
-  switch (action.type) {
-    case RUN_ENTRY_LIST_REQUEST:
-      return Object.assign({}, state, {
-        isFetching: true,
-        received: false,
-        data: [],
-      });
-    case RUN_ENTRY_LIST_SUCCESS:
-      return Object.assign({}, state, {
-        isFetching: false,
-        received: true,
-        data: action.response,
-      });
-    case RUN_ENTRY_LIST_FAILURE:
-      return Object.assign({}, state, {
-        isFetching: true,
-        received: false,
-        data: action.errors,
-      });
-    default:
-      return state;
-  }
+  return defaultAPIGetReducer(
+    RUN_ENTRY_LIST_REQUEST,
+    RUN_ENTRY_LIST_SUCCESS,
+    RUN_ENTRY_LIST_FAILURE,
+    state,
+    action);
 }
 
 // We combine the reducers here so that they
