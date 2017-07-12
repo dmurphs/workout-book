@@ -7,3 +7,4 @@ export const WORKOUT_DETAIL_URL = `${API_BASE_URL}workout_detail/`;
 export const LIFT_ENTRY_LIST_URL = `${API_BASE_URL}list_lift_entries/`;
 export const SET_LIST_URL = `${API_BASE_URL}list_sets/`;
 export const RUN_ENTRY_LIST_URL = `${API_BASE_URL}list_run_entries/`;
+export const WORKOUT_LIST_URL = `${API_BASE_URL}list_workouts/`;

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { push } from 'react-router-redux';
 import PropTypes from 'prop-types';
 
+import WorkoutList from '@/components/workouts/WorkoutList';
+
 import { createWorkout } from '@/store/actions';
 
 export default class Dashboard extends Component {
@@ -28,9 +30,12 @@ export default class Dashboard extends Component {
   }
 
   render() {
+    const { dispatch } = this.props;
+
     return (
       <div>
         <button onClick={() => this.handleWorkoutCreateClick()}>Create New Workout</button>
+        <WorkoutList dispatch={dispatch} />
       </div>
     );
   }

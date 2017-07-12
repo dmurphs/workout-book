@@ -3,6 +3,7 @@ import { routerReducer } from 'react-router-redux';
 
 import {
   LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, // LOGOUT_SUCCESS,
+  WORKOUT_LIST_REQUEST, WORKOUT_LIST_SUCCESS, WORKOUT_LIST_FAILURE,
   CREATE_WORKOUT_REQUEST, CREATE_WORKOUT_SUCCESS, CREATE_WORKOUT_FAILURE,
   WORKOUT_DETAIL_REQUEST, WORKOUT_DETAIL_SUCCESS, WORKOUT_DETAIL_FAILURE,
   LIFT_ENTRY_LIST_REQUEST, LIFT_ENTRY_LIST_SUCCESS, LIFT_ENTRY_LIST_FAILURE,
@@ -69,6 +70,19 @@ function defaultAPIGetReducer(requestType, successType, failureType, state, acti
     default:
       return state;
   }
+}
+
+function workoutList(state = {
+  isFetching: false,
+  received: false,
+  data: [],
+}, action) {
+  return defaultAPIGetReducer(
+    WORKOUT_LIST_REQUEST,
+    WORKOUT_LIST_SUCCESS,
+    WORKOUT_LIST_FAILURE,
+    state,
+    action);
 }
 
 function workoutCreation(state = {
@@ -156,6 +170,7 @@ function runEntryList(state = {
 // can be left split apart above
 export default combineReducers({
   auth,
+  workoutList,
   workoutCreation,
   workoutDetail,
   liftEntryList,

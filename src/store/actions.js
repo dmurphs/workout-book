@@ -1,4 +1,4 @@
-import { LOGIN_URL, CREATE_WORKOUT_URL, WORKOUT_DETAIL_URL,
+import { LOGIN_URL, WORKOUT_LIST_URL, CREATE_WORKOUT_URL, WORKOUT_DETAIL_URL,
   LIFT_ENTRY_LIST_URL, SET_LIST_URL, RUN_ENTRY_LIST_URL } from '@/settings';
 
 import { CALL_API } from '@/middleware/api';
@@ -6,6 +6,10 @@ import { CALL_API } from '@/middleware/api';
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
+
+export const WORKOUT_LIST_REQUEST = 'WORKOUT_LIST_REQUEST';
+export const WORKOUT_LIST_SUCCESS = 'WORKOUT_LIST_SUCCESS';
+export const WORKOUT_LIST_FAILURE = 'WORKOUT_LIST_FAILURE';
 
 export const CREATE_WORKOUT_REQUEST = 'CREATE_WORKOUT_REQUEST';
 export const CREATE_WORKOUT_SUCCESS = 'CREATE_WORKOUT_SUCCESS';
@@ -51,6 +55,17 @@ function loginError(errors) {
     isFetching: false,
     isAuthenticated: false,
     errors,
+  };
+}
+
+export function getWorkouts(dateRangeData) {
+  return {
+    [CALL_API]: {
+      endpoint: WORKOUT_LIST_URL,
+      types: [WORKOUT_DETAIL_REQUEST, WORKOUT_LIST_SUCCESS, WORKOUT_LIST_FAILURE],
+      requestMethod: 'GET',
+      requestData: dateRangeData,
+    },
   };
 }
 
