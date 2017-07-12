@@ -1,39 +1,46 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import LiftEntryList from '@/components/workouts/LiftEntryList';
 import RunEntryList from '@/components/workouts/RunEntryList';
-import CreateLiftEntry from '@/components/workouts/CreateLiftEntry';
 
 import { getWorkoutDetail } from '@/store/actions';
 
-class Workout extends Component {
+export default class Workout extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      description: '',
+      date: '',
+    };
+  }
 
   componentWillMount() {
     const { dispatch, workoutID } = this.props;
 
-    dispatch(getWorkoutDetail(workoutID));
+    dispatch(getWorkoutDetail(workoutID)).then(
+      (success) => {
+        const response = success.response;
+        const description = response.description;
+        const date = response.date;
+        this.setState({ description, date });
+      });
   }
 
   render() {
-    const { isFetching, received, description, date, dispatch, workoutID } = this.props;
+    const { dispatch, workoutID } = this.props;
+
+    const description = this.state.description;
+    const date = this.state.date;
 
     const descriptionText = description || '(No Description)';
 
     return (
       <div>
-        { isFetching &&
-          <h1>Loading Workout</h1>
-        }
-        { received &&
-          <div>
-            <h1>{date} - {descriptionText}</h1>
-            <LiftEntryList workoutID={workoutID} dispatch={dispatch} />
-            <CreateLiftEntry workoutID={workoutID} dispatch={dispatch} />
-            <RunEntryList workoutID={workoutID} dispatch={dispatch} />
-          </div>
-        }
+        <h1>{date} - {descriptionText}</h1>
+        <LiftEntryList workoutID={workoutID} dispatch={dispatch} />
+        <RunEntryList workoutID={workoutID} dispatch={dispatch} />
       </div>
     );
   }
@@ -42,25 +49,4 @@ class Workout extends Component {
 Workout.propTypes = {
   dispatch: PropTypes.func.isRequired,
   workoutID: PropTypes.string.isRequired,
-  isFetching: PropTypes.bool.isRequired,
-  received: PropTypes.bool.isRequired,
-  description: PropTypes.string, // eslint-disable-line
-  date: PropTypes.string, // eslint-disable-line
 };
-
-function mapStateToProps(state) {
-  const { workoutDetail } = state;
-  const { isFetching, received, data } = workoutDetail;
-
-  const description = data.description;
-  const date = data.date;
-
-  return {
-    isFetching,
-    received,
-    description,
-    date,
-  };
-}
-
-export default connect(mapStateToProps)(Workout);

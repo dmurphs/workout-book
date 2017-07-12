@@ -1,37 +1,53 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import SetList from '@/components/workouts/SetList';
+import CreateLiftEntry from '@/components/workouts/CreateLiftEntry';
 
 import { getLiftEntries } from '@/store/actions';
 
-class LiftEntryList extends Component {
+export default class LiftEntryList extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      liftEntries: [],
+    };
+  }
 
   componentWillMount() {
+    this.updateComponentData();
+  }
+
+  updateComponentData() {
     const { dispatch, workoutID } = this.props;
 
-    dispatch(getLiftEntries(workoutID));
+    dispatch(getLiftEntries(workoutID)).then(
+      (success) => {
+        this.setState({ liftEntries: success.response });
+      });
   }
 
   render() {
-    const { isFetching, received, liftEntries, dispatch } = this.props;
+    const { dispatch, workoutID } = this.props;
+
+    const liftEntries = this.state.liftEntries;
 
     return (
       <div>
-        { isFetching &&
-          <h1>Loading Lift Entries</h1>
-        }
-        { received &&
-          <ul>
-            {liftEntries.map(liftEntry => (
-              <li key={liftEntry.id}>
-                {liftEntry.lift} - {liftEntry.notes}
-                <SetList dispatch={dispatch} liftEntryID={liftEntry.id} />
-              </li>
-            ))}
-          </ul>
-        }
+        <ul>
+          {liftEntries.map(liftEntry => (
+            <li key={liftEntry.id}>
+              {liftEntry.lift} - {liftEntry.notes}
+              <SetList dispatch={dispatch} liftEntryID={liftEntry.id} />
+            </li>
+          ))}
+        </ul>
+        <CreateLiftEntry
+          workoutID={workoutID}
+          dispatch={dispatch}
+          onLiftCreated={() => this.updateComponentData()}
+        />
       </div>
     );
   }
@@ -40,22 +56,4 @@ class LiftEntryList extends Component {
 LiftEntryList.propTypes = {
   dispatch: PropTypes.func.isRequired,
   workoutID: PropTypes.string.isRequired,
-  isFetching: PropTypes.bool.isRequired,
-  received: PropTypes.bool.isRequired,
-  liftEntries: PropTypes.array, // eslint-disable-line
 };
-
-function mapStateToProps(state) {
-  const { liftEntryList } = state;
-  const { isFetching, received, data } = liftEntryList;
-
-  const liftEntries = data;
-
-  return {
-    isFetching,
-    received,
-    liftEntries,
-  };
-}
-
-export default connect(mapStateToProps)(LiftEntryList);
