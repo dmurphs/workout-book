@@ -2,20 +2,21 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import LiftEntryList from '@/components/workouts/LiftEntryList';
+import RunEntryList from '@/components/workouts/RunEntryList';
+
 import { getWorkoutDetail } from '@/store/actions';
 
 class Workout extends Component {
 
   componentDidMount() {
-    console.log('component mounted'); // eslint-disable-line
-
     const { dispatch, workoutID } = this.props;
 
     dispatch(getWorkoutDetail(workoutID));
   }
 
   render() {
-    const { isFetching, received, description, date } = this.props;
+    const { isFetching, received, description, date, dispatch, workoutID } = this.props;
 
     const descriptionText = description || '(No Description)';
 
@@ -25,7 +26,11 @@ class Workout extends Component {
           <h1>Loading Workout</h1>
         }
         { received &&
-          <h1>{date} - {descriptionText}</h1>
+          <div>
+            <h1>{date} - {descriptionText}</h1>
+            <LiftEntryList workoutID={workoutID} dispatch={dispatch} />
+            <RunEntryList workoutID={workoutID} dispatch={dispatch} />
+          </div>
         }
       </div>
     );

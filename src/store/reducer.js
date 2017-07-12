@@ -5,6 +5,9 @@ import {
   LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, // LOGOUT_SUCCESS,
   CREATE_WORKOUT_REQUEST, CREATE_WORKOUT_SUCCESS, CREATE_WORKOUT_FAILURE,
   WORKOUT_DETAIL_REQUEST, WORKOUT_DETAIL_SUCCESS, WORKOUT_DETAIL_FAILURE,
+  LIFT_ENTRY_LIST_REQUEST, LIFT_ENTRY_LIST_SUCCESS, LIFT_ENTRY_LIST_FAILURE,
+  SET_LIST_REQUEST, SET_LIST_SUCCESS, SET_LIST_FAILURE,
+  RUN_ENTRY_LIST_REQUEST, RUN_ENTRY_LIST_SUCCESS, RUN_ENTRY_LIST_FAILURE,
 } from './actions';
 
 // The auth reducer. The starting state sets authentication
@@ -101,11 +104,101 @@ function workoutDetail(state = {
   }
 }
 
+function liftEntryList(state = {
+  isFetching: false,
+  received: false,
+  data: [],
+}, action) {
+  switch (action.type) {
+    case LIFT_ENTRY_LIST_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        received: false,
+        data: [],
+      });
+    case LIFT_ENTRY_LIST_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        received: true,
+        data: action.response,
+      });
+    case LIFT_ENTRY_LIST_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: true,
+        received: false,
+        data: action.errors,
+      });
+    default:
+      return state;
+  }
+}
+
+function setList(state = {
+  isFetching: false,
+  received: false,
+  data: [],
+}, action) {
+  switch (action.type) {
+    case SET_LIST_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        received: false,
+        data: [],
+      });
+    case SET_LIST_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        received: true,
+        data: action.response,
+      });
+    case SET_LIST_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: true,
+        received: false,
+        data: action.errors,
+      });
+    default:
+      return state;
+  }
+}
+
+function runEntryList(state = {
+  isFetching: false,
+  received: false,
+  data: [],
+}, action) {
+  switch (action.type) {
+    case RUN_ENTRY_LIST_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        received: false,
+        data: [],
+      });
+    case RUN_ENTRY_LIST_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        received: true,
+        data: action.response,
+      });
+    case RUN_ENTRY_LIST_FAILURE:
+      return Object.assign({}, state, {
+        isFetching: true,
+        received: false,
+        data: action.errors,
+      });
+    default:
+      return state;
+  }
+}
+
 // We combine the reducers here so that they
 // can be left split apart above
 export default combineReducers({
   auth,
   workoutCreation,
   workoutDetail,
+  liftEntryList,
+  setList,
+  runEntryList,
   routerReducer,
 });

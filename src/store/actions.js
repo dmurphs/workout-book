@@ -1,4 +1,5 @@
-import { LOGIN_URL, CREATE_WORKOUT_URL, WORKOUT_DETAIL_URL } from '@/settings';
+import { LOGIN_URL, CREATE_WORKOUT_URL, WORKOUT_DETAIL_URL,
+  LIFT_ENTRY_LIST_URL, SET_LIST_URL, RUN_ENTRY_LIST_URL } from '@/settings';
 
 import { CALL_API } from '@/middleware/api';
 
@@ -13,6 +14,18 @@ export const CREATE_WORKOUT_FAILURE = 'CREATE_WORKOUT_FAILURE';
 export const WORKOUT_DETAIL_REQUEST = 'WORKOUT_DETAIL_REQUEST';
 export const WORKOUT_DETAIL_SUCCESS = 'WORKOUT_DETAIL_SUCCESS';
 export const WORKOUT_DETAIL_FAILURE = 'WORKOUT_DETAIL_FAILURE';
+
+export const LIFT_ENTRY_LIST_REQUEST = 'LIFT_ENTRY_LIST_REQUEST';
+export const LIFT_ENTRY_LIST_SUCCESS = 'LIFT_ENTRY_LIST_SUCCESS';
+export const LIFT_ENTRY_LIST_FAILURE = 'LIFT_ENTRY_LIST_FAILURE';
+
+export const SET_LIST_REQUEST = 'SET_LIST_REQUEST';
+export const SET_LIST_SUCCESS = 'SET_LIST_SUCCESS';
+export const SET_LIST_FAILURE = 'SET_LIST_FAILURE';
+
+export const RUN_ENTRY_LIST_REQUEST = 'RUN_ENTRY_LIST_REQUEST';
+export const RUN_ENTRY_LIST_SUCCESS = 'RUN_ENTRY_LIST_SUCCESS';
+export const RUN_ENTRY_LIST_FAILURE = 'RUN_ENTRY_LIST_FAILURE';
 
 function requestLogin(creds) {
   return {
@@ -57,6 +70,39 @@ export function getWorkoutDetail(workoutID) {
     [CALL_API]: {
       endpoint: `${WORKOUT_DETAIL_URL}${workoutID}/`,
       types: [WORKOUT_DETAIL_REQUEST, WORKOUT_DETAIL_SUCCESS, WORKOUT_DETAIL_FAILURE],
+      requestMethod: 'GET',
+      requestData: {},
+    },
+  };
+}
+
+export function getLiftEntries(workoutID) {
+  return {
+    [CALL_API]: {
+      endpoint: `${LIFT_ENTRY_LIST_URL}${workoutID}/`,
+      types: [LIFT_ENTRY_LIST_REQUEST, LIFT_ENTRY_LIST_SUCCESS, LIFT_ENTRY_LIST_FAILURE],
+      requestMethod: 'GET',
+      requestData: {},
+    },
+  };
+}
+
+export function getSets(liftEntryID) {
+  return {
+    [CALL_API]: {
+      endpoint: `${SET_LIST_URL}${liftEntryID}/`,
+      types: [SET_LIST_REQUEST, SET_LIST_SUCCESS, SET_LIST_FAILURE],
+      requestMethod: 'GET',
+      requestData: {},
+    },
+  };
+}
+
+export function getRunEntries(runEntryID) {
+  return {
+    [CALL_API]: {
+      endpoint: `${RUN_ENTRY_LIST_URL}${runEntryID}/`,
+      types: [RUN_ENTRY_LIST_REQUEST, RUN_ENTRY_LIST_SUCCESS, RUN_ENTRY_LIST_FAILURE],
       requestMethod: 'GET',
       requestData: {},
     },
