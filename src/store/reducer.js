@@ -7,6 +7,7 @@ import {
   CREATE_WORKOUT_REQUEST, CREATE_WORKOUT_SUCCESS, CREATE_WORKOUT_FAILURE,
   WORKOUT_DETAIL_REQUEST, WORKOUT_DETAIL_SUCCESS, WORKOUT_DETAIL_FAILURE,
   LIFT_ENTRY_LIST_REQUEST, LIFT_ENTRY_LIST_SUCCESS, LIFT_ENTRY_LIST_FAILURE,
+  LIFT_LIST_REQUEST, LIFT_LIST_SUCCESS, LIFT_LIST_FAILURE,
   SET_LIST_REQUEST, SET_LIST_SUCCESS, SET_LIST_FAILURE,
   RUN_ENTRY_LIST_REQUEST, RUN_ENTRY_LIST_SUCCESS, RUN_ENTRY_LIST_FAILURE,
 } from './actions';
@@ -140,6 +141,19 @@ function liftEntryList(state = {
     action);
 }
 
+function liftList(state = {
+  isFetching: false,
+  received: false,
+  data: [],
+}, action) {
+  return defaultAPIGetReducer(
+    LIFT_LIST_REQUEST,
+    LIFT_LIST_SUCCESS,
+    LIFT_LIST_FAILURE,
+    state,
+    action);
+}
+
 function setList(state = {
   isFetching: false,
   received: false,
@@ -174,6 +188,7 @@ export default combineReducers({
   workoutCreation,
   workoutDetail,
   liftEntryList,
+  liftList,
   setList,
   runEntryList,
   routerReducer,

@@ -7,7 +7,7 @@ import { getWorkouts } from '@/store/actions';
 
 class WorkoutList extends Component {
 
-  componentDidMount() {
+  componentWillMount() {
     const { dispatch } = this.props;
 
     const today = new Date();

@@ -6,7 +6,7 @@ import { getRunEntries } from '@/store/actions';
 
 class RunEntryList extends Component {
 
-  componentDidMount() {
+  componentWillMount() {
     const { dispatch, workoutID } = this.props;
 
     dispatch(getRunEntries(workoutID));

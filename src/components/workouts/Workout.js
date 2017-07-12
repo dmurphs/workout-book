@@ -4,12 +4,13 @@ import PropTypes from 'prop-types';
 
 import LiftEntryList from '@/components/workouts/LiftEntryList';
 import RunEntryList from '@/components/workouts/RunEntryList';
+import CreateLiftEntry from '@/components/workouts/CreateLiftEntry';
 
 import { getWorkoutDetail } from '@/store/actions';
 
 class Workout extends Component {
 
-  componentDidMount() {
+  componentWillMount() {
     const { dispatch, workoutID } = this.props;
 
     dispatch(getWorkoutDetail(workoutID));
@@ -29,6 +30,7 @@ class Workout extends Component {
           <div>
             <h1>{date} - {descriptionText}</h1>
             <LiftEntryList workoutID={workoutID} dispatch={dispatch} />
+            <CreateLiftEntry workoutID={workoutID} dispatch={dispatch} />
             <RunEntryList workoutID={workoutID} dispatch={dispatch} />
           </div>
         }

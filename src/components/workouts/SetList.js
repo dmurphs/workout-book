@@ -6,14 +6,26 @@ import { getSets } from '@/store/actions';
 
 class SetList extends Component {
 
-  componentDidMount() {
+  constructor(props) {
+    super(props);
+    this.state = {
+      sets: [],
+    };
+  }
+
+  componentWillMount() {
     const { dispatch, liftEntryID } = this.props;
 
-    dispatch(getSets(liftEntryID));
+    dispatch(getSets(liftEntryID)).then(
+      (success) => {
+        this.setState({ sets: success.response });
+      });
   }
 
   render() {
-    const { isFetching, received, sets } = this.props;
+    const { isFetching, received } = this.props;
+
+    const sets = this.state.sets;
 
     const orderedSets = sets.sort((a, b) => a.set_num - b.set_num);
 
@@ -41,19 +53,15 @@ SetList.propTypes = {
   liftEntryID: PropTypes.number.isRequired,
   isFetching: PropTypes.bool.isRequired,
   received: PropTypes.bool.isRequired,
-  sets: PropTypes.array, // eslint-disable-line
 };
 
 function mapStateToProps(state) {
   const { setList } = state;
-  const { isFetching, received, data } = setList;
-
-  const sets = data;
+  const { isFetching, received } = setList;
 
   return {
     isFetching,
     received,
-    sets,
   };
 }
 

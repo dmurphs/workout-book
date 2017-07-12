@@ -8,7 +8,7 @@ import { getLiftEntries } from '@/store/actions';
 
 class LiftEntryList extends Component {
 
-  componentDidMount() {
+  componentWillMount() {
     const { dispatch, workoutID } = this.props;
 
     dispatch(getLiftEntries(workoutID));
@@ -26,7 +26,7 @@ class LiftEntryList extends Component {
           <ul>
             {liftEntries.map(liftEntry => (
               <li key={liftEntry.id}>
-                {liftEntry.lift.name} - {liftEntry.notes}
+                {liftEntry.lift} - {liftEntry.notes}
                 <SetList dispatch={dispatch} liftEntryID={liftEntry.id} />
               </li>
             ))}
