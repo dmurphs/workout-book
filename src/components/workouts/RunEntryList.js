@@ -1,38 +1,35 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { getRunEntries } from '@/store/actions';
 
-export default class RunEntryList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      runEntries: [],
-    };
-  }
+class RunEntryList extends Component {
 
   componentWillMount() {
     const { dispatch, workoutID } = this.props;
 
-    dispatch(getRunEntries(workoutID)).then(
-      (success) => {
-        this.setState({ runEntries: success.response });
-      });
+    dispatch(getRunEntries(workoutID));
   }
 
   render() {
-    const runEntries = this.state.runEntries;
+    const { isFetching, received, runEntries } = this.props;
 
     return (
       <div>
-        <ul>
-          {runEntries.map(runEntry => (
-            <li key={runEntry.id}>
-              {runEntry.distance} - {runEntry.duration}
-              - {runEntry.elevation_delta} - {runEntry.notes}
-            </li>
-          ))}
-        </ul>
+        { isFetching &&
+          <h1>Loading Run Entries</h1>
+        }
+        { received &&
+          <ul>
+            {runEntries.map(runEntry => (
+              <li key={runEntry.id}>
+                {runEntry.distance} - {runEntry.duration}
+                - {runEntry.elevation_delta} - {runEntry.notes}
+              </li>
+            ))}
+          </ul>
+        }
       </div>
     );
   }
@@ -41,4 +38,22 @@ export default class RunEntryList extends Component {
 RunEntryList.propTypes = {
   dispatch: PropTypes.func.isRequired,
   workoutID: PropTypes.string.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  received: PropTypes.bool.isRequired,
+  runEntries: PropTypes.array, // eslint-disable-line
 };
+
+function mapStateToProps(state) {
+  const { runEntryList } = state;
+  const { isFetching, received, data } = runEntryList;
+
+  const runEntries = data;
+
+  return {
+    isFetching,
+    received,
+    runEntries,
+  };
+}
+
+export default connect(mapStateToProps)(RunEntryList);

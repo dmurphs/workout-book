@@ -1,20 +1,17 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { getLifts, createLiftEntry } from '@/store/actions';
 
-export default class CreateLiftEntry extends Component {
+class CreateLiftEntry extends Component {
 
   constructor(props) {
     super(props);
-
-    this.defaultState = {
+    this.state = {
       selectedLift: '',
       notes: '',
-      lifts: [],
     };
-
-    this.state = this.defaultState;
 
     this.handleNotesChange = this.handleNotesChange.bind(this);
     this.handleLiftChange = this.handleLiftChange.bind(this);
@@ -23,25 +20,20 @@ export default class CreateLiftEntry extends Component {
   componentWillMount() {
     const { dispatch } = this.props;
 
-    dispatch(getLifts()).then(
-      (success) => {
-        this.setState({ lifts: success.response });
-      });
+    dispatch(getLifts());
   }
 
   handleLiftEntryCreateClick() {
-    const { dispatch, workoutID, onLiftCreated } = this.props;
+    const { dispatch, workoutID } = this.props;
 
     const liftEntryData = {
       notes: this.state.notes,
       lift: this.state.selectedLift,
     };
 
-    dispatch(createLiftEntry(workoutID, liftEntryData)).then(
-      () => {
-        onLiftCreated();
-        this.setState({ selectedLift: '', notes: '' });
-      });
+    console.log(liftEntryData) // eslint-disable-line
+
+    dispatch(createLiftEntry(workoutID, liftEntryData));
   }
 
   handleNotesChange(event) {
@@ -53,12 +45,12 @@ export default class CreateLiftEntry extends Component {
   }
 
   render() {
-    const lifts = this.state.lifts;
+    const { lifts } = this.props;
 
     return (
       <div>
-        <input type="text" value={this.state.notes} onChange={this.handleNotesChange} placeholder="notes" />
-        <select value={this.state.selectedLift} onChange={this.handleLiftChange} >
+        <input type="text" onChange={this.handleNotesChange} placeholder="notes" />
+        <select onChange={this.handleLiftChange} >
           <option value="">Select a lift</option>
           {lifts.map((lift) => {
             const liftID = lift.id;
@@ -78,5 +70,16 @@ export default class CreateLiftEntry extends Component {
 CreateLiftEntry.propTypes = {
   dispatch: PropTypes.func.isRequired,
   workoutID: PropTypes.string.isRequired,
-  onLiftCreated: PropTypes.func.isRequired,
+  lifts: PropTypes.array, // eslint-disable-line
 };
+
+function mapStateToProps(state) {
+  const { liftList } = state;
+  const lifts = liftList.data;
+
+  return {
+    lifts,
+  };
+}
+
+export default connect(mapStateToProps)(CreateLiftEntry);
