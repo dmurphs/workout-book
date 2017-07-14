@@ -35,7 +35,7 @@ class App extends Component{
     );
 
     const WorkoutWrapper = ({ match }) => (
-      <Workout workoutID={match.params.workoutID} dispatch={store.dispatch} />
+      <Workout workoutID={parseInt(match.params.workoutID)} dispatch={store.dispatch} />
     );
 
     return (

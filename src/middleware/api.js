@@ -57,7 +57,7 @@ export default () => next => (action) => {
     return next(action);
   }
 
-  const { endpoint, types, requestMethod, requestData } = callAPI;
+  const { endpoint, types, requestMethod, requestData, parentID } = callAPI;
 
   const [requestType, successType, errorType] = types; // eslint-disable-line no-unused-vars
 
@@ -66,6 +66,7 @@ export default () => next => (action) => {
       next({
         response,
         type: successType,
+        parentID,
       }),
     error => next({
       error: error || 'There was an error.',

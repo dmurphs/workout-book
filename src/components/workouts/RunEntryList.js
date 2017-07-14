@@ -13,7 +13,14 @@ class RunEntryList extends Component {
   }
 
   render() {
-    const { isFetching, received, runEntries } = this.props;
+    const { isFetching, received, runEntriesByWorkoutID, workoutID } = this.props;
+
+    let runEntries;
+    if (workoutID in runEntriesByWorkoutID) {
+      runEntries = runEntriesByWorkoutID[workoutID];
+    } else {
+      runEntries = [];
+    }
 
     return (
       <div>
@@ -37,22 +44,20 @@ class RunEntryList extends Component {
 
 RunEntryList.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  workoutID: PropTypes.string.isRequired,
+  workoutID: PropTypes.number.isRequired,
   isFetching: PropTypes.bool.isRequired,
   received: PropTypes.bool.isRequired,
-  runEntries: PropTypes.array, // eslint-disable-line
+  runEntriesByWorkoutID: PropTypes.object.isRequired, // eslint-disable-line
 };
 
 function mapStateToProps(state) {
-  const { runEntryList } = state;
-  const { isFetching, received, data } = runEntryList;
-
-  const runEntries = data;
+  const { runEntries } = state;
+  const { isFetching, received, runEntriesByWorkoutID } = runEntries;
 
   return {
     isFetching,
     received,
-    runEntries,
+    runEntriesByWorkoutID,
   };
 }
 

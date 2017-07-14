@@ -6,28 +6,23 @@ import { getSets } from '@/store/actions';
 
 class SetList extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      sets: [],
-    };
-  }
-
   componentWillMount() {
     const { dispatch, liftEntryID } = this.props;
 
-    dispatch(getSets(liftEntryID)).then(
-      (success) => {
-        this.setState({ sets: success.response });
-      });
+    dispatch(getSets(liftEntryID));
   }
 
   render() {
-    const { isFetching, received } = this.props;
+    const { isFetching, received, setsByLiftEntryID, liftEntryID } = this.props;
 
-    const sets = this.state.sets;
+    let sets;
+    if (liftEntryID in setsByLiftEntryID) {
+      sets = setsByLiftEntryID[liftEntryID];
+    } else {
+      sets = [];
+    }
 
-    const orderedSets = sets.sort((a, b) => a.set_num - b.set_num);
+    // const orderedSets = sets.sort((a, b) => a.set_num - b.set_num);
 
     return (
       <div>
@@ -36,7 +31,7 @@ class SetList extends Component {
         }
         { received &&
           <ol>
-            {orderedSets.map(set => (
+            {sets.map(set => (
               <li key={set.id}>
                 {set.num_reps} - {set.weight}
               </li>
@@ -53,15 +48,17 @@ SetList.propTypes = {
   liftEntryID: PropTypes.number.isRequired,
   isFetching: PropTypes.bool.isRequired,
   received: PropTypes.bool.isRequired,
+  setsByLiftEntryID: PropTypes.object.isRequired, // eslint-disable-line
 };
 
 function mapStateToProps(state) {
-  const { setList } = state;
-  const { isFetching, received } = setList;
+  const { sets } = state;
+  const { isFetching, received, setsByLiftEntryID } = sets;
 
   return {
     isFetching,
     received,
+    setsByLiftEntryID,
   };
 }
 

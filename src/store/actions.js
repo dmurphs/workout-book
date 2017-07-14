@@ -109,6 +109,7 @@ export function getLiftEntries(workoutID) {
       types: [LIFT_ENTRY_LIST_REQUEST, LIFT_ENTRY_LIST_SUCCESS, LIFT_ENTRY_LIST_FAILURE],
       requestMethod: 'GET',
       requestData: {},
+      parentID: workoutID,
     },
   };
 }
@@ -142,17 +143,19 @@ export function getSets(liftEntryID) {
       types: [SET_LIST_REQUEST, SET_LIST_SUCCESS, SET_LIST_FAILURE],
       requestMethod: 'GET',
       requestData: {},
+      parentID: liftEntryID,
     },
   };
 }
 
-export function getRunEntries(runEntryID) {
+export function getRunEntries(workoutID) {
   return {
     [CALL_API]: {
-      endpoint: `${RUN_ENTRY_LIST_URL}${runEntryID}/`,
+      endpoint: `${RUN_ENTRY_LIST_URL}${workoutID}/`,
       types: [RUN_ENTRY_LIST_REQUEST, RUN_ENTRY_LIST_SUCCESS, RUN_ENTRY_LIST_FAILURE],
       requestMethod: 'GET',
       requestData: {},
+      parentID: workoutID,
     },
   };
 }

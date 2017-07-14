@@ -21,23 +21,26 @@ function auth(state = {
 }, action) {
   switch (action.type) {
     case LOGIN_REQUEST:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isFetching: true,
         isAuthenticated: false,
         user: action.creds,
-      });
+      };
     case LOGIN_SUCCESS:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isFetching: false,
         isAuthenticated: true,
         token: action.token,
-      });
+      };
     case LOGIN_FAILURE:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isFetching: false,
         isAuthenticated: false,
         errorMessage: action.errors,
-      });
+      };
     // case LOGOUT_SUCCESS:
     //   return Object.assign({}, state, {
     //     isFetching: true,
@@ -51,23 +54,26 @@ function auth(state = {
 function defaultAPIGetReducer(requestType, successType, failureType, state, action) {
   switch (action.type) {
     case requestType:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isFetching: true,
         received: false,
-        data: action.workoutData,
-      });
+        data: action.requestData,
+      };
     case successType:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isFetching: false,
         received: true,
         data: action.response,
-      });
+      };
     case failureType:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isFetching: false,
         received: false,
         errors: action.errors,
-      });
+      };
     default:
       return state;
   }
@@ -128,17 +134,44 @@ function workoutDetail(state = {
     action);
 }
 
-function liftEntryList(state = {
+function liftEntries(state = {
   isFetching: false,
   received: false,
-  data: [],
+  liftEntriesByWorkoutID: {},
 }, action) {
-  return defaultAPIGetReducer(
-    LIFT_ENTRY_LIST_REQUEST,
-    LIFT_ENTRY_LIST_SUCCESS,
-    LIFT_ENTRY_LIST_FAILURE,
-    state,
-    action);
+  switch (action.type) {
+    case LIFT_ENTRY_LIST_REQUEST:
+      return {
+        ...state,
+        isFetching: true,
+        received: false,
+        data: action.requestData,
+      };
+    case LIFT_ENTRY_LIST_SUCCESS: // eslint-disable-line
+      const workoutID = action.parentID;
+      const liftEntriesByWorkoutID = state.liftEntriesByWorkoutID;
+
+      const udpatedLiftEntriesByWorkoutID = {
+        ...liftEntriesByWorkoutID,
+        [workoutID]: action.response,
+      };
+
+      return {
+        ...state,
+        isFetching: false,
+        received: true,
+        liftEntriesByWorkoutID: udpatedLiftEntriesByWorkoutID,
+      };
+    case LIFT_ENTRY_LIST_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        received: false,
+        errors: action.errors,
+      };
+    default:
+      return state;
+  }
 }
 
 function liftList(state = {
@@ -154,30 +187,84 @@ function liftList(state = {
     action);
 }
 
-function setList(state = {
+function sets(state = {
   isFetching: false,
   received: false,
-  data: [],
+  setsByLiftEntryID: {},
 }, action) {
-  return defaultAPIGetReducer(
-    SET_LIST_REQUEST,
-    SET_LIST_SUCCESS,
-    SET_LIST_FAILURE,
-    state,
-    action);
+  switch (action.type) {
+    case SET_LIST_REQUEST:
+      return {
+        ...state,
+        isFetching: true,
+        received: false,
+        data: action.requestData,
+      };
+    case SET_LIST_SUCCESS: // eslint-disable-line
+      const liftEntryID = action.parentID;
+      const setsByLiftEntryID = state.setsByLiftEntryID;
+
+      const updatedSetsByLiftEntryID = {
+        ...setsByLiftEntryID,
+        [liftEntryID]: action.response,
+      };
+
+      return {
+        ...state,
+        isFetching: false,
+        received: true,
+        setsByLiftEntryID: updatedSetsByLiftEntryID,
+      };
+    case SET_LIST_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        received: false,
+        errors: action.errors,
+      };
+    default:
+      return state;
+  }
 }
 
-function runEntryList(state = {
+function runEntries(state = {
   isFetching: false,
   received: false,
-  data: [],
+  runEntriesByWorkoutID: {},
 }, action) {
-  return defaultAPIGetReducer(
-    RUN_ENTRY_LIST_REQUEST,
-    RUN_ENTRY_LIST_SUCCESS,
-    RUN_ENTRY_LIST_FAILURE,
-    state,
-    action);
+  switch (action.type) {
+    case RUN_ENTRY_LIST_REQUEST:
+      return {
+        ...state,
+        isFetching: true,
+        received: false,
+        data: action.requestData,
+      };
+    case RUN_ENTRY_LIST_SUCCESS: // eslint-disable-line
+      const workoutID = action.parentID;
+      const runEntriesByWorkoutID = state.runEntriesByWorkoutID;
+
+      const udpatedRunEntriesByWorkoutID = {
+        ...runEntriesByWorkoutID,
+        [workoutID]: action.response,
+      };
+
+      return {
+        ...state,
+        isFetching: false,
+        received: true,
+        runEntriesByWorkoutID: udpatedRunEntriesByWorkoutID,
+      };
+    case RUN_ENTRY_LIST_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        received: false,
+        errors: action.errors,
+      };
+    default:
+      return state;
+  }
 }
 
 // We combine the reducers here so that they
@@ -187,9 +274,9 @@ export default combineReducers({
   workoutList,
   workoutCreation,
   workoutDetail,
-  liftEntryList,
+  liftEntries,
   liftList,
-  setList,
-  runEntryList,
+  sets,
+  runEntries,
   routerReducer,
 });

@@ -41,7 +41,7 @@ class Workout extends Component {
 
 Workout.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  workoutID: PropTypes.string.isRequired,
+  workoutID: PropTypes.number.isRequired,
   isFetching: PropTypes.bool.isRequired,
   received: PropTypes.bool.isRequired,
   description: PropTypes.string, // eslint-disable-line

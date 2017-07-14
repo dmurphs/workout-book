@@ -15,7 +15,14 @@ class LiftEntryList extends Component {
   }
 
   render() {
-    const { isFetching, received, liftEntries, dispatch } = this.props;
+    const { isFetching, received, liftEntriesByWorkoutID, dispatch, workoutID } = this.props;
+
+    let liftEntries;
+    if (workoutID in liftEntriesByWorkoutID) {
+      liftEntries = liftEntriesByWorkoutID[workoutID];
+    } else {
+      liftEntries = [];
+    }
 
     return (
       <div>
@@ -39,22 +46,20 @@ class LiftEntryList extends Component {
 
 LiftEntryList.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  workoutID: PropTypes.string.isRequired,
+  workoutID: PropTypes.number.isRequired,
   isFetching: PropTypes.bool.isRequired,
   received: PropTypes.bool.isRequired,
-  liftEntries: PropTypes.array, // eslint-disable-line
+  liftEntriesByWorkoutID: PropTypes.object, // eslint-disable-line
 };
 
 function mapStateToProps(state) {
-  const { liftEntryList } = state;
-  const { isFetching, received, data } = liftEntryList;
-
-  const liftEntries = data;
+  const { liftEntries } = state;
+  const { isFetching, received, liftEntriesByWorkoutID } = liftEntries;
 
   return {
     isFetching,
     received,
-    liftEntries,
+    liftEntriesByWorkoutID,
   };
 }
 
