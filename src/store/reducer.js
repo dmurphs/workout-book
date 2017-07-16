@@ -91,38 +91,6 @@ function workoutList(state = {
     action);
 }
 
-// function workoutCreation(state = {
-//   isFetching: false,
-//   created: false,
-//   data: {},
-// }, action) {
-//   switch (action.type) {
-//     case CREATE_WORKOUT_REQUEST:
-//       return {
-//         ...state,
-//         isFetching: true,
-//         created: true,
-//         data: action.workoutData,
-//       };
-//     case CREATE_WORKOUT_SUCCESS:
-//       return {
-//         ...state,
-//         isFetching: false,
-//         created: true,
-//         data: action.response,
-//       };
-//     case CREATE_WORKOUT_FAILURE:
-//       return {
-//         ...state,
-//         isFetching: false,
-//         created: false,
-//         errors: action.errors,
-//       };
-//     default:
-//       return state;
-//   }
-// }
-
 function workoutDetail(state = {
   isFetching: false,
   received: false,
