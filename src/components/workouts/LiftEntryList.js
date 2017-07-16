@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import SetList from '@/components/workouts/SetList';
 import CreateLiftEntry from '@/components/workouts/CreateLiftEntry';
 
-import { getLiftEntries } from '@/store/actions';
+import { getLiftEntries, getLifts } from '@/store/actions';
 
 class LiftEntryList extends Component {
 
@@ -16,11 +16,18 @@ class LiftEntryList extends Component {
   updateComponent() {
     const { dispatch, workoutID } = this.props;
 
+    dispatch(getLifts());
     dispatch(getLiftEntries(workoutID));
   }
 
   render() {
-    const { isFetching, received, liftEntriesByWorkoutID, dispatch, workoutID } = this.props;
+    const {
+      isFetching,
+      received,
+      liftEntriesByWorkoutID,
+      lifts,
+      dispatch,
+      workoutID } = this.props;
 
     let liftEntries;
     if (workoutID in liftEntriesByWorkoutID) {
@@ -28,6 +35,8 @@ class LiftEntryList extends Component {
     } else {
       liftEntries = [];
     }
+
+    const getLiftByID = liftID => lifts.filter(l => l.id === liftID)[0];
 
     return (
       <div>
@@ -39,7 +48,7 @@ class LiftEntryList extends Component {
             <ul>
               {liftEntries.map(liftEntry => (
                 <li key={liftEntry.id}>
-                  {liftEntry.lift} - {liftEntry.notes}
+                  {getLiftByID(liftEntry.lift).name} - {liftEntry.notes}
                   <SetList dispatch={dispatch} liftEntryID={liftEntry.id} />
                 </li>
               ))}
@@ -61,17 +70,21 @@ LiftEntryList.propTypes = {
   workoutID: PropTypes.number.isRequired,
   isFetching: PropTypes.bool.isRequired,
   received: PropTypes.bool.isRequired,
-  liftEntriesByWorkoutID: PropTypes.object, // eslint-disable-line
+  liftEntriesByWorkoutID: PropTypes.object.isRequired, // eslint-disable-line
+  lifts: PropTypes.array.isRequired, // eslint-disable-line
 };
 
 function mapStateToProps(state) {
-  const { liftEntries } = state;
+  const { liftEntries, liftList } = state;
   const { isFetching, received, liftEntriesByWorkoutID } = liftEntries;
+
+  const lifts = liftList.data;
 
   return {
     isFetching,
     received,
     liftEntriesByWorkoutID,
+    lifts,
   };
 }
 

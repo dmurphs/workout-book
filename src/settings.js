@@ -8,5 +8,7 @@ export const LIFT_ENTRY_LIST_URL = `${API_BASE_URL}list_lift_entries/`;
 export const LIFT_LIST_URL = `${API_BASE_URL}list_lifts/`;
 export const CREATE_LIFT_ENTRY_URL = `${API_BASE_URL}new_lift_entry/`;
 export const SET_LIST_URL = `${API_BASE_URL}list_sets/`;
+export const CREATE_SET_URL = `${API_BASE_URL}create_set/`;
 export const RUN_ENTRY_LIST_URL = `${API_BASE_URL}list_run_entries/`;
+export const CREATE_RUN_ENTRY_URL = `${API_BASE_URL}new_run_entry/`;
 export const WORKOUT_LIST_URL = `${API_BASE_URL}list_workouts/`;

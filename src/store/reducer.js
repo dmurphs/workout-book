@@ -4,7 +4,6 @@ import { routerReducer } from 'react-router-redux';
 import {
   LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, // LOGOUT_SUCCESS,
   WORKOUT_LIST_REQUEST, WORKOUT_LIST_SUCCESS, WORKOUT_LIST_FAILURE,
-  CREATE_WORKOUT_REQUEST, CREATE_WORKOUT_SUCCESS, CREATE_WORKOUT_FAILURE,
   WORKOUT_DETAIL_REQUEST, WORKOUT_DETAIL_SUCCESS, WORKOUT_DETAIL_FAILURE,
   LIFT_ENTRY_LIST_REQUEST, LIFT_ENTRY_LIST_SUCCESS, LIFT_ENTRY_LIST_FAILURE,
   LIFT_LIST_REQUEST, LIFT_LIST_SUCCESS, LIFT_LIST_FAILURE,
@@ -92,37 +91,37 @@ function workoutList(state = {
     action);
 }
 
-function workoutCreation(state = {
-  isFetching: false,
-  created: false,
-  data: {},
-}, action) {
-  switch (action.type) {
-    case CREATE_WORKOUT_REQUEST:
-      return {
-        ...state,
-        isFetching: true,
-        created: true,
-        data: action.workoutData,
-      };
-    case CREATE_WORKOUT_SUCCESS:
-      return {
-        ...state,
-        isFetching: false,
-        created: true,
-        data: action.response,
-      };
-    case CREATE_WORKOUT_FAILURE:
-      return {
-        ...state,
-        isFetching: false,
-        created: false,
-        errors: action.errors,
-      };
-    default:
-      return state;
-  }
-}
+// function workoutCreation(state = {
+//   isFetching: false,
+//   created: false,
+//   data: {},
+// }, action) {
+//   switch (action.type) {
+//     case CREATE_WORKOUT_REQUEST:
+//       return {
+//         ...state,
+//         isFetching: true,
+//         created: true,
+//         data: action.workoutData,
+//       };
+//     case CREATE_WORKOUT_SUCCESS:
+//       return {
+//         ...state,
+//         isFetching: false,
+//         created: true,
+//         data: action.response,
+//       };
+//     case CREATE_WORKOUT_FAILURE:
+//       return {
+//         ...state,
+//         isFetching: false,
+//         created: false,
+//         errors: action.errors,
+//       };
+//     default:
+//       return state;
+//   }
+// }
 
 function workoutDetail(state = {
   isFetching: false,
@@ -302,7 +301,6 @@ function runEntries(state = {
 export default combineReducers({
   auth,
   workoutList,
-  workoutCreation,
   workoutDetail,
   liftEntries,
   liftList,

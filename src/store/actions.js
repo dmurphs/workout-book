@@ -1,8 +1,8 @@
 import { LOGIN_URL,
   WORKOUT_LIST_URL, CREATE_WORKOUT_URL, WORKOUT_DETAIL_URL,
   LIFT_ENTRY_LIST_URL, CREATE_LIFT_ENTRY_URL, LIFT_LIST_URL,
-  SET_LIST_URL,
-  RUN_ENTRY_LIST_URL } from '@/settings';
+  SET_LIST_URL, CREATE_SET_URL,
+  RUN_ENTRY_LIST_URL, CREATE_RUN_ENTRY_URL } from '@/settings';
 
 import { CALL_API } from '@/middleware/api';
 
@@ -38,9 +38,17 @@ export const SET_LIST_REQUEST = 'SET_LIST_REQUEST';
 export const SET_LIST_SUCCESS = 'SET_LIST_SUCCESS';
 export const SET_LIST_FAILURE = 'SET_LIST_FAILURE';
 
+export const CREATE_SET_REQUEST = 'CREATE_SET_REQUEST';
+export const CREATE_SET_SUCCESS = 'CREATE_SET_SUCCESS';
+export const CREATE_SET_FAILURE = 'CREATE_SET_FAILURE';
+
 export const RUN_ENTRY_LIST_REQUEST = 'RUN_ENTRY_LIST_REQUEST';
 export const RUN_ENTRY_LIST_SUCCESS = 'RUN_ENTRY_LIST_SUCCESS';
 export const RUN_ENTRY_LIST_FAILURE = 'RUN_ENTRY_LIST_FAILURE';
+
+export const CREATE_RUN_ENTRY_REQUEST = 'CREATE_RUN_ENTRY_REQUEST';
+export const CREATE_RUN_ENTRY_SUCCESS = 'CREATE_RUN_ENTRY_SUCCESS';
+export const CREATE_RUN_ENTRY_FAILURE = 'CREATE_RUN_ENTRY_FAILURE';
 
 function requestLogin(creds) {
   return {
@@ -149,6 +157,17 @@ export function getSets(liftEntryID) {
   };
 }
 
+export function createSet(liftEntryID, setData) {
+  return {
+    [CALL_API]: {
+      endpoint: `${CREATE_SET_URL}${liftEntryID}/`,
+      types: [CREATE_SET_REQUEST, CREATE_SET_SUCCESS, CREATE_SET_FAILURE],
+      requestMethod: 'POST',
+      requestData: setData,
+    },
+  };
+}
+
 export function getRunEntries(workoutID) {
   return {
     [CALL_API]: {
@@ -157,6 +176,17 @@ export function getRunEntries(workoutID) {
       requestMethod: 'GET',
       requestData: {},
       parentID: workoutID,
+    },
+  };
+}
+
+export function createRunEntry(workoutID, runEntryData) {
+  return {
+    [CALL_API]: {
+      endpoint: `${CREATE_RUN_ENTRY_URL}${workoutID}/`,
+      types: [CREATE_RUN_ENTRY_REQUEST, CREATE_RUN_ENTRY_SUCCESS, CREATE_RUN_ENTRY_FAILURE],
+      requestMethod: 'POST',
+      requestData: runEntryData,
     },
   };
 }

@@ -2,18 +2,24 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import CreateSet from '@/components/workouts/CreateSet';
+
 import { getSets } from '@/store/actions';
 
 class SetList extends Component {
 
   componentWillMount() {
+    this.updateComponent();
+  }
+
+  updateComponent() {
     const { dispatch, liftEntryID } = this.props;
 
     dispatch(getSets(liftEntryID));
   }
 
   render() {
-    const { isFetching, received, setsByLiftEntryID, liftEntryID } = this.props;
+    const { isFetching, received, setsByLiftEntryID, dispatch, liftEntryID } = this.props;
 
     let sets;
     if (liftEntryID in setsByLiftEntryID) {
@@ -30,13 +36,20 @@ class SetList extends Component {
           <h1>Loading Sets</h1>
         }
         { received &&
-          <ol>
-            {sets.map(set => (
-              <li key={set.id}>
-                {set.num_reps} - {set.weight}
-              </li>
-            ))}
-          </ol>
+          <div>
+            <ol>
+              {sets.map(set => (
+                <li key={set.id}>
+                  {set.num_reps} - {set.weight}
+                </li>
+              ))}
+            </ol>
+            <CreateSet
+              liftEntryID={liftEntryID}
+              dispatch={dispatch}
+              onSetCreated={() => this.updateComponent()}
+            />
+          </div>
         }
       </div>
     );

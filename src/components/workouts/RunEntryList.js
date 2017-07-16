@@ -2,18 +2,24 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import CreateRunEntry from '@/components/workouts/CreateRunEntry';
+
 import { getRunEntries } from '@/store/actions';
 
 class RunEntryList extends Component {
 
   componentWillMount() {
+    this.updateComponent();
+  }
+
+  updateComponent() {
     const { dispatch, workoutID } = this.props;
 
     dispatch(getRunEntries(workoutID));
   }
 
   render() {
-    const { isFetching, received, runEntriesByWorkoutID, workoutID } = this.props;
+    const { isFetching, received, runEntriesByWorkoutID, dispatch, workoutID } = this.props;
 
     let runEntries;
     if (workoutID in runEntriesByWorkoutID) {
@@ -28,14 +34,21 @@ class RunEntryList extends Component {
           <h1>Loading Run Entries</h1>
         }
         { received &&
-          <ul>
-            {runEntries.map(runEntry => (
-              <li key={runEntry.id}>
-                {runEntry.distance} - {runEntry.duration}
-                - {runEntry.elevation_delta} - {runEntry.notes}
-              </li>
-            ))}
-          </ul>
+          <div>
+            <ul>
+              {runEntries.map(runEntry => (
+                <li key={runEntry.id}>
+                  {runEntry.distance} - {runEntry.duration}
+                  - {runEntry.elevation_delta} - {runEntry.notes}
+                </li>
+              ))}
+            </ul>
+            <CreateRunEntry
+              workoutID={workoutID}
+              dispatch={dispatch}
+              onRunCreated={() => this.updateComponent()}
+            />
+          </div>
         }
       </div>
     );
