@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 import LiftEntryList from '@/components/workouts/LiftEntryList';
 import RunEntryList from '@/components/workouts/RunEntryList';
-import CreateLiftEntry from '@/components/workouts/CreateLiftEntry';
 
 import { getWorkoutDetail } from '@/store/actions';
 
@@ -17,7 +16,19 @@ class Workout extends Component {
   }
 
   render() {
-    const { isFetching, received, description, date, dispatch, workoutID } = this.props;
+    const { isFetching, received, dispatch, workoutID, workoutDetailByWorkoutID } = this.props;
+
+    let date;
+    let description;
+    if (workoutID in workoutDetailByWorkoutID) {
+      const workout = workoutDetailByWorkoutID[workoutID];
+
+      date = workout.date;
+      description = workout.description;
+    } else {
+      date = null;
+      description = null;
+    }
 
     const descriptionText = description || '(No Description)';
 
@@ -30,7 +41,6 @@ class Workout extends Component {
           <div>
             <h1>{date} - {descriptionText}</h1>
             <LiftEntryList workoutID={workoutID} dispatch={dispatch} />
-            <CreateLiftEntry workoutID={workoutID} dispatch={dispatch} />
             <RunEntryList workoutID={workoutID} dispatch={dispatch} />
           </div>
         }
@@ -44,22 +54,17 @@ Workout.propTypes = {
   workoutID: PropTypes.number.isRequired,
   isFetching: PropTypes.bool.isRequired,
   received: PropTypes.bool.isRequired,
-  description: PropTypes.string, // eslint-disable-line
-  date: PropTypes.string, // eslint-disable-line
+  workoutDetailByWorkoutID: PropTypes.object.isRequired, // eslint-disable-line
 };
 
 function mapStateToProps(state) {
   const { workoutDetail } = state;
-  const { isFetching, received, data } = workoutDetail;
-
-  const description = data.description;
-  const date = data.date;
+  const { isFetching, received, workoutDetailByWorkoutID } = workoutDetail;
 
   return {
     isFetching,
     received,
-    description,
-    date,
+    workoutDetailByWorkoutID,
   };
 }
 

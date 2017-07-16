@@ -99,23 +99,26 @@ function workoutCreation(state = {
 }, action) {
   switch (action.type) {
     case CREATE_WORKOUT_REQUEST:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isFetching: true,
-        created: false,
+        created: true,
         data: action.workoutData,
-      });
+      };
     case CREATE_WORKOUT_SUCCESS:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isFetching: false,
         created: true,
         data: action.response,
-      });
+      };
     case CREATE_WORKOUT_FAILURE:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isFetching: false,
         created: false,
         errors: action.errors,
-      });
+      };
     default:
       return state;
   }
@@ -124,14 +127,41 @@ function workoutCreation(state = {
 function workoutDetail(state = {
   isFetching: false,
   received: false,
-  data: {},
+  workoutDetailByWorkoutID: {},
 }, action) {
-  return defaultAPIGetReducer(
-    WORKOUT_DETAIL_REQUEST,
-    WORKOUT_DETAIL_SUCCESS,
-    WORKOUT_DETAIL_FAILURE,
-    state,
-    action);
+  switch (action.type) {
+    case WORKOUT_DETAIL_REQUEST:
+      return {
+        ...state,
+        isFetching: true,
+        received: false,
+        data: action.requestData,
+      };
+    case WORKOUT_DETAIL_SUCCESS: // eslint-disable-line
+      const workoutID = action.parentID;
+      const workoutDetailByWorkoutID = state.workoutDetailByWorkoutID;
+
+      const updatedWorkoutDetailByWorkoutID = {
+        ...workoutDetailByWorkoutID,
+        [workoutID]: action.response,
+      };
+
+      return {
+        ...state,
+        isFetching: false,
+        received: true,
+        workoutDetailByWorkoutID: updatedWorkoutDetailByWorkoutID,
+      };
+    case WORKOUT_DETAIL_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        received: false,
+        errors: action.errors,
+      };
+    default:
+      return state;
+  }
 }
 
 function liftEntries(state = {

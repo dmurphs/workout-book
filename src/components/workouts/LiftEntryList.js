@@ -3,12 +3,17 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import SetList from '@/components/workouts/SetList';
+import CreateLiftEntry from '@/components/workouts/CreateLiftEntry';
 
 import { getLiftEntries } from '@/store/actions';
 
 class LiftEntryList extends Component {
 
   componentWillMount() {
+    this.updateComponent();
+  }
+
+  updateComponent() {
     const { dispatch, workoutID } = this.props;
 
     dispatch(getLiftEntries(workoutID));
@@ -30,14 +35,21 @@ class LiftEntryList extends Component {
           <h1>Loading Lift Entries</h1>
         }
         { received &&
-          <ul>
-            {liftEntries.map(liftEntry => (
-              <li key={liftEntry.id}>
-                {liftEntry.lift} - {liftEntry.notes}
-                <SetList dispatch={dispatch} liftEntryID={liftEntry.id} />
-              </li>
-            ))}
-          </ul>
+          <div>
+            <ul>
+              {liftEntries.map(liftEntry => (
+                <li key={liftEntry.id}>
+                  {liftEntry.lift} - {liftEntry.notes}
+                  <SetList dispatch={dispatch} liftEntryID={liftEntry.id} />
+                </li>
+              ))}
+            </ul>
+            <CreateLiftEntry
+              workoutID={workoutID}
+              dispatch={dispatch}
+              onWorkoutCreated={() => this.updateComponent()}
+            />
+          </div>
         }
       </div>
     );

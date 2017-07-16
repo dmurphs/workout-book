@@ -98,6 +98,7 @@ export function getWorkoutDetail(workoutID) {
       types: [WORKOUT_DETAIL_REQUEST, WORKOUT_DETAIL_SUCCESS, WORKOUT_DETAIL_FAILURE],
       requestMethod: 'GET',
       requestData: {},
+      parentID: workoutID,
     },
   };
 }

@@ -8,10 +8,12 @@ class CreateLiftEntry extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
+    this.defaultState = {
       selectedLift: '',
       notes: '',
     };
+
+    this.state = this.defaultState;
 
     this.handleNotesChange = this.handleNotesChange.bind(this);
     this.handleLiftChange = this.handleLiftChange.bind(this);
@@ -24,16 +26,18 @@ class CreateLiftEntry extends Component {
   }
 
   handleLiftEntryCreateClick() {
-    const { dispatch, workoutID } = this.props;
+    const { dispatch, workoutID, onWorkoutCreated } = this.props;
 
     const liftEntryData = {
       notes: this.state.notes,
       lift: this.state.selectedLift,
     };
 
-    console.log(liftEntryData) // eslint-disable-line
-
-    dispatch(createLiftEntry(workoutID, liftEntryData));
+    dispatch(createLiftEntry(workoutID, liftEntryData)).then(
+      () => {
+        onWorkoutCreated();
+        this.setState(this.defaultState);
+      });
   }
 
   handleNotesChange(event) {
@@ -49,8 +53,8 @@ class CreateLiftEntry extends Component {
 
     return (
       <div>
-        <input type="text" onChange={this.handleNotesChange} placeholder="notes" />
-        <select onChange={this.handleLiftChange} >
+        <input type="text" value={this.state.notes} onChange={this.handleNotesChange} placeholder="notes" />
+        <select value={this.state.selectedLift} onChange={this.handleLiftChange} >
           <option value="">Select a lift</option>
           {lifts.map((lift) => {
             const liftID = lift.id;
@@ -70,6 +74,7 @@ class CreateLiftEntry extends Component {
 CreateLiftEntry.propTypes = {
   dispatch: PropTypes.func.isRequired,
   workoutID: PropTypes.number.isRequired,
+  onWorkoutCreated: PropTypes.func.isRequired,
   lifts: PropTypes.array, // eslint-disable-line
 };
 
