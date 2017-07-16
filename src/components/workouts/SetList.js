@@ -33,7 +33,7 @@ class SetList extends Component {
     return (
       <div>
         { isFetching &&
-          <h1>Loading Sets</h1>
+          <h1>Loading Sets...</h1>
         }
         { received &&
           <div>

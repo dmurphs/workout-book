@@ -57,7 +57,7 @@ function defaultAPIGetReducer(requestType, successType, failureType, state, acti
         ...state,
         isFetching: true,
         received: false,
-        data: action.requestData,
+        data: state.data,
       };
     case successType:
       return {
@@ -134,7 +134,6 @@ function workoutDetail(state = {
         ...state,
         isFetching: true,
         received: false,
-        data: action.requestData,
       };
     case WORKOUT_DETAIL_SUCCESS: // eslint-disable-line
       const workoutID = action.parentID;
@@ -174,7 +173,6 @@ function liftEntries(state = {
         ...state,
         isFetching: true,
         received: false,
-        data: action.requestData,
       };
     case LIFT_ENTRY_LIST_SUCCESS: // eslint-disable-line
       const workoutID = action.parentID;
@@ -227,7 +225,6 @@ function sets(state = {
         ...state,
         isFetching: true,
         received: false,
-        data: action.requestData,
       };
     case SET_LIST_SUCCESS: // eslint-disable-line
       const liftEntryID = action.parentID;
@@ -267,7 +264,6 @@ function runEntries(state = {
         ...state,
         isFetching: true,
         received: false,
-        data: action.requestData,
       };
     case RUN_ENTRY_LIST_SUCCESS: // eslint-disable-line
       const workoutID = action.parentID;

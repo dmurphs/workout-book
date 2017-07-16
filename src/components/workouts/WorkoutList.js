@@ -31,7 +31,7 @@ class WorkoutList extends Component {
     return (
       <div>
         { isFetching &&
-          <h1>Loading Lift Entries</h1>
+          <h1>Loading Workouts...</h1>
         }
         { received &&
           <ul>

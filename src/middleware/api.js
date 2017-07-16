@@ -61,6 +61,10 @@ export default () => next => (action) => {
 
   const [requestType, successType, errorType] = types; // eslint-disable-line no-unused-vars
 
+  next({
+    type: requestType,
+  });
+
   return callApi(endpoint, requestMethod, requestData).then(
     response =>
       next({

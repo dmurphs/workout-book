@@ -41,7 +41,7 @@ class LiftEntryList extends Component {
     return (
       <div>
         { isFetching &&
-          <h1>Loading Lift Entries</h1>
+          <h1>Loading Lift Entries...</h1>
         }
         { received &&
           <div>

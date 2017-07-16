@@ -31,7 +31,7 @@ class RunEntryList extends Component {
     return (
       <div>
         { isFetching &&
-          <h1>Loading Run Entries</h1>
+          <h1>Loading Run Entries...</h1>
         }
         { received &&
           <div>

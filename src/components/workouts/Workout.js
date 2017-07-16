@@ -35,7 +35,7 @@ class Workout extends Component {
     return (
       <div>
         { isFetching &&
-          <h1>Loading Workout</h1>
+          <h1>Loading Workout...</h1>
         }
         { received &&
           <div>
