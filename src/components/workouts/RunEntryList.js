@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import CreateRunEntry from '@/components/workouts/CreateRunEntry';
+import RunEntry from '@/components/workouts/RunEntry';
 
 import { getRunEntries } from '@/store/actions';
 
@@ -38,8 +39,15 @@ class RunEntryList extends Component {
             <ul>
               {runEntries.map(runEntry => (
                 <li key={runEntry.id}>
-                  {runEntry.distance} - {runEntry.duration}
-                  - {runEntry.elevation_delta} - {runEntry.notes}
+                  <RunEntry
+                    runEntryID={runEntry.id}
+                    notes={runEntry.notes}
+                    distance={runEntry.distance}
+                    duration={runEntry.duration}
+                    elevationDelta={runEntry.elevation_delta}
+                    onUpdate={() => this.updateComponent()}
+                    dispatch={dispatch}
+                  />
                 </li>
               ))}
             </ul>

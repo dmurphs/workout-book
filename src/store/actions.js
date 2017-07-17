@@ -3,7 +3,7 @@ import { LOGIN_URL,
   LIFT_ENTRY_LIST_URL, CREATE_LIFT_ENTRY_URL, UPDATE_LIFT_ENTRY_URL,
   LIFT_LIST_URL,
   SET_LIST_URL, CREATE_SET_URL,
-  RUN_ENTRY_LIST_URL, CREATE_RUN_ENTRY_URL } from '@/settings';
+  RUN_ENTRY_LIST_URL, CREATE_RUN_ENTRY_URL, UPDATE_RUN_ENTRY_URL } from '@/settings';
 
 import { CALL_API } from '@/middleware/api';
 
@@ -58,6 +58,10 @@ export const RUN_ENTRY_LIST_FAILURE = 'RUN_ENTRY_LIST_FAILURE';
 export const CREATE_RUN_ENTRY_REQUEST = 'CREATE_RUN_ENTRY_REQUEST';
 export const CREATE_RUN_ENTRY_SUCCESS = 'CREATE_RUN_ENTRY_SUCCESS';
 export const CREATE_RUN_ENTRY_FAILURE = 'CREATE_RUN_ENTRY_FAILURE';
+
+export const UPDATE_RUN_ENTRY_REQUEST = 'UPDATE_RUN_ENTRY_REQUEST';
+export const UPDATE_RUN_ENTRY_SUCCESS = 'UPDATE_RUN_ENTRY_SUCCESS';
+export const UPDATE_RUN_ENTRY_FAILURE = 'UPDATE_RUN_ENTRY_FAILURE';
 
 function requestLogin(creds) {
   return {
@@ -217,6 +221,17 @@ export function createRunEntry(workoutID, runEntryData) {
       endpoint: `${CREATE_RUN_ENTRY_URL}${workoutID}/`,
       types: [CREATE_RUN_ENTRY_REQUEST, CREATE_RUN_ENTRY_SUCCESS, CREATE_RUN_ENTRY_FAILURE],
       requestMethod: 'POST',
+      requestData: runEntryData,
+    },
+  };
+}
+
+export function updateRunEntry(runEntryID, runEntryData) {
+  return {
+    [CALL_API]: {
+      endpoint: `${UPDATE_RUN_ENTRY_URL}${runEntryID}/`,
+      types: [UPDATE_RUN_ENTRY_REQUEST, UPDATE_RUN_ENTRY_SUCCESS, UPDATE_RUN_ENTRY_FAILURE],
+      requestMethod: 'PUT',
       requestData: runEntryData,
     },
   };

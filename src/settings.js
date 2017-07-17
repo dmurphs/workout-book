@@ -21,3 +21,4 @@ export const CREATE_SET_URL = `${API_BASE_URL}create_set/`;
 
 export const RUN_ENTRY_LIST_URL = `${API_BASE_URL}list_run_entries/`;
 export const CREATE_RUN_ENTRY_URL = `${API_BASE_URL}new_run_entry/`;
+export const UPDATE_RUN_ENTRY_URL = `${API_BASE_URL}run_entry_update/`;
