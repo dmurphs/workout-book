@@ -36,7 +36,6 @@ class CreateLiftEntry extends Component {
     dispatch(createLiftEntry(workoutID, liftEntryData)).then(
       () => {
         onWorkoutCreated();
-        this.setState(this.defaultState);
       });
   }
 

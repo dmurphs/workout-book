@@ -1,6 +1,7 @@
 import { LOGIN_URL,
   WORKOUT_LIST_URL, CREATE_WORKOUT_URL, UPDATE_WORKOUT_URL, WORKOUT_DETAIL_URL,
-  LIFT_ENTRY_LIST_URL, CREATE_LIFT_ENTRY_URL, LIFT_LIST_URL,
+  LIFT_ENTRY_LIST_URL, CREATE_LIFT_ENTRY_URL, UPDATE_LIFT_ENTRY_URL,
+  LIFT_LIST_URL,
   SET_LIST_URL, CREATE_SET_URL,
   RUN_ENTRY_LIST_URL, CREATE_RUN_ENTRY_URL } from '@/settings';
 
@@ -37,6 +38,10 @@ export const LIFT_LIST_FAILURE = 'LIFT_LIST_FAILURE';
 export const CREATE_LIFT_ENTRY_REQUEST = 'CREATE_LIFT_ENTRY_REQUEST';
 export const CREATE_LIFT_ENTRY_SUCCESS = 'CREATE_LIFT_ENTRY_SUCCESS';
 export const CREATE_LIFT_ENTRY_FAILURE = 'CREATE_LIFT_ENTRY_FAILURE';
+
+export const UPDATE_LIFT_ENTRY_REQUEST = 'UPDATE_LIFT_ENTRY_REQUEST';
+export const UPDATE_LIFT_ENTRY_SUCCESS = 'UPDATE_LIFT_ENTRY_SUCCESS';
+export const UPDATE_LIFT_ENTRY_FAILURE = 'UPDATE_LIFT_ENTRY_FAILURE';
 
 export const SET_LIST_REQUEST = 'SET_LIST_REQUEST';
 export const SET_LIST_SUCCESS = 'SET_LIST_SUCCESS';
@@ -155,6 +160,17 @@ export function createLiftEntry(workoutID, liftEntryData) {
       endpoint: `${CREATE_LIFT_ENTRY_URL}${workoutID}/`,
       types: [CREATE_LIFT_ENTRY_REQUEST, CREATE_LIFT_ENTRY_SUCCESS, CREATE_LIFT_ENTRY_FAILURE],
       requestMethod: 'POST',
+      requestData: liftEntryData,
+    },
+  };
+}
+
+export function updateLiftEntry(liftEntryID, liftEntryData) {
+  return {
+    [CALL_API]: {
+      endpoint: `${UPDATE_LIFT_ENTRY_URL}${liftEntryID}/`,
+      types: [UPDATE_LIFT_ENTRY_REQUEST, UPDATE_LIFT_ENTRY_SUCCESS, UPDATE_LIFT_ENTRY_FAILURE],
+      requestMethod: 'PUT',
       requestData: liftEntryData,
     },
   };

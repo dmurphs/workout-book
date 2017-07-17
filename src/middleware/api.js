@@ -31,7 +31,7 @@ function callApi(endpointURL, requestMethod, requestData = {}) {
     throw err;
   }
 
-  if (requestMethod === 'POST') {
+  if (requestMethod === 'POST' || requestMethod === 'PUT') {
     config.body = getRequestDataString(requestData);
   }
 

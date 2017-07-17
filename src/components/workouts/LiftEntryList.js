@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import SetList from '@/components/workouts/SetList';
 import CreateLiftEntry from '@/components/workouts/CreateLiftEntry';
+import LiftEntry from '@/components/workouts/LiftEntry';
 
-import { getLiftEntries, getLifts } from '@/store/actions';
+import { getLiftEntries } from '@/store/actions';
 
 class LiftEntryList extends Component {
 
@@ -16,7 +16,6 @@ class LiftEntryList extends Component {
   updateComponent() {
     const { dispatch, workoutID } = this.props;
 
-    dispatch(getLifts());
     dispatch(getLiftEntries(workoutID));
   }
 
@@ -25,7 +24,6 @@ class LiftEntryList extends Component {
       isFetching,
       received,
       liftEntriesByWorkoutID,
-      lifts,
       dispatch,
       workoutID } = this.props;
 
@@ -35,8 +33,6 @@ class LiftEntryList extends Component {
     } else {
       liftEntries = [];
     }
-
-    const getLiftByID = liftID => lifts.filter(l => l.id === liftID)[0];
 
     return (
       <div>
@@ -48,8 +44,13 @@ class LiftEntryList extends Component {
             <ul>
               {liftEntries.map(liftEntry => (
                 <li key={liftEntry.id}>
-                  {getLiftByID(liftEntry.lift).name} - {liftEntry.notes}
-                  <SetList dispatch={dispatch} liftEntryID={liftEntry.id} />
+                  <LiftEntry
+                    dispatch={dispatch}
+                    liftEntryID={liftEntry.id}
+                    liftID={liftEntry.lift}
+                    notes={liftEntry.notes}
+                    onUpdate={() => this.updateComponent()}
+                  />
                 </li>
               ))}
             </ul>
@@ -71,20 +72,16 @@ LiftEntryList.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   received: PropTypes.bool.isRequired,
   liftEntriesByWorkoutID: PropTypes.object.isRequired, // eslint-disable-line
-  lifts: PropTypes.array.isRequired, // eslint-disable-line
 };
 
 function mapStateToProps(state) {
-  const { liftEntries, liftList } = state;
+  const { liftEntries } = state;
   const { isFetching, received, liftEntriesByWorkoutID } = liftEntries;
-
-  const lifts = liftList.data;
 
   return {
     isFetching,
     received,
     liftEntriesByWorkoutID,
-    lifts,
   };
 }
 

@@ -37,7 +37,6 @@ export default class CreateLiftEntry extends Component {
     dispatch(createRunEntry(workoutID, runEntryData)).then(
       () => {
         onRunCreated();
-        this.setState(this.defaultState);
       });
   }
 

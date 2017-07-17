@@ -34,7 +34,7 @@ export default class CreateSet extends Component {
     dispatch(createSet(liftEntryID, setData)).then(
       () => {
         onSetCreated();
-        this.setState(this.defaultState);
+        // this.setState(this.defaultState);
       });
   }
 
