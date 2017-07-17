@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import CreateSet from '@/components/workouts/CreateSet';
+import Set from '@/components/workouts/Set';
 
 import { getSets } from '@/store/actions';
 
@@ -28,7 +29,7 @@ class SetList extends Component {
       sets = [];
     }
 
-    // const orderedSets = sets.sort((a, b) => a.set_num - b.set_num);
+    const orderedSets = sets.sort((a, b) => a.set_num - b.set_num);
 
     return (
       <div>
@@ -38,9 +39,16 @@ class SetList extends Component {
         { received &&
           <div>
             <ol>
-              {sets.map(set => (
+              {orderedSets.map(set => (
                 <li key={set.id}>
-                  {set.num_reps} - {set.weight}
+                  <Set
+                    setID={set.id}
+                    setNum={set.set_num}
+                    numReps={set.num_reps}
+                    weight={set.weight}
+                    onUpdate={() => this.updateComponent()}
+                    dispatch={dispatch}
+                  />
                 </li>
               ))}
             </ol>

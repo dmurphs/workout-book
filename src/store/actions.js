@@ -2,7 +2,7 @@ import { LOGIN_URL,
   WORKOUT_LIST_URL, CREATE_WORKOUT_URL, UPDATE_WORKOUT_URL, WORKOUT_DETAIL_URL,
   LIFT_ENTRY_LIST_URL, CREATE_LIFT_ENTRY_URL, UPDATE_LIFT_ENTRY_URL,
   LIFT_LIST_URL,
-  SET_LIST_URL, CREATE_SET_URL,
+  SET_LIST_URL, CREATE_SET_URL, UPDATE_SET_URL,
   RUN_ENTRY_LIST_URL, CREATE_RUN_ENTRY_URL, UPDATE_RUN_ENTRY_URL } from '@/settings';
 
 import { CALL_API } from '@/middleware/api';
@@ -50,6 +50,10 @@ export const SET_LIST_FAILURE = 'SET_LIST_FAILURE';
 export const CREATE_SET_REQUEST = 'CREATE_SET_REQUEST';
 export const CREATE_SET_SUCCESS = 'CREATE_SET_SUCCESS';
 export const CREATE_SET_FAILURE = 'CREATE_SET_FAILURE';
+
+export const UPDATE_SET_REQUEST = 'UPDATE_SET_REQUEST';
+export const UPDATE_SET_SUCCESS = 'UPDATE_SET_SUCCESS';
+export const UPDATE_SET_FAILURE = 'UPDATE_SET_FAILURE';
 
 export const RUN_ENTRY_LIST_REQUEST = 'RUN_ENTRY_LIST_REQUEST';
 export const RUN_ENTRY_LIST_SUCCESS = 'RUN_ENTRY_LIST_SUCCESS';
@@ -198,6 +202,17 @@ export function createSet(liftEntryID, setData) {
       endpoint: `${CREATE_SET_URL}${liftEntryID}/`,
       types: [CREATE_SET_REQUEST, CREATE_SET_SUCCESS, CREATE_SET_FAILURE],
       requestMethod: 'POST',
+      requestData: setData,
+    },
+  };
+}
+
+export function updateSet(setID, setData) {
+  return {
+    [CALL_API]: {
+      endpoint: `${UPDATE_SET_URL}${setID}/`,
+      types: [UPDATE_SET_REQUEST, UPDATE_SET_SUCCESS, UPDATE_SET_FAILURE],
+      requestMethod: 'PUT',
       requestData: setData,
     },
   };
