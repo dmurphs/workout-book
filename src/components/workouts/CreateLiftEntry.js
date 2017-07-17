@@ -31,6 +31,7 @@ class CreateLiftEntry extends Component {
     const liftEntryData = {
       notes: this.state.notes,
       lift: this.state.selectedLift,
+      is_active: true,
     };
 
     dispatch(createLiftEntry(workoutID, liftEntryData)).then(

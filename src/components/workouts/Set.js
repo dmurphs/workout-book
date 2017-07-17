@@ -25,17 +25,46 @@ export default class Set extends Component {
   }
 
   onUpdateSetClick() {
-    const { setID, onUpdate, dispatch } = this.props;
+    const setData = this.getCurrentSetData();
 
+    this.dispatchUpdateSet(setData);
+  }
+
+  onDeleteSetClick() {
+    const currentSetData = this.getCurrentSetData();
+
+    // We don't actually delete, just deactivate the record
+    const setData = {
+      ...currentSetData,
+      is_active: false,
+    };
+
+    this.dispatchUpdateSet(setData);
+  }
+
+  onCancelUpdateClick() {
+    this.setState({ updateView: false });
+  }
+
+  getCurrentSetData() {
     const setNum = this.state.setNum;
     const numReps = this.state.numReps;
     const weight = this.state.weight;
 
-    const setData = {
+    return {
       set_num: setNum,
       num_reps: numReps,
       weight,
+      is_active: true,
     };
+  }
+
+  setUpdateView() {
+    this.setState({ updateView: true });
+  }
+
+  dispatchUpdateSet(setData) {
+    const { setID, onUpdate, dispatch } = this.props;
 
     dispatch(updateSet(setID, setData)).then(
       () => {
@@ -44,14 +73,6 @@ export default class Set extends Component {
       (error) => {
         console.log(error); // eslint-disable-line
       });
-  }
-
-  onCancelUpdateClick() {
-    this.setState({ updateView: false });
-  }
-
-  setUpdateView() {
-    this.setState({ updateView: true });
   }
 
   handleSetNumChange(event) {
@@ -75,6 +96,7 @@ export default class Set extends Component {
           <div>
             <h1>{numReps} - {weight}</h1>
             <button onClick={() => this.setUpdateView()}>Update</button>
+            <button onClick={() => this.onDeleteSetClick()}>Delete</button>
           </div>
         }
         { this.state.updateView &&

@@ -3,11 +3,15 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import { getWorkouts } from '@/store/actions';
+import { getWorkouts, updateWorkout } from '@/store/actions';
 
 class WorkoutList extends Component {
 
   componentWillMount() {
+    this.updateComponent();
+  }
+
+  updateComponent() {
     const { dispatch } = this.props;
 
     const today = new Date();
@@ -23,6 +27,26 @@ class WorkoutList extends Component {
     };
 
     dispatch(getWorkouts(dateRangeData));
+  }
+
+  deleteWorkout(workoutID) {
+    const { workouts, dispatch } = this.props;
+
+    const workoutToDelete = workouts.filter(workout => workout.id === workoutID)[0];
+
+    const workoutData = {
+      description: workoutToDelete.description || '',
+      date: workoutToDelete.date,
+      is_active: false,
+    };
+
+    dispatch(updateWorkout(workoutID, workoutData)).then(
+      () => {
+        this.updateComponent();
+      },
+      (error) => {
+        console.log(error); // eslint-disable-line
+      });
   }
 
   render() {
@@ -43,6 +67,7 @@ class WorkoutList extends Component {
               return (
                 <li key={workout.id}>
                   <Link to={workoutDetailURL}>{workout.date} - {descriptionText}</Link>
+                  <button onClick={() => this.deleteWorkout(workoutID)}>Delete</button>
                 </li>
               );
             })}

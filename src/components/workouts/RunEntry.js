@@ -28,27 +28,19 @@ export default class RunEntry extends Component {
   }
 
   onUpdateRunEntryClick() {
-    const { runEntryID, onUpdate, dispatch } = this.props;
+    const runEntryData = this.getCurrentRunEntryData();
 
-    const notes = this.state.notes;
-    const distance = this.state.distance;
-    const duration = this.state.duration;
-    const elevationDelta = this.state.elevationDelta;
+    this.dispatchUpdateRunEntry(runEntryData);
+  }
 
+  onDeleteRunEntryClick() {
+    const currentRunEntryData = this.getCurrentRunEntryData();
     const runEntryData = {
-      notes,
-      distance,
-      duration,
-      elevation_delta: elevationDelta,
+      ...currentRunEntryData,
+      is_active: false,
     };
 
-    dispatch(updateRunEntry(runEntryID, runEntryData)).then(
-      () => {
-        onUpdate();
-      },
-      (error) => {
-        console.log(error); // eslint-disable-line
-      });
+    this.dispatchUpdateRunEntry(runEntryData);
   }
 
   onCancelUpdateClick() {
@@ -57,6 +49,33 @@ export default class RunEntry extends Component {
 
   setUpdateView() {
     this.setState({ updateView: true });
+  }
+
+  getCurrentRunEntryData() {
+    const notes = this.state.notes;
+    const distance = this.state.distance;
+    const duration = this.state.duration;
+    const elevationDelta = this.state.elevationDelta;
+
+    return {
+      notes,
+      distance,
+      duration,
+      elevation_delta: elevationDelta,
+      is_active: true,
+    };
+  }
+
+  dispatchUpdateRunEntry(runEntryData) {
+    const { runEntryID, onUpdate, dispatch } = this.props;
+
+    dispatch(updateRunEntry(runEntryID, runEntryData)).then(
+      () => {
+        onUpdate();
+      },
+      (error) => {
+        console.log(error); // eslint-disable-line
+      });
   }
 
   handleNotesChange(event) {
@@ -85,6 +104,7 @@ export default class RunEntry extends Component {
             <h1>{distance} - {duration}
               - {elevationDelta} - {notes}</h1>
             <button onClick={() => this.setUpdateView()}>Update</button>
+            <button onClick={() => this.onDeleteRunEntryClick()}>Delete</button>
           </div>
         }
         { this.state.updateView &&

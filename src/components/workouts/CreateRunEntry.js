@@ -32,6 +32,7 @@ export default class CreateLiftEntry extends Component {
       distance: this.state.distance,
       duration: this.state.duration,
       elevation_delta: this.state.elevationDelta,
+      is_active: true,
     };
 
     dispatch(createRunEntry(workoutID, runEntryData)).then(

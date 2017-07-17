@@ -31,23 +31,19 @@ class LiftEntry extends Component {
   }
 
   onUpdateLiftEntryClick() {
-    const { dispatch, liftEntryID, onUpdate } = this.props;
+    const liftEntryData = this.getCurrentLiftEntryData();
 
-    const lift = this.state.liftID;
-    const notes = this.state.notes;
+    this.dispatchUpdateLiftEntry(liftEntryData);
+  }
 
+  onDeleteLiftEntryClick() {
+    const currentLiftEntryData = this.getCurrentLiftEntryData();
     const liftEntryData = {
-      lift,
-      notes,
+      ...currentLiftEntryData,
+      is_active: false,
     };
 
-    dispatch(updateLiftEntry(liftEntryID, liftEntryData)).then(
-      () => {
-        onUpdate();
-      },
-      (error) => {
-        console.log(error); // eslint-disable-line
-      });
+    this.dispatchUpdateLiftEntry(liftEntryData);
   }
 
   onCancelUpdateClick() {
@@ -56,6 +52,29 @@ class LiftEntry extends Component {
 
   setUpdateView() {
     this.setState({ updateView: true });
+  }
+
+  getCurrentLiftEntryData() {
+    const lift = this.state.liftID;
+    const notes = this.state.notes;
+
+    return {
+      lift,
+      notes,
+      is_active: true,
+    };
+  }
+
+  dispatchUpdateLiftEntry(liftEntryData) {
+    const { liftEntryID, onUpdate, dispatch } = this.props;
+
+    dispatch(updateLiftEntry(liftEntryID, liftEntryData)).then(
+      () => {
+        onUpdate();
+      },
+      (error) => {
+        console.log(error); // eslint-disable-line
+      });
   }
 
   handleLiftChange(event) {
@@ -83,6 +102,7 @@ class LiftEntry extends Component {
           <div>
             <h1>{ liftDisplay }-{ notes }</h1>
             <button onClick={() => this.setUpdateView()}>Update</button>
+            <button onClick={() => this.onDeleteLiftEntryClick()}>Delete</button>
           </div>
         }
         { this.state.updateView &&

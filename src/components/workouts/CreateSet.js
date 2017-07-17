@@ -29,6 +29,7 @@ export default class CreateSet extends Component {
       set_num: this.state.setNum,
       num_reps: this.state.numReps,
       weight: this.state.weight,
+      is_active: true,
     };
 
     dispatch(createSet(liftEntryID, setData)).then(
