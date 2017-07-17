@@ -7,11 +7,11 @@ import styles from './Root.css'; // eslint-disable-line
 /*eslint-disable*/
 export default class Root extends Component {
   render() {
-    const { isAuthenticated } = this.props;
+    const { isAuthenticated, dispatch } = this.props;
 
     return (
       <div>
-        <Header isAuthenticated={isAuthenticated} />
+        <Header isAuthenticated={isAuthenticated} dispatch={dispatch} />
       </div>
     );
   }

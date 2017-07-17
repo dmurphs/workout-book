@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router';
+import { Redirect } from 'react-router-dom';
 import { ConnectedRouter as Router } from 'react-router-redux';
 import { Provider, connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -31,18 +32,32 @@ class App extends Component{
     );
 
     const DashboardWrapper = () => (
-      <Dashboard isAuthenticated={isAuthenticated} dispatch={store.dispatch} />
+      <div>
+        { isAuthenticated &&
+          <Dashboard isAuthenticated={isAuthenticated} dispatch={store.dispatch} />
+        }
+        { !isAuthenticated &&
+          <Redirect to="/login" />
+        }
+      </div>
     );
 
     const WorkoutWrapper = ({ match }) => (
-      <Workout workoutID={parseInt(match.params.workoutID)} dispatch={store.dispatch} />
+      <div>
+        {isAuthenticated &&
+          <Workout workoutID={parseInt(match.params.workoutID)} dispatch={store.dispatch} />
+        }
+        { !isAuthenticated &&
+          <Redirect to="/login" />
+        }
+      </div>
     );
 
     return (
       <Provider store={store}>
         <Router history={history}>
           <div>
-            <Root isAuthenticated={isAuthenticated} />
+            <Root isAuthenticated={isAuthenticated} dispatch={store.dispatch} />
             <Route exact path="/" component={DashboardWrapper} />
             <Route path="/login" component={LoginWrapper} />
             <Route path="/workout/:workoutID" component={WorkoutWrapper} />

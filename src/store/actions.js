@@ -11,6 +11,10 @@ export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 
+export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+export const LOGOUT_FAILURE = 'LOGOUT_FAILURE';
+
 export const WORKOUT_LIST_REQUEST = 'WORKOUT_LIST_REQUEST';
 export const WORKOUT_LIST_SUCCESS = 'WORKOUT_LIST_SUCCESS';
 export const WORKOUT_LIST_FAILURE = 'WORKOUT_LIST_FAILURE';
@@ -91,6 +95,22 @@ function loginError(errors) {
     isFetching: false,
     isAuthenticated: false,
     errors,
+  };
+}
+
+function requestLogout() {
+  return {
+    type: LOGOUT_REQUEST,
+    isFetching: true,
+    isAuthenticated: true,
+  };
+}
+
+function receiveLogout() {
+  return {
+    type: LOGOUT_SUCCESS,
+    isFetching: false,
+    isAuthenticated: false,
   };
 }
 
@@ -280,3 +300,12 @@ export function loginUser(creds) {
             });
   };
 }
+
+export function logoutUser() {
+  return (dispatch) => {
+    dispatch(requestLogout());
+    localStorage.removeItem('token');
+    dispatch(receiveLogout());
+  };
+}
+

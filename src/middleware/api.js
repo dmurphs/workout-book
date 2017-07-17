@@ -25,7 +25,7 @@ function callApi(endpointURL, requestMethod, requestData = {}) {
 
   const token = localStorage.getItem('token') || null;
   if (token) {
-    config.headers.Authorization = `Token ${token}`;
+    config.headers.Authorization = `JWT ${token}`;
   } else {
     const err = 'No token saved!';
     throw err;
