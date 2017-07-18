@@ -38,7 +38,8 @@ class SetList extends Component {
         }
         { received &&
           <div>
-            <ol>
+            <h2>Sets</h2>
+            <ul>
               {orderedSets.map(set => (
                 <li key={set.id}>
                   <Set
@@ -51,7 +52,9 @@ class SetList extends Component {
                   />
                 </li>
               ))}
-            </ol>
+            </ul>
+            <hr />
+            <h2>Create New Set</h2>
             <CreateSet
               liftEntryID={liftEntryID}
               dispatch={dispatch}

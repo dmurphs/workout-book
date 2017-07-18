@@ -58,20 +58,24 @@ class WorkoutList extends Component {
           <h1>Loading Workouts...</h1>
         }
         { received &&
-          <ul>
+          <table className="table is-bordered is-striped">
             {workouts.map((workout) => {
               const workoutID = workout.id;
               const workoutDetailURL = `/workout/${workoutID}`;
               const descriptionText = workout.description || '(No Description)';
 
               return (
-                <li key={workout.id}>
-                  <Link to={workoutDetailURL}>{workout.date} - {descriptionText}</Link>
-                  <button onClick={() => this.deleteWorkout(workoutID)}>Delete</button>
-                </li>
+                <tr key={workout.id}>
+                  <td>
+                    <Link to={workoutDetailURL}>{workout.date} - {descriptionText}</Link>
+                  </td>
+                  <td>
+                    <button className="button is-danger" onClick={() => this.deleteWorkout(workoutID)}>Delete</button>
+                  </td>
+                </tr>
               );
             })}
-          </ul>
+          </table>
         }
       </div>
     );

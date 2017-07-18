@@ -35,6 +35,7 @@ class Workout extends Component {
     const workoutData = {
       date: this.state.date,
       description: this.state.description,
+      is_active: true,
     };
 
     dispatch(updateWorkout(workoutID, workoutData)).then(
@@ -101,27 +102,40 @@ class Workout extends Component {
     const descriptionText = description || '(No Description)';
 
     return (
-      <div>
+      <div className="column is-8 is-offset-2">
         { isFetching &&
           <h1>Loading Workout...</h1>
         }
         { received &&
           <div>
             { !this.state.updateView &&
-              <div>
-                <h1>{date} - {descriptionText}</h1>
-                <button onClick={() => this.setUpdateView()}>Update</button>
+              <div className="columns">
+                <div className="column is-8">
+                  <h1 className="title">{date} - {descriptionText}</h1>
+                </div>
+                <div className="column is-4">
+                  <button className="button is-info" onClick={() => this.setUpdateView()}>Edit Workout Info</button>
+                </div>
               </div>
             }
             { this.state.updateView &&
               <div>
-                <input type="date" value={this.state.date} onChange={this.handleDateChange} placeholder="date" />
-                <input type="text" value={this.state.description} onChange={this.handleDescriptionChange} placeholder="description" />
-                <button onClick={() => this.onUpdateWorkoutClick()}>Save Changes</button>
-                <button onClick={() => this.onCancelUpdateClick()}>Cancel</button>
+                <div className="field">
+                  <input className="input" type="date" value={this.state.date} onChange={this.handleDateChange} placeholder="date" />
+                </div>
+                <div className="field">
+                  <input className="input" type="text" value={this.state.description} onChange={this.handleDescriptionChange} placeholder="description" />
+                </div>
+                <div className="field">
+                  <button className="button is-success" onClick={() => this.onUpdateWorkoutClick()}>Save Changes</button>
+                </div>
+                <div className="field">
+                  <button className="button is-warning" onClick={() => this.onCancelUpdateClick()}>Cancel</button>
+                </div>
               </div>
             }
             <LiftEntryList workoutID={workoutID} dispatch={dispatch} />
+            <hr />
             <RunEntryList workoutID={workoutID} dispatch={dispatch} />
           </div>
         }

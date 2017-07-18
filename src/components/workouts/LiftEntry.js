@@ -97,33 +97,45 @@ class LiftEntry extends Component {
     }
 
     return (
-      <div>
+      <div className="card">
         { !this.state.updateView &&
-          <div>
+          <div className="card-header">
             <h1>{ liftDisplay }-{ notes }</h1>
-            <button onClick={() => this.setUpdateView()}>Update</button>
-            <button onClick={() => this.onDeleteLiftEntryClick()}>Delete</button>
+            <button className="button is-info" onClick={() => this.setUpdateView()}>Update</button>
+            <button className="button is-danger" onClick={() => this.onDeleteLiftEntryClick()}>Delete</button>
           </div>
         }
         { this.state.updateView &&
-          <div>
-            <select value={this.state.liftID} onChange={this.handleLiftChange} >
-              <option value="">Select a lift</option>
-              {lifts.map((lift) => {
-                const liftSelectionID = lift.id;
-                const liftName = lift.name;
+          <div className="card-header">
+            <div className="field">
+              <div className="select">
+                <select value={this.state.liftID} onChange={this.handleLiftChange} >
+                  <option value="">Select a lift</option>
+                  {lifts.map((lift) => {
+                    const liftSelectionID = lift.id;
+                    const liftName = lift.name;
 
-                return (
-                  <option key={liftSelectionID} value={liftSelectionID}>{liftName}</option>
-                );
-              })}
-            </select>
-            <input type="text" value={this.state.notes} onChange={this.handleNotesChange} placeholder="notes" />
-            <button onClick={() => this.onUpdateLiftEntryClick()}>Save Changes</button>
-            <button onClick={() => this.onCancelUpdateClick()}>Cancel</button>
+                    return (
+                      <option key={liftSelectionID} value={liftSelectionID}>{liftName}</option>
+                    );
+                  })}
+                </select>
+              </div>
+            </div>
+            <div className="field">
+              <input className="input" type="text" value={this.state.notes} onChange={this.handleNotesChange} placeholder="notes" />
+            </div>
+            <div className="field">
+              <button className="button is-success" onClick={() => this.onUpdateLiftEntryClick()}>Save Changes</button>
+            </div>
+            <div className="field">
+              <button className="button is-warning" onClick={() => this.onCancelUpdateClick()}>Cancel</button>
+            </div>
           </div>
         }
-        <SetList dispatch={dispatch} liftEntryID={liftEntryID} />
+        <div className="card-content">
+          <SetList dispatch={dispatch} liftEntryID={liftEntryID} />
+        </div>
       </div>
     );
   }

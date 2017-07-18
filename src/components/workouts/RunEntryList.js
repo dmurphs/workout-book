@@ -31,6 +31,7 @@ class RunEntryList extends Component {
 
     return (
       <div>
+        <h1 className="subtitle">Run Entries</h1>
         { isFetching &&
           <h1>Loading Run Entries...</h1>
         }
@@ -51,6 +52,7 @@ class RunEntryList extends Component {
                 </li>
               ))}
             </ul>
+            <h2>Create New Run Entry</h2>
             <CreateRunEntry
               workoutID={workoutID}
               dispatch={dispatch}

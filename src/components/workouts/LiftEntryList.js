@@ -36,6 +36,7 @@ class LiftEntryList extends Component {
 
     return (
       <div>
+        <h1 className="subtitle">Lift Entries</h1>
         { isFetching &&
           <h1>Loading Lift Entries...</h1>
         }
@@ -54,6 +55,7 @@ class LiftEntryList extends Component {
                 </li>
               ))}
             </ul>
+            <h2>Create New Lift Entry</h2>
             <CreateLiftEntry
               workoutID={workoutID}
               dispatch={dispatch}

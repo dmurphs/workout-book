@@ -95,17 +95,27 @@ export default class Set extends Component {
         { !this.state.updateView &&
           <div>
             <h1>{numReps} - {weight}</h1>
-            <button onClick={() => this.setUpdateView()}>Update</button>
-            <button onClick={() => this.onDeleteSetClick()}>Delete</button>
+            <button className="button is-info" onClick={() => this.setUpdateView()}>Update</button>
+            <button className="button is-danger" onClick={() => this.onDeleteSetClick()}>Delete</button>
           </div>
         }
         { this.state.updateView &&
           <div>
-            <input type="number" value={this.state.setNum} onChange={this.handleSetNumChange} placeholder="set number" />
-            <input type="number" value={this.state.numReps} onChange={this.handleNumRepsChange} placeholder="number of reps" />
-            <input type="number" value={this.state.weight} onChange={this.handleWeightChange} placeholder="weight" />
-            <button onClick={() => this.onUpdateSetClick()}>Save Changes</button>
-            <button onClick={() => this.onCancelUpdateClick()}>Cancel</button>
+            <div className="field">
+              <input className="input" type="number" value={this.state.setNum} onChange={this.handleSetNumChange} placeholder="set number" />
+            </div>
+            <div className="field">
+              <input className="input" type="number" value={this.state.numReps} onChange={this.handleNumRepsChange} placeholder="number of reps" />
+            </div>
+            <div className="field">
+              <input className="input" type="number" value={this.state.weight} onChange={this.handleWeightChange} placeholder="weight" />
+            </div>
+            <div className="field">
+              <button className="button is-success" onClick={() => this.onUpdateSetClick()}>Save Changes</button>
+            </div>
+            <div className="field">
+              <button className="button is-warning" onClick={() => this.onCancelUpdateClick()}>Cancel</button>
+            </div>
           </div>
         }
       </div>
