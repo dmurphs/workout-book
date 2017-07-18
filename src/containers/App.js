@@ -9,10 +9,11 @@ import history from '@/router/history';
 
 import Root from '@/components/Root';
 import Login from '@/components/auth/Login';
+import Register from '@/components/auth/Register';
 import Dashboard from '@/components/workouts/Dashboard';
 import Workout from '@/components/workouts/Workout';
 
-import { loginUser } from '@/store/actions';
+import { loginUser, registerUser } from '@/store/actions';
 
 /* styles */
 // base styles
@@ -31,6 +32,10 @@ class App extends Component{
       <Login onLoginClick={creds => store.dispatch(loginUser(creds))} isAuthenticated={isAuthenticated} />
     );
 
+    const RegisterWrapper = () => (
+      <Register onRegisterClick={newUserData => store.dispatch(registerUser(newUserData))} isAuthenticated={isAuthenticated} />
+    );
+ 
     const DashboardWrapper = () => (
       <div>
         { isAuthenticated &&
@@ -59,6 +64,7 @@ class App extends Component{
           <div className={styles.container}>
             <Root isAuthenticated={isAuthenticated} dispatch={store.dispatch} />
             <Route exact path="/" component={DashboardWrapper} />
+            <Route path="/register" component={RegisterWrapper} />
             <Route path="/login" component={LoginWrapper} />
             <Route path="/workout/:workoutID" component={WorkoutWrapper} />
           </div>

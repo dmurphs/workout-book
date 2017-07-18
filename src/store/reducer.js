@@ -3,6 +3,7 @@ import { routerReducer } from 'react-router-redux';
 
 import {
   LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_SUCCESS,
+  REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE,
   WORKOUT_LIST_REQUEST, WORKOUT_LIST_SUCCESS, WORKOUT_LIST_FAILURE,
   WORKOUT_DETAIL_REQUEST, WORKOUT_DETAIL_SUCCESS, WORKOUT_DETAIL_FAILURE,
   LIFT_ENTRY_LIST_REQUEST, LIFT_ENTRY_LIST_SUCCESS, LIFT_ENTRY_LIST_FAILURE,
@@ -45,6 +46,35 @@ function auth(state = {
         isFetching: false,
         isAuthenticated: false,
       });
+    default:
+      return state;
+  }
+}
+
+function registration(state = {
+  isFetching: false,
+  isRegistered: false,
+}, action) {
+  switch (action.type) {
+    case REGISTER_REQUEST:
+      return {
+        ...state,
+        isFetching: true,
+        isRegistered: false,
+      };
+    case REGISTER_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        isRegistered: true,
+      };
+    case REGISTER_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        isRegistered: false,
+        errorMessage: action.errors,
+      };
     default:
       return state;
   }
@@ -264,6 +294,7 @@ function runEntries(state = {
 // can be left split apart above
 export default combineReducers({
   auth,
+  registration,
   workoutList,
   workoutDetail,
   liftEntries,

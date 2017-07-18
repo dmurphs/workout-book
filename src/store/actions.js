@@ -1,4 +1,4 @@
-import { LOGIN_URL,
+import { LOGIN_URL, REGISTER_URL,
   WORKOUT_LIST_URL, CREATE_WORKOUT_URL, UPDATE_WORKOUT_URL, WORKOUT_DETAIL_URL,
   LIFT_ENTRY_LIST_URL, CREATE_LIFT_ENTRY_URL, UPDATE_LIFT_ENTRY_URL,
   LIFT_LIST_URL,
@@ -10,6 +10,10 @@ import { CALL_API } from '@/middleware/api';
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
+
+export const REGISTER_REQUEST = 'REGISTER_REQUEST';
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const REGISTER_FAILURE = 'REGISTER_FAILURE';
 
 export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
@@ -94,6 +98,31 @@ function loginError(errors) {
     type: LOGIN_FAILURE,
     isFetching: false,
     isAuthenticated: false,
+    errors,
+  };
+}
+
+function requestRegister() {
+  return {
+    type: REGISTER_REQUEST,
+    isFetching: true,
+    isRegistered: false,
+  };
+}
+
+function receiveRegsiter() {
+  return {
+    type: REGISTER_SUCCESS,
+    isFetching: false,
+    isRegistered: true,
+  };
+}
+
+function registerError(errors) {
+  return {
+    type: REGISTER_FAILURE,
+    isFetching: false,
+    isRegistered: false,
     errors,
   };
 }
@@ -306,6 +335,32 @@ export function logoutUser() {
     dispatch(requestLogout());
     localStorage.removeItem('token');
     dispatch(receiveLogout());
+  };
+}
+
+export function registerUser(newUserData) {
+  const config = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `username=${newUserData.username}&password=${newUserData.password}&email=${newUserData.email}`,
+  };
+
+  return (dispatch) => {
+    // We dispatch requestLogin to kickoff the call to the API
+    dispatch(requestRegister());
+
+    return fetch(REGISTER_URL, config)
+      .then(response =>
+        response.json()
+          .then(responseData => ({ responseData, response })))
+            .then(({ responseData, response }) => {
+              if (response.ok) {
+                dispatch(receiveRegsiter());
+              } else {
+                const errors = responseData.non_field_errors;
+                dispatch(registerError(errors));
+              }
+            });
   };
 }
 
