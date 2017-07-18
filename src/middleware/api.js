@@ -1,11 +1,39 @@
 // middleware/api.js
 
+import { REFRESH_TOKEN_URL } from '@/settings';
+
 function getRequestDataString(data) {
   return Object
     .keys(data)
     .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)
     .join('&')
   ;
+}
+
+function refreshToken() {
+  const token = localStorage.getItem('token') || null;
+  if (!token) {
+    const err = 'No token saved!';
+    throw err;
+  }
+
+  const config = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `token=${token}`,
+  };
+
+  fetch(REFRESH_TOKEN_URL, config)
+    .then(response =>
+      response.json()
+        .then(responseData => ({ responseData, response })))
+          .then(({ responseData, response }) => {
+            if (response.ok) {
+              localStorage.setItem('token', responseData.token);
+            } else {
+              const errors = responseData.non_field_errors; // eslint-disable-line
+            }
+          });
 }
 
 function callApi(endpointURL, requestMethod, requestData = {}) {
@@ -43,6 +71,7 @@ function callApi(endpointURL, requestMethod, requestData = {}) {
         return Promise.reject(responseData);
       }
 
+      refreshToken();
       return responseData;
     });
 }

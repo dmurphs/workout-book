@@ -3,6 +3,7 @@ const BASE_URL = 'http://localhost:8000/';
 export const LOGIN_URL = `${BASE_URL}api-token-auth/`;
 export const LOGOUT_URL = `${BASE_URL}logout/`;
 export const REGISTER_URL = `${BASE_URL}register/`;
+export const REFRESH_TOKEN_URL = `${BASE_URL}api-token-refresh/`;
 
 export const API_BASE_URL = `${BASE_URL}api/`;
 
