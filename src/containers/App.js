@@ -13,7 +13,7 @@ import Register from '@/components/auth/Register';
 import Dashboard from '@/components/workouts/Dashboard';
 import Workout from '@/components/workouts/Workout';
 
-import { loginUser, registerUser } from '@/store/actions';
+import { loginUser } from '@/store/actions';
 
 /* styles */
 // base styles
@@ -33,7 +33,7 @@ class App extends Component{
     );
 
     const RegisterWrapper = () => (
-      <Register onRegisterClick={newUserData => store.dispatch(registerUser(newUserData))} isAuthenticated={isAuthenticated} />
+      <Register isAuthenticated={isAuthenticated} dispatch={store.dispatch} />
     );
  
     const DashboardWrapper = () => (

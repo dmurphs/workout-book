@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { push } from 'react-router-redux';
 import PropTypes from 'prop-types';
+
+import { registerUser } from '@/store/actions';
 
 class Register extends Component {
 
   handleClick() {
+    const { dispatch } = this.props;
+
     const email = this.emailRef;
     const username = this.usernameRef;
     const password = this.passwordRef;
@@ -15,18 +20,19 @@ class Register extends Component {
       username: username.value.trim(),
       password: password.value.trim(),
     };
-    this.props.onRegisterClick(newUserData);
+
+    registerUser(newUserData).then(
+      () => {
+        dispatch(push('/login'));
+      });
   }
 
   render() {
-    const { isRegistered, isAuthenticated } = this.props;
-
-    console.log(isRegistered) // eslint-disable-line
-    console.log(isAuthenticated) // eslint-disable-line
+    const { isAuthenticated } = this.props;
 
     return (
       <div className="column is-half is-offset-one-quarter">
-        { (!isRegistered && !isAuthenticated) &&
+        { !isAuthenticated &&
           <div>
             <h1 className="title">Register</h1>
             <div className="field">
@@ -45,7 +51,7 @@ class Register extends Component {
             </div>
           </div>
         }
-        { (isAuthenticated || isRegistered) &&
+        { isAuthenticated &&
           <Redirect to="/" />
         }
       </div>
@@ -54,19 +60,16 @@ class Register extends Component {
 }
 
 Register.propTypes = {
-  onRegisterClick: PropTypes.func.isRequired,
-  isRegistered: PropTypes.bool.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
-  const { registration, auth } = state;
+  const { auth } = state;
 
-  const isRegistered = registration.isRegistered;
   const isAuthenticated = auth.isAuthenticated;
 
   return {
-    isRegistered,
     isAuthenticated,
   };
 }

@@ -11,9 +11,9 @@ export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 
-export const REGISTER_REQUEST = 'REGISTER_REQUEST';
-export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
-export const REGISTER_FAILURE = 'REGISTER_FAILURE';
+// export const REGISTER_REQUEST = 'REGISTER_REQUEST';
+// export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+// export const REGISTER_FAILURE = 'REGISTER_FAILURE';
 
 export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
@@ -102,30 +102,30 @@ function loginError(errors) {
   };
 }
 
-function requestRegister() {
-  return {
-    type: REGISTER_REQUEST,
-    isFetching: true,
-    isRegistered: false,
-  };
-}
+// function requestRegister() {
+//   return {
+//     type: REGISTER_REQUEST,
+//     isFetching: true,
+//     isRegistered: false,
+//   };
+// }
 
-function receiveRegsiter() {
-  return {
-    type: REGISTER_SUCCESS,
-    isFetching: false,
-    isRegistered: true,
-  };
-}
+// function receiveRegsiter() {
+//   return {
+//     type: REGISTER_SUCCESS,
+//     isFetching: false,
+//     isRegistered: true,
+//   };
+// }
 
-function registerError(errors) {
-  return {
-    type: REGISTER_FAILURE,
-    isFetching: false,
-    isRegistered: false,
-    errors,
-  };
-}
+// function registerError(errors) {
+//   return {
+//     type: REGISTER_FAILURE,
+//     isFetching: false,
+//     isRegistered: false,
+//     errors,
+//   };
+// }
 
 function requestLogout() {
   return {
@@ -345,22 +345,17 @@ export function registerUser(newUserData) {
     body: `username=${newUserData.username}&password=${newUserData.password}&email=${newUserData.email}`,
   };
 
-  return (dispatch) => {
-    // We dispatch requestLogin to kickoff the call to the API
-    dispatch(requestRegister());
+  return fetch(REGISTER_URL, config)
+    .then(response =>
+      response.json()
+        .then(responseData => ({ responseData, response })))
+          .then(({ responseData, response }) => {
+            if (response.ok) {
+              return responseData;
+            }
 
-    return fetch(REGISTER_URL, config)
-      .then(response =>
-        response.json()
-          .then(responseData => ({ responseData, response })))
-            .then(({ responseData, response }) => {
-              if (response.ok) {
-                dispatch(receiveRegsiter());
-              } else {
-                const errors = responseData.non_field_errors;
-                dispatch(registerError(errors));
-              }
-            });
-  };
+            const errors = responseData.non_field_errors;
+            return errors;
+          });
 }
 
