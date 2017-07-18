@@ -16,7 +16,7 @@ import { loginUser } from '@/store/actions';
 
 /* styles */
 // base styles
-import './App.css';
+import styles from './App.css';
 
 // sass styles (cuz many frameworks are sass based, ugh)
 import '@/styles/sass/index.scss'; // eslint-disable-line
@@ -56,7 +56,7 @@ class App extends Component{
     return (
       <Provider store={store}>
         <Router history={history}>
-          <div>
+          <div className={styles.container}>
             <Root isAuthenticated={isAuthenticated} dispatch={store.dispatch} />
             <Route exact path="/" component={DashboardWrapper} />
             <Route path="/login" component={LoginWrapper} />

@@ -33,7 +33,7 @@ export default class Dashboard extends Component {
     const { dispatch } = this.props;
 
     return (
-      <div>
+      <div className="dashboard-container">
         <button onClick={() => this.handleWorkoutCreateClick()}>Create New Workout</button>
         <WorkoutList dispatch={dispatch} />
       </div>

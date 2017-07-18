@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 
 import { logoutUser } from '@/store/actions';
 
-import styles from './index.css';
-
 /*eslint-disable*/
 export default class Header extends Component {
   render() {
@@ -12,18 +10,19 @@ export default class Header extends Component {
     const { isAuthenticated, dispatch } = this.props;
 
     return (
-      <header className={styles.header}>
-        <Link to="/">Dashboard</Link>
-
-        { isAuthenticated &&
-          <button onClick={() => dispatch(logoutUser())}>Logout</button>
-        }
-
-        { !isAuthenticated &&
-          <Link to="/login">Login</Link>
-        }
-
-      </header>
+      <nav className="nav">
+        <div className="nav-left">
+          <Link className="nav-item " to="/">Dashboard</Link>
+        </div>
+        <div className="nav-right">
+          { isAuthenticated &&
+            <button className="nav-item button is-link" onClick={() => dispatch(logoutUser())}>Logout</button>
+          }
+          { !isAuthenticated &&
+            <Link className="nav-item" to="/login">Login</Link>
+          }
+        </div>
+      </nav>
     );
   }
 }
