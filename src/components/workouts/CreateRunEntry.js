@@ -60,11 +60,21 @@ export default class CreateLiftEntry extends Component {
   render() {
     return (
       <div>
-        <input type="text" value={this.state.notes} onChange={this.handleNotesChange} placeholder="notes" />
-        <input type="number" value={this.state.distance} onChange={this.handleDistanceChange} placeholder="distance" />
-        <input type="time" value={this.state.duration} onChange={this.handleDurationChange} placeholder="duration" />
-        <input type="number" value={this.state.elevationDelta} onChange={this.handleElevationDeltaChange} placeholder="elevation delta" />
-        <button onClick={() => this.handleRunEntryCreateClick()}>Create Run Entry</button>
+        <div className="field">
+          <input className="input" type="text" value={this.state.notes} onChange={this.handleNotesChange} placeholder="notes" />
+        </div>
+        <div className="field">
+          <input className="input" type="number" value={this.state.distance} onChange={this.handleDistanceChange} placeholder="distance" />
+        </div>
+        <div className="field">
+          <input className="input" type="time" value={this.state.duration} onChange={this.handleDurationChange} placeholder="duration" />
+        </div>
+        <div className="field">
+          <input className="input" type="number" value={this.state.elevationDelta} onChange={this.handleElevationDeltaChange} placeholder="elevation delta" />
+        </div>
+        <div className="field">
+          <button className="button is-success" onClick={() => this.handleRunEntryCreateClick()}>Create Run Entry</button>
+        </div>
       </div>
     );
   }

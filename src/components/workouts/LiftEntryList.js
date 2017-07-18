@@ -42,19 +42,15 @@ class LiftEntryList extends Component {
         }
         { received &&
           <div>
-            <ul>
-              {liftEntries.map(liftEntry => (
-                <li key={liftEntry.id}>
-                  <LiftEntry
-                    dispatch={dispatch}
-                    liftEntryID={liftEntry.id}
-                    liftID={liftEntry.lift}
-                    notes={liftEntry.notes}
-                    onUpdate={() => this.updateComponent()}
-                  />
-                </li>
-              ))}
-            </ul>
+            {liftEntries.map(liftEntry => (
+              <LiftEntry
+                dispatch={dispatch}
+                liftEntryID={liftEntry.id}
+                liftID={liftEntry.lift}
+                notes={liftEntry.notes}
+                onUpdate={() => this.updateComponent()}
+              />
+            ))}
             <h2>Create New Lift Entry</h2>
             <CreateLiftEntry
               workoutID={workoutID}

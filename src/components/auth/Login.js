@@ -16,14 +16,21 @@ class Login extends Component {
     const { isAuthenticated } = this.props;
 
     return (
-      <div>
+      <div className="column is-half is-offset-one-quarter">
         { !isAuthenticated &&
           <div>
-            <input type="text" ref={(el) => { this.usernameRef = el; }} placeholder="Username" />
-            <input type="password" ref={(el) => { this.passwordRef = el; }} placeholder="Password" />
-            <button onClick={() => this.handleClick()} >
-              Login
-            </button>
+            <h1 className="title">Login</h1>
+            <div className="field">
+              <input className="input" type="text" ref={(el) => { this.usernameRef = el; }} placeholder="Username" />
+            </div>
+            <div className="field">
+              <input className="input" type="password" ref={(el) => { this.passwordRef = el; }} placeholder="Password" />
+            </div>
+            <div className="field">
+              <button className="button is-success" onClick={() => this.handleClick()} >
+                Login
+              </button>
+            </div>
           </div>
         }
         { isAuthenticated &&

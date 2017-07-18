@@ -111,7 +111,8 @@ class Workout extends Component {
             { !this.state.updateView &&
               <div className="columns">
                 <div className="column is-8">
-                  <h1 className="title">{date} - {descriptionText}</h1>
+                  <h1 className="title">{date}</h1>
+                  <h2>{descriptionText}</h2>
                 </div>
                 <div className="column is-4">
                   <button className="button is-info" onClick={() => this.setUpdateView()}>Edit Workout Info</button>
@@ -121,10 +122,30 @@ class Workout extends Component {
             { this.state.updateView &&
               <div>
                 <div className="field">
-                  <input className="input" type="date" value={this.state.date} onChange={this.handleDateChange} placeholder="date" />
+                  <label className="label" htmlFor="dateEdit">Date</label>
+                  <div className="control">
+                    <input
+                      id="dateEdit"
+                      className="input"
+                      type="date"
+                      value={this.state.date}
+                      onChange={this.handleDateChange}
+                      placeholder="date"
+                    />
+                  </div>
                 </div>
                 <div className="field">
-                  <input className="input" type="text" value={this.state.description} onChange={this.handleDescriptionChange} placeholder="description" />
+                  <label className="label" htmlFor="descriptionEdit">Description</label>
+                  <div className="control">
+                    <input
+                      id="descriptionEdit"
+                      className="input"
+                      type="text"
+                      value={this.state.description}
+                      onChange={this.handleDescriptionChange}
+                      placeholder="description"
+                    />
+                  </div>
                 </div>
                 <div className="field">
                   <button className="button is-success" onClick={() => this.onUpdateWorkoutClick()}>Save Changes</button>
@@ -134,6 +155,7 @@ class Workout extends Component {
                 </div>
               </div>
             }
+            <hr />
             <LiftEntryList workoutID={workoutID} dispatch={dispatch} />
             <hr />
             <RunEntryList workoutID={workoutID} dispatch={dispatch} />

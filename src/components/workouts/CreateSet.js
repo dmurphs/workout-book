@@ -10,14 +10,12 @@ export default class CreateSet extends Component {
   constructor(props) {
     super(props);
     this.defaultState = {
-      setNum: '',
       numReps: '',
       weight: '',
     };
 
     this.state = this.defaultState;
 
-    this.handleSetNumChange = this.handleSetNumChange.bind(this);
     this.handleNumRepsChange = this.handleNumRepsChange.bind(this);
     this.handleWeightChange = this.handleWeightChange.bind(this);
   }
@@ -26,7 +24,6 @@ export default class CreateSet extends Component {
     const { dispatch, liftEntryID, onSetCreated } = this.props;
 
     const setData = {
-      set_num: this.state.setNum,
       num_reps: this.state.numReps,
       weight: this.state.weight,
       is_active: true,
@@ -37,10 +34,6 @@ export default class CreateSet extends Component {
         onSetCreated();
         // this.setState(this.defaultState);
       });
-  }
-
-  handleSetNumChange(event) {
-    this.setState({ setNum: event.target.value });
   }
 
   handleNumRepsChange(event) {
@@ -54,10 +47,15 @@ export default class CreateSet extends Component {
   render() {
     return (
       <div>
-        <input type="number" value={this.state.setNum} onChange={this.handleSetNumChange} placeholder="set number" />
-        <input type="number" value={this.state.numReps} onChange={this.handleNumRepsChange} placeholder="number of reps" />
-        <input type="number" value={this.state.weight} onChange={this.handleWeightChange} placeholder="weight" />
-        <button onClick={() => this.handleSetCreationClick()}>Create Set</button>
+        <div className="field">
+          <input className="input" type="number" value={this.state.numReps} onChange={this.handleNumRepsChange} placeholder="number of reps" />
+        </div>
+        <div className="field">
+          <input className="input" type="number" value={this.state.weight} onChange={this.handleWeightChange} placeholder="weight" />
+        </div>
+        <div className="field">
+          <button className="button is-success" onClick={() => this.handleSetCreationClick()}>Create Set</button>
+        </div>
       </div>
     );
   }

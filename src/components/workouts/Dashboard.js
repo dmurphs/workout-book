@@ -15,6 +15,7 @@ export default class Dashboard extends Component {
     const today = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     const workoutData = {
       date: today,
+      is_active: true,
     };
 
     dispatch(createWorkout(workoutData)).then(

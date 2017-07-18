@@ -98,23 +98,91 @@ export default class RunEntry extends Component {
     const { notes, distance, duration, elevationDelta } = this.props;
 
     return (
-      <div>
+      <div className="card">
         { !this.state.updateView &&
-          <div>
-            <h1>{distance} - {duration}
-              - {elevationDelta} - {notes}</h1>
-            <button onClick={() => this.setUpdateView()}>Update</button>
-            <button onClick={() => this.onDeleteRunEntryClick()}>Delete</button>
+          <div className="card-content">
+            <table className="table is-bordered is-striped">
+              <h1>Run Info</h1>
+              <tr>
+                <td>Distance</td>
+                <td>{distance} miles</td>
+              </tr>
+              <tr>
+                <td>Duration</td>
+                <td>{duration}</td>
+              </tr>
+              <tr>
+                <td>Elevation Delta</td>
+                <td>{elevationDelta} ft</td>
+              </tr>
+            </table>
+            { (notes && notes !== '') &&
+              <div>
+                <h2>Notes</h2>
+                <p>{notes}</p>
+              </div>
+            }
+            <hr />
+            <button className="button is-info" onClick={() => this.setUpdateView()}>Update</button>
+            <button className="button is-danger" onClick={() => this.onDeleteRunEntryClick()}>Delete</button>
           </div>
         }
         { this.state.updateView &&
-          <div>
-            <input type="text" value={this.state.notes} onChange={this.handleNotesChange} placeholder="notes" />
-            <input type="number" value={this.state.distance} onChange={this.handleDistanceChange} placeholder="distance" />
-            <input type="time" value={this.state.duration} onChange={this.handleDurationChange} placeholder="duration" />
-            <input type="number" value={this.state.elevationDelta} onChange={this.handleElevationDeltaChange} placeholder="elevation delta" />
-            <button onClick={() => this.onUpdateRunEntryClick()}>Save Changes</button>
-            <button onClick={() => this.onCancelUpdateClick()}>Cancel</button>
+          <div className="card-content">
+            <div className="field">
+              <label htmlFor="editDistance" className="label">Distance</label>
+              <div className="control">
+                <input
+                  id="editDistance"
+                  className="input"
+                  type="number"
+                  value={this.state.distance}
+                  onChange={this.handleDistanceChange}
+                  placeholder="distance"
+                />
+              </div>
+            </div>
+            <div className="field">
+              <label htmlFor="editDuration" className="label">Duration</label>
+              <div className="control">
+                <input
+                  id="editDuration"
+                  className="input"
+                  type="time"
+                  value={this.state.duration}
+                  onChange={this.handleDurationChange}
+                  placeholder="duration"
+                />
+              </div>
+            </div>
+            <div className="field">
+              <label htmlFor="editElevationDelta" className="label">Elevation Delta</label>
+              <div className="control">
+                <input
+                  id="editElevationDelta"
+                  className="input"
+                  type="number"
+                  value={this.state.elevationDelta}
+                  onChange={this.handleElevationDeltaChange}
+                  placeholder="elevation delta"
+                />
+              </div>
+            </div>
+            <div className="field">
+              <label htmlFor="editNotes" className="label">Notes</label>
+              <div className="control">
+                <input
+                  id="editNotes"
+                  className="input"
+                  type="text"
+                  value={this.state.notes}
+                  onChange={this.handleNotesChange}
+                  placeholder="notes"
+                />
+              </div>
+            </div>
+            <button className="button is-success" onClick={() => this.onUpdateRunEntryClick()}>Save Changes</button>
+            <button className="button is-warning" onClick={() => this.onCancelUpdateClick()}>Cancel</button>
           </div>
         }
       </div>

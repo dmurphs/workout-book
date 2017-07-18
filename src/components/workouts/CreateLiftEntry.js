@@ -53,19 +53,27 @@ class CreateLiftEntry extends Component {
 
     return (
       <div>
-        <input type="text" value={this.state.notes} onChange={this.handleNotesChange} placeholder="notes" />
-        <select value={this.state.selectedLift} onChange={this.handleLiftChange} >
-          <option value="">Select a lift</option>
-          {lifts.map((lift) => {
-            const liftID = lift.id;
-            const liftName = lift.name;
+        <div className="field">
+          <div className="select">
+            <select value={this.state.selectedLift} onChange={this.handleLiftChange} >
+              <option value="">Select a lift</option>
+              {lifts.map((lift) => {
+                const liftID = lift.id;
+                const liftName = lift.name;
 
-            return (
-              <option key={liftID} value={liftID}>{liftName}</option>
-            );
-          })}
-        </select>
-        <button onClick={() => this.handleLiftEntryCreateClick()}>Create Lift Entry</button>
+                return (
+                  <option key={liftID} value={liftID}>{liftName}</option>
+                );
+              })}
+            </select>
+          </div>
+        </div>
+        <div className="field">
+          <input className="input" type="text" value={this.state.notes} onChange={this.handleNotesChange} placeholder="notes" />
+        </div>
+        <div className="field">
+          <button className="button is-success" onClick={() => this.handleLiftEntryCreateClick()}>Create Lift Entry</button>
+        </div>
       </div>
     );
   }

@@ -44,7 +44,6 @@ class SetList extends Component {
                 <li key={set.id}>
                   <Set
                     setID={set.id}
-                    setNum={set.set_num}
                     numReps={set.num_reps}
                     weight={set.weight}
                     onUpdate={() => this.updateComponent()}

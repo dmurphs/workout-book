@@ -8,18 +8,15 @@ export default class Set extends Component {
   constructor(props) {
     super(props);
 
-    const setNum = props.setNum;
     const numReps = props.numReps;
     const weight = props.weight;
 
     this.state = {
       updateView: false,
-      setNum,
       numReps,
       weight,
     };
 
-    this.handleSetNumChange = this.handleSetNumChange.bind(this);
     this.handleNumRepsChange = this.handleNumRepsChange.bind(this);
     this.handleWeightChange = this.handleWeightChange.bind(this);
   }
@@ -47,12 +44,10 @@ export default class Set extends Component {
   }
 
   getCurrentSetData() {
-    const setNum = this.state.setNum;
     const numReps = this.state.numReps;
     const weight = this.state.weight;
 
     return {
-      set_num: setNum,
       num_reps: numReps,
       weight,
       is_active: true,
@@ -75,10 +70,6 @@ export default class Set extends Component {
       });
   }
 
-  handleSetNumChange(event) {
-    this.setState({ setNum: event.target.value });
-  }
-
   handleNumRepsChange(event) {
     this.setState({ numReps: event.target.value });
   }
@@ -93,22 +84,43 @@ export default class Set extends Component {
     return (
       <div>
         { !this.state.updateView &&
-          <div>
-            <h1>{numReps} - {weight}</h1>
-            <button className="button is-info" onClick={() => this.setUpdateView()}>Update</button>
-            <button className="button is-danger" onClick={() => this.onDeleteSetClick()}>Delete</button>
+          <div className="columns">
+            <div className="column is-8">
+              <h1>{numReps} reps - {weight} lbs</h1>
+            </div>
+            <div className="column is-4">
+              <button className="button is-info" onClick={() => this.setUpdateView()}>Update</button>
+              <button className="button is-danger" onClick={() => this.onDeleteSetClick()}>Delete</button>
+            </div>
           </div>
         }
         { this.state.updateView &&
           <div>
             <div className="field">
-              <input className="input" type="number" value={this.state.setNum} onChange={this.handleSetNumChange} placeholder="set number" />
+              <label className="label" htmlFor="editNumReps">Num Reps</label>
+              <div className="control">
+                <input
+                  id="editNumReps"
+                  className="input"
+                  type="number"
+                  value={this.state.numReps}
+                  onChange={this.handleNumRepsChange}
+                  placeholder="number of reps"
+                />
+              </div>
             </div>
             <div className="field">
-              <input className="input" type="number" value={this.state.numReps} onChange={this.handleNumRepsChange} placeholder="number of reps" />
-            </div>
-            <div className="field">
-              <input className="input" type="number" value={this.state.weight} onChange={this.handleWeightChange} placeholder="weight" />
+              <label className="label" htmlFor="editWeight">Weight</label>
+              <div className="control">
+                <input
+                  id="editWeight"
+                  className="input"
+                  type="number"
+                  value={this.state.weight}
+                  onChange={this.handleWeightChange}
+                  placeholder="weight"
+                />
+              </div>
             </div>
             <div className="field">
               <button className="button is-success" onClick={() => this.onUpdateSetClick()}>Save Changes</button>
@@ -125,7 +137,6 @@ export default class Set extends Component {
 
 Set.propTypes = {
   setID: PropTypes.number.isRequired,
-  setNum: PropTypes.number.isRequired,
   numReps: PropTypes.number.isRequired,
   weight: PropTypes.number.isRequired,
   onUpdate: PropTypes.func.isRequired,
