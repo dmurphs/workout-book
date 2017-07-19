@@ -1,8 +1,13 @@
+IMPORTANT STUFF
+make create forms for lift entry, run entry, and set entry not visible by default
+make responsive
 clean up console warning messages
 clean up linter issues that are ignored currently
 error handling
 client side validation
+let user select date range for workouts on dashboard (default is past week)
+
+LOW PRIORITY STUFF
 add run map feature
 charts and progress visualization
 calendar view for dashboard
-let user select date range for workouts on dashboard (default is past week)

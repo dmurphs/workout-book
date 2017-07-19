@@ -39,7 +39,7 @@ class App extends Component{
     const DashboardWrapper = () => (
       <div>
         { isAuthenticated &&
-          <Dashboard isAuthenticated={isAuthenticated} dispatch={store.dispatch} />
+          <Dashboard dispatch={store.dispatch} />
         }
         { !isAuthenticated &&
           <Redirect to="/login" />
