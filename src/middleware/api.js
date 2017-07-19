@@ -1,7 +1,9 @@
 // middleware/api.js
 
-// import { REFRESH_TOKEN_URL } from '@/settings';
+import { REFRESH_TOKEN_URL, JWT_REFRESH_TIME_THRESHOLD } from '@/settings';
 import { LOGIN_FAILURE } from '@/store/actions';
+
+import jwtDecode from 'jwt-decode';
 
 function getRequestDataString(data) {
   return Object
@@ -11,31 +13,48 @@ function getRequestDataString(data) {
   ;
 }
 
-// function refreshToken() {
-//   const token = localStorage.getItem('token') || null;
-//   if (!token) {
-//     const err = 'No token saved!';
-//     throw err;
-//   }
+function isTokenExpirationPastThreshold() {
+  const token = localStorage.getItem('token') || null;
+  if (!token) {
+    const err = 'No token saved!';
+    throw err;
+  }
 
-//   const config = {
-//     method: 'POST',
-//     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-//     body: `token=${token}`,
-//   };
+  const decodedToken = jwtDecode(token);
+  const tokenExpirationTime = decodedToken.exp;
+  const now = Math.floor(Date.now() / 1000);
+  console.log(tokenExpirationTime) // eslint-disable-line
+  console.log(now) // eslint-disable-line
+  const timeDifference = tokenExpirationTime - now;
 
-//   fetch(REFRESH_TOKEN_URL, config)
-//     .then(response =>
-//       response.json()
-//         .then(responseData => ({ responseData, response })))
-//           .then(({ responseData, response }) => {
-//             if (response.ok) {
-//               localStorage.setItem('token', responseData.token);
-//             } else {
-//               const errors = responseData.non_field_errors; // eslint-disable-line
-//             }
-//           });
-// }
+  return timeDifference < JWT_REFRESH_TIME_THRESHOLD;
+}
+
+function refreshToken() {
+  const token = localStorage.getItem('token') || null;
+  if (!token) {
+    const err = 'No token saved!';
+    throw err;
+  }
+
+  const config = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `token=${token}`,
+  };
+
+  fetch(REFRESH_TOKEN_URL, config)
+    .then(response =>
+      response.json()
+        .then(responseData => ({ responseData, response })))
+          .then(({ responseData, response }) => {
+            if (response.ok) {
+              localStorage.setItem('token', responseData.token);
+            } else {
+              const errors = responseData.non_field_errors; // eslint-disable-line
+            }
+          });
+}
 
 function callApi(endpointURL, requestMethod, requestData = {}) {
   let config = {}; //eslint-disable-line
@@ -72,7 +91,9 @@ function callApi(endpointURL, requestMethod, requestData = {}) {
         return Promise.reject(responseData);
       }
 
-      // refreshToken();
+      if (isTokenExpirationPastThreshold()) {
+        refreshToken();
+      }
       return responseData;
     });
 }

@@ -73,6 +73,7 @@
     "bulma": "^0.4.2",
     "history": "^4.6.1",
     "immutable": "4.0.0-rc.2",
+    "jwt-decode": "^2.2.0",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
