@@ -44,6 +44,7 @@ class LiftEntryList extends Component {
           <div>
             {liftEntries.map(liftEntry => (
               <LiftEntry
+                key={liftEntry.id}
                 dispatch={dispatch}
                 liftEntryID={liftEntry.id}
                 liftID={liftEntry.lift}

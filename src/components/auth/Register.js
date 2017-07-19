@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { push } from 'react-router-redux';
 import PropTypes from 'prop-types';
 
-import { registerUser } from '@/store/actions';
+import { registerUser, registerReset } from '@/store/actions';
 
 class Register extends Component {
+
+  componentWillUnmount() {
+    const { dispatch } = this.props;
+
+    dispatch(registerReset());
+  }
 
   handleClick() {
     const { dispatch } = this.props;
@@ -21,18 +26,15 @@ class Register extends Component {
       password: password.value.trim(),
     };
 
-    registerUser(newUserData).then(
-      () => {
-        dispatch(push('/login'));
-      });
+    dispatch(registerUser(newUserData));
   }
 
   render() {
-    const { isAuthenticated } = this.props;
+    const { isAuthenticated, isRegistered, isFetching, errors } = this.props;
 
     return (
       <div className="column is-half is-offset-one-quarter">
-        { !isAuthenticated &&
+        { (!isAuthenticated && !isFetching) &&
           <div>
             <h1 className="title">Register</h1>
             <div className="field">
@@ -49,9 +51,21 @@ class Register extends Component {
                 Register
               </button>
             </div>
+            { errors &&
+              <div className="notification is-danger">
+                <ul>
+                  {Object.keys(errors).map(errorKey => (
+                    <li key={errorKey}>{errorKey} - {errors[errorKey]}</li>
+                  ))}
+                </ul>
+              </div>
+            }
           </div>
         }
-        { isAuthenticated &&
+        { isFetching &&
+          <h1>Registering...</h1>
+        }
+        { (isAuthenticated || isRegistered) &&
           <Redirect to="/" />
         }
       </div>
@@ -62,15 +76,22 @@ class Register extends Component {
 Register.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
+  errors: PropTypes.object, // eslint-disable-line
+  isFetching: PropTypes.bool.isRequired,
+  isRegistered: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
-  const { auth } = state;
+  const { auth, registration } = state;
 
   const isAuthenticated = auth.isAuthenticated;
+  const { isFetching, isRegistered, errors } = registration;
 
   return {
     isAuthenticated,
+    isFetching,
+    isRegistered,
+    errors,
   };
 }
 

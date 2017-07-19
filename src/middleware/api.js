@@ -49,7 +49,8 @@ function refreshToken() {
             if (response.ok) {
               localStorage.setItem('token', responseData.token);
             } else {
-              const errors = responseData.non_field_errors; // eslint-disable-line
+              const errors = responseData.non_field_errors;
+              throw errors;
             }
           });
 }
@@ -108,7 +109,7 @@ export default () => next => (action) => {
 
   const { endpoint, types, requestMethod, requestData, parentID } = callAPI;
 
-  const [requestType, successType, errorType] = types; // eslint-disable-line no-unused-vars
+  const [requestType, successType, errorType] = types;
 
   next({
     type: requestType,

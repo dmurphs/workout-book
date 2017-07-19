@@ -1,0 +1,8 @@
+clean up console warning messages
+clean up linter issues that are ignored currently
+error handling
+client side validation
+add run map feature
+charts and progress visualization
+calendar view for dashboard
+let user select date range for workouts on dashboard (default is past week)

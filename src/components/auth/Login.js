@@ -3,7 +3,15 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import { cleanLogin } from '@/store/actions';
+
 class Login extends Component {
+
+  componentWillUnmount() {
+    const { dispatch } = this.props;
+
+    dispatch(cleanLogin());
+  }
 
   handleClick() {
     const username = this.usernameRef;
@@ -13,7 +21,7 @@ class Login extends Component {
   }
 
   render() {
-    const { isAuthenticated } = this.props;
+    const { isAuthenticated, errors } = this.props;
 
     return (
       <div className="column is-half is-offset-one-quarter">
@@ -31,6 +39,15 @@ class Login extends Component {
                 Login
               </button>
             </div>
+            { errors &&
+              <div className="notification is-danger">
+                <ul>
+                  {errors.map(message => (
+                    <li key={message}>{message}</li>
+                  ))}
+                </ul>
+              </div>
+            }
           </div>
         }
         { isAuthenticated &&
@@ -44,15 +61,18 @@ class Login extends Component {
 Login.propTypes = {
   onLoginClick: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
+  errors: PropTypes.array, // eslint-disable-line
+  dispatch: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
   const { auth } = state;
 
-  const isAuthenticated = auth.isAuthenticated;
+  const { isAuthenticated, errors } = auth;
 
   return {
     isAuthenticated,
+    errors,
   };
 }
 

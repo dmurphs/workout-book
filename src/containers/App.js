@@ -29,7 +29,7 @@ class App extends Component{
     const { store, isAuthenticated } = this.props;
 
     const LoginWrapper = () => (
-      <Login onLoginClick={creds => store.dispatch(loginUser(creds))} isAuthenticated={isAuthenticated} />
+      <Login onLoginClick={creds => store.dispatch(loginUser(creds))} dispatch={store.dispatch} isAuthenticated={isAuthenticated} />
     );
 
     const RegisterWrapper = () => (
@@ -82,11 +82,10 @@ App.propTypes = {
 
 function mapStateToProps(state) {
   const { auth } = state;
-  const { isAuthenticated, errorMessage } = auth;
+  const { isAuthenticated } = auth;
 
   return {
     isAuthenticated,
-    errorMessage,
   };
 }
 

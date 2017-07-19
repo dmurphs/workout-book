@@ -10,10 +10,12 @@ import { CALL_API } from '@/middleware/api';
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
+export const CLEAN_LOGIN = 'CLEAN_LOGIN';
 
-// export const REGISTER_REQUEST = 'REGISTER_REQUEST';
-// export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
-// export const REGISTER_FAILURE = 'REGISTER_FAILURE';
+export const REGISTER_REQUEST = 'REGISTER_REQUEST';
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const REGISTER_FAILURE = 'REGISTER_FAILURE';
+export const REGISTER_RESET = 'REGISTER_RESET';
 
 export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
@@ -78,8 +80,6 @@ export const UPDATE_RUN_ENTRY_FAILURE = 'UPDATE_RUN_ENTRY_FAILURE';
 function requestLogin(creds) {
   return {
     type: LOGIN_REQUEST,
-    isFetching: true,
-    isAuthenticated: false,
     creds,
   };
 }
@@ -87,8 +87,6 @@ function requestLogin(creds) {
 function receiveLogin(token) {
   return {
     type: LOGIN_SUCCESS,
-    isFetching: false,
-    isAuthenticated: true,
     token,
   };
 }
@@ -96,50 +94,50 @@ function receiveLogin(token) {
 function loginError(errors) {
   return {
     type: LOGIN_FAILURE,
-    isFetching: false,
-    isAuthenticated: false,
     errors,
   };
 }
 
-// function requestRegister() {
-//   return {
-//     type: REGISTER_REQUEST,
-//     isFetching: true,
-//     isRegistered: false,
-//   };
-// }
+export function cleanLogin() {
+  return {
+    type: CLEAN_LOGIN,
+  };
+}
 
-// function receiveRegsiter() {
-//   return {
-//     type: REGISTER_SUCCESS,
-//     isFetching: false,
-//     isRegistered: true,
-//   };
-// }
+function requestRegister() {
+  return {
+    type: REGISTER_REQUEST,
+  };
+}
 
-// function registerError(errors) {
-//   return {
-//     type: REGISTER_FAILURE,
-//     isFetching: false,
-//     isRegistered: false,
-//     errors,
-//   };
-// }
+function receiveRegsiter() {
+  return {
+    type: REGISTER_SUCCESS,
+  };
+}
+
+function registerError(errors) {
+  return {
+    type: REGISTER_FAILURE,
+    errors,
+  };
+}
+
+export function registerReset() {
+  return {
+    type: REGISTER_RESET,
+  };
+}
 
 function requestLogout() {
   return {
     type: LOGOUT_REQUEST,
-    isFetching: true,
-    isAuthenticated: true,
   };
 }
 
 function receiveLogout() {
   return {
     type: LOGOUT_SUCCESS,
-    isFetching: false,
-    isAuthenticated: false,
   };
 }
 
@@ -345,17 +343,22 @@ export function registerUser(newUserData) {
     body: `username=${newUserData.username}&password=${newUserData.password}&email=${newUserData.email}`,
   };
 
-  return fetch(REGISTER_URL, config)
-    .then(response =>
-      response.json()
-        .then(responseData => ({ responseData, response })))
-          .then(({ responseData, response }) => {
-            if (response.ok) {
-              return responseData;
-            }
+  return (dispatch) => {
+    dispatch(requestRegister());
 
-            const errors = responseData.non_field_errors;
-            return errors;
-          });
+    return fetch(REGISTER_URL, config)
+      .then(response =>
+        response.json()
+          .then(responseData => ({ responseData, response })))
+            .then(({ responseData, response }) => {
+              console.log(response) // eslint-disable-line
+              if (response.ok) {
+                dispatch(receiveRegsiter());
+              } else {
+                const errors = responseData;
+                dispatch(registerError(errors));
+              }
+            });
+  };
 }
 
