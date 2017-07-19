@@ -1,6 +1,7 @@
 // middleware/api.js
 
-import { REFRESH_TOKEN_URL } from '@/settings';
+// import { REFRESH_TOKEN_URL } from '@/settings';
+import { LOGIN_FAILURE } from '@/store/actions';
 
 function getRequestDataString(data) {
   return Object
@@ -10,31 +11,31 @@ function getRequestDataString(data) {
   ;
 }
 
-function refreshToken() {
-  const token = localStorage.getItem('token') || null;
-  if (!token) {
-    const err = 'No token saved!';
-    throw err;
-  }
+// function refreshToken() {
+//   const token = localStorage.getItem('token') || null;
+//   if (!token) {
+//     const err = 'No token saved!';
+//     throw err;
+//   }
 
-  const config = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: `token=${token}`,
-  };
+//   const config = {
+//     method: 'POST',
+//     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+//     body: `token=${token}`,
+//   };
 
-  fetch(REFRESH_TOKEN_URL, config)
-    .then(response =>
-      response.json()
-        .then(responseData => ({ responseData, response })))
-          .then(({ responseData, response }) => {
-            if (response.ok) {
-              localStorage.setItem('token', responseData.token);
-            } else {
-              const errors = responseData.non_field_errors; // eslint-disable-line
-            }
-          });
-}
+//   fetch(REFRESH_TOKEN_URL, config)
+//     .then(response =>
+//       response.json()
+//         .then(responseData => ({ responseData, response })))
+//           .then(({ responseData, response }) => {
+//             if (response.ok) {
+//               localStorage.setItem('token', responseData.token);
+//             } else {
+//               const errors = responseData.non_field_errors; // eslint-disable-line
+//             }
+//           });
+// }
 
 function callApi(endpointURL, requestMethod, requestData = {}) {
   let config = {}; //eslint-disable-line
@@ -71,7 +72,7 @@ function callApi(endpointURL, requestMethod, requestData = {}) {
         return Promise.reject(responseData);
       }
 
-      refreshToken();
+      // refreshToken();
       return responseData;
     });
 }
@@ -101,9 +102,17 @@ export default () => next => (action) => {
         type: successType,
         parentID,
       }),
-    error => next({
-      error: error || 'There was an error.',
-      type: errorType,
-    }),
+    (error) => {
+      next({
+        errors: error || 'There was an error.',
+        type: errorType,
+      });
+
+      if (error.detail === 'Signature has expired.') {
+        next({
+          type: LOGIN_FAILURE,
+        });
+      }
+    },
   );
 };
