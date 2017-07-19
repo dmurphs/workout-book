@@ -23,8 +23,6 @@ function isTokenExpirationPastThreshold() {
   const decodedToken = jwtDecode(token);
   const tokenExpirationTime = decodedToken.exp;
   const now = Math.floor(Date.now() / 1000);
-  console.log(tokenExpirationTime) // eslint-disable-line
-  console.log(now) // eslint-disable-line
   const timeDifference = tokenExpirationTime - now;
 
   return timeDifference < JWT_REFRESH_TIME_THRESHOLD;
