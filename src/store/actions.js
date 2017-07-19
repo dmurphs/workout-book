@@ -28,6 +28,7 @@ export const WORKOUT_LIST_FAILURE = 'WORKOUT_LIST_FAILURE';
 export const CREATE_WORKOUT_REQUEST = 'CREATE_WORKOUT_REQUEST';
 export const CREATE_WORKOUT_SUCCESS = 'CREATE_WORKOUT_SUCCESS';
 export const CREATE_WORKOUT_FAILURE = 'CREATE_WORKOUT_FAILURE';
+// export const CREATE_WORKOUT_RESET = 'CREATE_WORKOUT_RESET';
 
 export const UPDATE_WORKOUT_REQUEST = 'UPDATE_WORKOUT_REQUEST';
 export const UPDATE_WORKOUT_SUCCESS = 'UPDATE_WORKOUT_SUCCESS';
@@ -162,6 +163,12 @@ export function createWorkout(workoutData) {
     },
   };
 }
+
+// export function createWorkoutReset() {
+//   return {
+//     type: CREATE_WORKOUT_RESET,
+//   };
+// }
 
 export function updateWorkout(workoutID, workoutData) {
   return {
@@ -321,7 +328,7 @@ export function loginUser(creds) {
                 // Dispatch the success action
                 dispatch(receiveLogin(responseData.token));
               } else {
-                const errors = responseData.non_field_errors;
+                const errors = responseData;
                 dispatch(loginError(errors));
               }
             });

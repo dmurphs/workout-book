@@ -7,6 +7,20 @@ import { cleanLogin } from '@/store/actions';
 
 class Login extends Component {
 
+  constructor(props) {
+    super(props);
+
+    this.defaultState = {
+      username: '',
+      password: '',
+    };
+
+    this.state = this.defaultState;
+
+    this.handleUsernameChange = this.handleUsernameChange.bind(this);
+    this.handlePasswordChange = this.handlePasswordChange.bind(this);
+  }
+
   componentWillUnmount() {
     const { dispatch } = this.props;
 
@@ -14,10 +28,21 @@ class Login extends Component {
   }
 
   handleClick() {
-    const username = this.usernameRef;
-    const password = this.passwordRef;
-    const creds = { username: username.value.trim(), password: password.value.trim() };
+    const username = this.state.username;
+    const password = this.state.password;
+    const creds = {
+      username: username.trim(),
+      password: password.trim(),
+    };
     this.props.onLoginClick(creds);
+  }
+
+  handleUsernameChange(event) {
+    this.setState({ username: event.target.value });
+  }
+
+  handlePasswordChange(event) {
+    this.setState({ password: event.target.value });
   }
 
   render() {
@@ -29,10 +54,22 @@ class Login extends Component {
           <div>
             <h1 className="title">Login</h1>
             <div className="field">
-              <input className="input" type="text" ref={(el) => { this.usernameRef = el; }} placeholder="Username" />
+              <input
+                className="input"
+                type="text"
+                onChange={this.handleUsernameChange}
+                value={this.state.username}
+                placeholder="Username"
+              />
             </div>
             <div className="field">
-              <input className="input" type="password" ref={(el) => { this.passwordRef = el; }} placeholder="Password" />
+              <input
+                className="input"
+                type="password"
+                onChange={this.handlePasswordChange}
+                value={this.state.password}
+                placeholder="Password"
+              />
             </div>
             <div className="field">
               <button className="button is-success" onClick={() => this.handleClick()} >
@@ -42,8 +79,8 @@ class Login extends Component {
             { errors &&
               <div className="notification is-danger">
                 <ul>
-                  {errors.map(message => (
-                    <li key={message}>{message}</li>
+                  {Object.keys(errors).map(errorKey => (
+                    <li key={errorKey}>{errorKey} - {errors[errorKey]}</li>
                   ))}
                 </ul>
               </div>
@@ -61,7 +98,7 @@ class Login extends Component {
 Login.propTypes = {
   onLoginClick: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
-  errors: PropTypes.array, // eslint-disable-line
+  errors: PropTypes.object, // eslint-disable-line
   dispatch: PropTypes.func.isRequired,
 };
 

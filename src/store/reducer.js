@@ -4,6 +4,7 @@ import { routerReducer } from 'react-router-redux';
 import {
   LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, CLEAN_LOGIN, LOGOUT_SUCCESS,
   REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE, REGISTER_RESET,
+  // CREATE_WORKOUT_REQUEST, CREATE_WORKOUT_SUCCESS, CREATE_WORKOUT_FAILURE, CREATE_WORKOUT_RESET,
   WORKOUT_LIST_REQUEST, WORKOUT_LIST_SUCCESS, WORKOUT_LIST_FAILURE,
   WORKOUT_DETAIL_REQUEST, WORKOUT_DETAIL_SUCCESS, WORKOUT_DETAIL_FAILURE,
   LIFT_ENTRY_LIST_REQUEST, LIFT_ENTRY_LIST_SUCCESS, LIFT_ENTRY_LIST_FAILURE,
@@ -117,6 +118,41 @@ function defaultAPIGetReducer(requestType, successType, failureType, state, acti
       return state;
   }
 }
+
+// function workoutCreation(state = {
+//   isFetching: false,
+//   isCreated: false,
+// }, action) {
+//   switch (action.type) {
+//     case CREATE_WORKOUT_REQUEST:
+//       return {
+//         ...state,
+//         isFetching: true,
+//         isCreated: false,
+//       };
+//     case CREATE_WORKOUT_SUCCESS:
+//       return {
+//         ...state,
+//         isFetching: false,
+//         isCreated: true,
+//         newWorkout: action.response,
+//       };
+//     case CREATE_WORKOUT_FAILURE:
+//       return {
+//         ...state,
+//         isFetching: false,
+//         isCreated: false,
+//         errors: action.errors,
+//       };
+//     case CREATE_WORKOUT_RESET:
+//       return {
+//         isFetching: false,
+//         isCreated: false,
+//       };
+//     default:
+//       return state;
+//   }
+// }
 
 function workoutList(state = {
   isFetching: false,
@@ -305,6 +341,7 @@ function runEntries(state = {
 export default combineReducers({
   auth,
   registration,
+  // workoutCreation,
   workoutList,
   workoutDetail,
   liftEntries,

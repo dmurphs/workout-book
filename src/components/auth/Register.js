@@ -7,6 +7,22 @@ import { registerUser, registerReset } from '@/store/actions';
 
 class Register extends Component {
 
+  constructor(props) {
+    super(props);
+
+    this.defaultState = {
+      email: '',
+      username: '',
+      password: '',
+    };
+
+    this.state = this.defaultState;
+
+    this.handleEmailChange = this.handleEmailChange.bind(this);
+    this.handleUsernameChange = this.handleUsernameChange.bind(this);
+    this.handlePasswordChange = this.handlePasswordChange.bind(this);
+  }
+
   componentWillUnmount() {
     const { dispatch } = this.props;
 
@@ -16,17 +32,29 @@ class Register extends Component {
   handleClick() {
     const { dispatch } = this.props;
 
-    const email = this.emailRef;
-    const username = this.usernameRef;
-    const password = this.passwordRef;
+    const email = this.state.email;
+    const username = this.state.username;
+    const password = this.state.password;
 
     const newUserData = {
-      email: email.value.trim(),
-      username: username.value.trim(),
-      password: password.value.trim(),
+      email: email.trim(),
+      username: username.trim(),
+      password: password.trim(),
     };
 
     dispatch(registerUser(newUserData));
+  }
+
+  handleEmailChange(event) {
+    this.setState({ email: event.target.value });
+  }
+
+  handleUsernameChange(event) {
+    this.setState({ username: event.target.value });
+  }
+
+  handlePasswordChange(event) {
+    this.setState({ password: event.target.value });
   }
 
   render() {
@@ -38,13 +66,31 @@ class Register extends Component {
           <div>
             <h1 className="title">Register</h1>
             <div className="field">
-              <input className="input" type="email" ref={(el) => { this.emailRef = el; }} placeholder="Email" />
+              <input
+                className="input"
+                type="email"
+                onChange={this.handleEmailChange}
+                value={this.state.email}
+                placeholder="Email"
+              />
             </div>
             <div className="field">
-              <input className="input" type="text" ref={(el) => { this.usernameRef = el; }} placeholder="Username" />
+              <input
+                className="input"
+                type="text"
+                onChange={this.handleUsernameChange}
+                value={this.state.username}
+                placeholder="Username"
+              />
             </div>
             <div className="field">
-              <input className="input" type="password" ref={(el) => { this.passwordRef = el; }} placeholder="Password" />
+              <input
+                className="input"
+                type="password"
+                onChange={this.handlePasswordChange}
+                value={this.state.password}
+                placeholder="Password"
+              />
             </div>
             <div className="field">
               <button className="button is-success" onClick={() => this.handleClick()} >
