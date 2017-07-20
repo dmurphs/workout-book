@@ -1,6 +1,5 @@
 IMPORTANT STUFF
 make create forms for lift entry, run entry, and set entry not visible by default
-make responsive
 clean up console warning messages
 clean up linter issues that are ignored currently
 error handling

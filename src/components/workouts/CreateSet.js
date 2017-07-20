@@ -10,6 +10,7 @@ export default class CreateSet extends Component {
   constructor(props) {
     super(props);
     this.defaultState = {
+      showForm: false,
       numReps: '',
       weight: '',
     };
@@ -45,17 +46,28 @@ export default class CreateSet extends Component {
   }
 
   render() {
+    const showForm = this.state.showForm;
+
     return (
       <div>
-        <div className="field">
-          <input className="input" type="number" value={this.state.numReps} onChange={this.handleNumRepsChange} placeholder="number of reps" />
-        </div>
-        <div className="field">
-          <input className="input" type="number" value={this.state.weight} onChange={this.handleWeightChange} placeholder="weight" />
-        </div>
-        <div className="field">
-          <button className="button is-success" onClick={() => this.handleSetCreationClick()}>Create Set</button>
-        </div>
+        { showForm &&
+          <div>
+            <h2>Create New Set</h2>
+            <div className="field">
+              <input className="input" type="number" value={this.state.numReps} onChange={this.handleNumRepsChange} placeholder="number of reps" />
+            </div>
+            <div className="field">
+              <input className="input" type="number" value={this.state.weight} onChange={this.handleWeightChange} placeholder="weight" />
+            </div>
+            <div className="field">
+              <button className="button is-success" onClick={() => this.handleSetCreationClick()}>Create Set</button>
+              <button className="button is-warning" onClick={() => this.setState({ showForm: false })}>Cancel</button>
+            </div>
+          </div>
+        }
+        { !showForm &&
+          <button className="button is-info" onClick={() => this.setState({ showForm: true })}>Add Set</button>
+        }
       </div>
     );
   }

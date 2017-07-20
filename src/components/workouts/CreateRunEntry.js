@@ -10,6 +10,7 @@ export default class CreateLiftEntry extends Component {
   constructor(props) {
     super(props);
     this.defaultState = {
+      showForm: false,
       notes: '',
       distance: '',
       duration: '',
@@ -58,23 +59,34 @@ export default class CreateLiftEntry extends Component {
   }
 
   render() {
+    const showForm = this.state.showForm;
+
     return (
       <div>
-        <div className="field">
-          <input className="input" type="text" value={this.state.notes} onChange={this.handleNotesChange} placeholder="notes" />
-        </div>
-        <div className="field">
-          <input className="input" type="number" value={this.state.distance} onChange={this.handleDistanceChange} placeholder="distance" />
-        </div>
-        <div className="field">
-          <input className="input" type="time" value={this.state.duration} onChange={this.handleDurationChange} placeholder="duration" />
-        </div>
-        <div className="field">
-          <input className="input" type="number" value={this.state.elevationDelta} onChange={this.handleElevationDeltaChange} placeholder="elevation delta" />
-        </div>
-        <div className="field">
-          <button className="button is-success" onClick={() => this.handleRunEntryCreateClick()}>Create Run Entry</button>
-        </div>
+        { showForm &&
+          <div>
+            <h2>Create New Run Entry</h2>
+            <div className="field">
+              <input className="input" type="text" value={this.state.notes} onChange={this.handleNotesChange} placeholder="notes" />
+            </div>
+            <div className="field">
+              <input className="input" type="number" value={this.state.distance} onChange={this.handleDistanceChange} placeholder="distance" />
+            </div>
+            <div className="field">
+              <input className="input" type="time" value={this.state.duration} onChange={this.handleDurationChange} placeholder="duration" />
+            </div>
+            <div className="field">
+              <input className="input" type="number" value={this.state.elevationDelta} onChange={this.handleElevationDeltaChange} placeholder="elevation delta" />
+            </div>
+            <div className="field">
+              <button className="button is-success" onClick={() => this.handleRunEntryCreateClick()}>Create Run Entry</button>
+              <button className="button is-warning" onClick={() => this.setState({ showForm: false })}>Cancel</button>
+            </div>
+          </div>
+        }
+        { !showForm &&
+          <button className="button is-info" onClick={() => this.setState({ showForm: true })}>Add Run Entry</button>
+        }
       </div>
     );
   }

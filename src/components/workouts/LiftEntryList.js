@@ -52,7 +52,6 @@ class LiftEntryList extends Component {
                 onUpdate={() => this.updateComponent()}
               />
             ))}
-            <h2>Create New Lift Entry</h2>
             <CreateLiftEntry
               workoutID={workoutID}
               dispatch={dispatch}

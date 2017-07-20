@@ -9,6 +9,7 @@ class CreateLiftEntry extends Component {
   constructor(props) {
     super(props);
     this.defaultState = {
+      showForm: false,
       selectedLift: '',
       notes: '',
     };
@@ -34,6 +35,8 @@ class CreateLiftEntry extends Component {
       is_active: true,
     };
 
+    // this.setState({ showForm: false });
+
     dispatch(createLiftEntry(workoutID, liftEntryData)).then(
       () => {
         onWorkoutCreated();
@@ -50,30 +53,40 @@ class CreateLiftEntry extends Component {
 
   render() {
     const { lifts } = this.props;
+    const showForm = this.state.showForm;
 
     return (
       <div>
-        <div className="field">
-          <div className="select">
-            <select value={this.state.selectedLift} onChange={this.handleLiftChange} >
-              <option value="">Select a lift</option>
-              {lifts.map((lift) => {
-                const liftID = lift.id;
-                const liftName = lift.name;
+        { showForm &&
+        <div>
+          <h2>Create New Lift Entry</h2>
+          <div className="field">
+            <div className="select">
+              <select value={this.state.selectedLift} onChange={this.handleLiftChange} >
+                <option value="">Select a lift</option>
+                {lifts.map((lift) => {
+                  const liftID = lift.id;
+                  const liftName = lift.name;
 
-                return (
-                  <option key={liftID} value={liftID}>{liftName}</option>
-                );
-              })}
-            </select>
+                  return (
+                    <option key={liftID} value={liftID}>{liftName}</option>
+                  );
+                })}
+              </select>
+            </div>
+          </div>
+          <div className="field">
+            <input className="input" type="text" value={this.state.notes} onChange={this.handleNotesChange} placeholder="notes" />
+          </div>
+          <div className="field">
+            <button className="button is-success" onClick={() => this.handleLiftEntryCreateClick()}>Create Lift Entry</button>
+            <button className="button is-warning" onClick={() => this.setState({ showForm: false })}>Cancel</button>
           </div>
         </div>
-        <div className="field">
-          <input className="input" type="text" value={this.state.notes} onChange={this.handleNotesChange} placeholder="notes" />
-        </div>
-        <div className="field">
-          <button className="button is-success" onClick={() => this.handleLiftEntryCreateClick()}>Create Lift Entry</button>
-        </div>
+        }
+        { !showForm &&
+          <button className="button is-info" onClick={() => this.setState({ showForm: true })}>Add Lift Entry</button>
+        }
       </div>
     );
   }

@@ -52,7 +52,6 @@ class RunEntryList extends Component {
                 </li>
               ))}
             </ul>
-            <h2>Create New Run Entry</h2>
             <CreateRunEntry
               workoutID={workoutID}
               dispatch={dispatch}

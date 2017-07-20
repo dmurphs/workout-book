@@ -101,20 +101,22 @@ export default class RunEntry extends Component {
       <div className="card">
         { !this.state.updateView &&
           <div className="card-content">
+            <h1>Run Info</h1>
             <table className="table is-bordered is-striped">
-              <h1>Run Info</h1>
-              <tr>
-                <td>Distance</td>
-                <td>{distance} miles</td>
-              </tr>
-              <tr>
-                <td>Duration</td>
-                <td>{duration}</td>
-              </tr>
-              <tr>
-                <td>Elevation Delta</td>
-                <td>{elevationDelta} ft</td>
-              </tr>
+              <tbody>
+                <tr>
+                  <td>Distance</td>
+                  <td>{distance} miles</td>
+                </tr>
+                <tr>
+                  <td>Duration</td>
+                  <td>{duration}</td>
+                </tr>
+                <tr>
+                  <td>Elevation Delta</td>
+                  <td>{elevationDelta} ft</td>
+                </tr>
+              </tbody>
             </table>
             { (notes && notes !== '') &&
               <div>

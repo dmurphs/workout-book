@@ -53,7 +53,6 @@ class SetList extends Component {
               ))}
             </ul>
             <hr />
-            <h2>Create New Set</h2>
             <CreateSet
               liftEntryID={liftEntryID}
               dispatch={dispatch}
