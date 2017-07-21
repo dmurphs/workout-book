@@ -56,7 +56,6 @@ class SetList extends Component {
             <CreateSet
               liftEntryID={liftEntryID}
               dispatch={dispatch}
-              onSetCreated={() => this.updateComponent()}
             />
           </div>
         }

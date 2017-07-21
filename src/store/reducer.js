@@ -10,6 +10,7 @@ import {
   LIFT_ENTRY_LIST_REQUEST, LIFT_ENTRY_LIST_SUCCESS, LIFT_ENTRY_LIST_FAILURE,
   LIFT_LIST_REQUEST, LIFT_LIST_SUCCESS, LIFT_LIST_FAILURE,
   SET_LIST_REQUEST, SET_LIST_SUCCESS, SET_LIST_FAILURE,
+  CREATE_SET_REQUEST, CREATE_SET_SUCCESS, CREATE_SET_FAILURE,
   RUN_ENTRY_LIST_REQUEST, RUN_ENTRY_LIST_SUCCESS, RUN_ENTRY_LIST_FAILURE,
 } from './actions';
 
@@ -297,6 +298,38 @@ function sets(state = {
   }
 }
 
+function setCreation(state = {
+  isFetching: false,
+  isCreated: false,
+}, action) {
+  switch (action.type) {
+    case CREATE_SET_REQUEST:
+      return {
+        ...state,
+        isFetching: true,
+        isCreated: false,
+      };
+    case CREATE_SET_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        isCreated: true,
+      };
+    case CREATE_SET_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        isCreated: false,
+        errors: action.errors,
+      };
+    default:
+      return {
+        isFetching: false,
+        isCreated: false,
+      };
+  }
+}
+
 function runEntries(state = {
   isFetching: false,
   received: false,
@@ -347,6 +380,7 @@ export default combineReducers({
   liftEntries,
   liftList,
   sets,
+  setCreation,
   runEntries,
   routerReducer,
 });

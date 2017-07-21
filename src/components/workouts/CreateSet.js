@@ -1,11 +1,14 @@
 // CreateRunEntry.js
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { createSet } from '@/store/actions';
+import Errors from '@/components/global/Errors';
 
-export default class CreateSet extends Component {
+import { createSet, getSets } from '@/store/actions';
+
+class CreateSet extends Component {
 
   constructor(props) {
     super(props);
@@ -21,8 +24,16 @@ export default class CreateSet extends Component {
     this.handleWeightChange = this.handleWeightChange.bind(this);
   }
 
+  dispatchGetSetsIfCreated() {
+    const { dispatch, isCreated, liftEntryID } = this.props;
+
+    if (isCreated) {
+      dispatch(getSets(liftEntryID));
+    }
+  }
+
   handleSetCreationClick() {
-    const { dispatch, liftEntryID, onSetCreated } = this.props;
+    const { dispatch, liftEntryID } = this.props;
 
     const setData = {
       num_reps: this.state.numReps,
@@ -32,9 +43,12 @@ export default class CreateSet extends Component {
 
     dispatch(createSet(liftEntryID, setData)).then(
       () => {
-        onSetCreated();
-        // this.setState(this.defaultState);
+        this.dispatchGetSetsIfCreated();
       });
+  }
+
+  handleCancelCreationClick() {
+    this.setState({ showForm: false });
   }
 
   handleNumRepsChange(event) {
@@ -46,6 +60,7 @@ export default class CreateSet extends Component {
   }
 
   render() {
+    const { errors } = this.props;
     const showForm = this.state.showForm;
 
     return (
@@ -59,9 +74,12 @@ export default class CreateSet extends Component {
             <div className="field">
               <input className="input" type="number" value={this.state.weight} onChange={this.handleWeightChange} placeholder="weight" />
             </div>
+            { errors &&
+              <Errors errorList={errors} />
+            }
             <div className="field">
               <button className="button is-success" onClick={() => this.handleSetCreationClick()}>Create Set</button>
-              <button className="button is-warning" onClick={() => this.setState({ showForm: false })}>Cancel</button>
+              <button className="button is-warning" onClick={() => this.handleCancelCreationClick()}>Cancel</button>
             </div>
           </div>
         }
@@ -76,5 +94,18 @@ export default class CreateSet extends Component {
 CreateSet.propTypes = {
   dispatch: PropTypes.func.isRequired,
   liftEntryID: PropTypes.number.isRequired,
-  onSetCreated: PropTypes.func.isRequired,
+  isCreated: PropTypes.bool.isRequired,
+  errors: PropTypes.object, // eslint-disable-line
 };
+
+function mapStateToProps(state) {
+  const { setCreation } = state;
+  const { isCreated, errors } = setCreation;
+
+  return {
+    isCreated,
+    errors,
+  };
+}
+
+export default connect(mapStateToProps)(CreateSet);
