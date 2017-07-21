@@ -4,9 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import Errors from '@/components/global/Errors';
-
-import { createSet, getSets } from '@/store/actions';
+import { createSet, createSetReset, getSets } from '@/store/actions';
 
 class CreateSet extends Component {
 
@@ -48,6 +46,10 @@ class CreateSet extends Component {
   }
 
   handleCancelCreationClick() {
+    const { dispatch } = this.props;
+
+    dispatch(createSetReset());
+
     this.setState({ showForm: false });
   }
 
@@ -60,7 +62,7 @@ class CreateSet extends Component {
   }
 
   render() {
-    const { errors } = this.props;
+    const { weightErrors, numRepsErrors } = this.props;
     const showForm = this.state.showForm;
 
     return (
@@ -69,14 +71,37 @@ class CreateSet extends Component {
           <div>
             <h2>Create New Set</h2>
             <div className="field">
-              <input className="input" type="number" value={this.state.numReps} onChange={this.handleNumRepsChange} placeholder="number of reps" />
+              <input
+                className={numRepsErrors ? 'is-danger input' : 'input'}
+                type="number"
+                value={this.state.numReps}
+                onChange={this.handleNumRepsChange}
+                placeholder="number of reps"
+              />
+              { numRepsErrors &&
+                <ul className="help is-danger">
+                  {numRepsErrors.map(error => (
+                    <li key="error">{error}</li>
+                  ))}
+                </ul>
+              }
             </div>
             <div className="field">
-              <input className="input" type="number" value={this.state.weight} onChange={this.handleWeightChange} placeholder="weight" />
+              <input
+                className={weightErrors ? 'is-danger input' : 'input'}
+                type="number"
+                value={this.state.weight}
+                onChange={this.handleWeightChange}
+                placeholder="weight"
+              />
+              { weightErrors &&
+                <ul className="help is-danger">
+                  {weightErrors.map(error => (
+                    <li key="error">{error}</li>
+                  ))}
+                </ul>
+              }
             </div>
-            { errors &&
-              <Errors errorList={errors} />
-            }
             <div className="field">
               <button className="button is-success" onClick={() => this.handleSetCreationClick()}>Create Set</button>
               <button className="button is-warning" onClick={() => this.handleCancelCreationClick()}>Cancel</button>
@@ -95,16 +120,21 @@ CreateSet.propTypes = {
   dispatch: PropTypes.func.isRequired,
   liftEntryID: PropTypes.number.isRequired,
   isCreated: PropTypes.bool.isRequired,
-  errors: PropTypes.object, // eslint-disable-line
+  weightErrors: PropTypes.array, // eslint-disable-line
+  numRepsErrors: PropTypes.array, // eslint-disable-line
 };
 
 function mapStateToProps(state) {
   const { setCreation } = state;
   const { isCreated, errors } = setCreation;
 
+  const numRepsErrors = errors ? errors.num_reps : null;
+  const weightErrors = errors ? errors.weight : null;
+
   return {
     isCreated,
-    errors,
+    weightErrors,
+    numRepsErrors,
   };
 }
 

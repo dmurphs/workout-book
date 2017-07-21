@@ -10,10 +10,6 @@ import { getSets } from '@/store/actions';
 class SetList extends Component {
 
   componentWillMount() {
-    this.updateComponent();
-  }
-
-  updateComponent() {
     const { dispatch, liftEntryID } = this.props;
 
     dispatch(getSets(liftEntryID));
@@ -46,7 +42,7 @@ class SetList extends Component {
                     setID={set.id}
                     numReps={set.num_reps}
                     weight={set.weight}
-                    onUpdate={() => this.updateComponent()}
+                    liftEntryID={liftEntryID}
                     dispatch={dispatch}
                   />
                 </li>

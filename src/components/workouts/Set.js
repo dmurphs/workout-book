@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { updateSet } from '@/store/actions';
+import Errors from '@/components/global/Errors';
 
-export default class Set extends Component {
+import { updateSet, getSets } from '@/store/actions';
+
+class Set extends Component {
 
   constructor(props) {
     super(props);
@@ -58,15 +61,20 @@ export default class Set extends Component {
     this.setState({ updateView: true });
   }
 
+  dispatchGetSetsIfUpdated() {
+    const { isUpdated, dispatch, liftEntryID } = this.props;
+
+    if (isUpdated) {
+      dispatch(getSets(liftEntryID));
+    }
+  }
+
   dispatchUpdateSet(setData) {
-    const { setID, onUpdate, dispatch } = this.props;
+    const { setID, dispatch } = this.props;
 
     dispatch(updateSet(setID, setData)).then(
       () => {
-        onUpdate();
-      },
-      (error) => {
-        console.log(error); // eslint-disable-line
+        this.dispatchGetSetsIfUpdated();
       });
   }
 
@@ -79,7 +87,7 @@ export default class Set extends Component {
   }
 
   render() {
-    const { numReps, weight } = this.props;
+    const { numReps, weight, errors } = this.props;
 
     return (
       <div>
@@ -122,6 +130,9 @@ export default class Set extends Component {
                 />
               </div>
             </div>
+            { errors &&
+              <Errors errors={errors} />
+            }
             <div className="field">
               <button className="button is-success" onClick={() => this.onUpdateSetClick()}>Save Changes</button>
             </div>
@@ -139,6 +150,20 @@ Set.propTypes = {
   setID: PropTypes.number.isRequired,
   numReps: PropTypes.number.isRequired,
   weight: PropTypes.number.isRequired,
-  onUpdate: PropTypes.func.isRequired,
+  liftEntryID: PropTypes.number.isRequired,
   dispatch: PropTypes.func.isRequired,
+  isUpdated: PropTypes.bool.isRequired,
+  errors: PropTypes.object, // eslint-disable-line
 };
+
+function mapStateToProps(state) {
+  const { setUpdate } = state;
+  const { isUpdated, errors } = setUpdate;
+
+  return {
+    isUpdated,
+    errors,
+  };
+}
+
+export default connect(mapStateToProps)(Set);

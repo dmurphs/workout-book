@@ -26,7 +26,6 @@ export const WORKOUT_LIST_FAILURE = 'WORKOUT_LIST_FAILURE';
 export const CREATE_WORKOUT_REQUEST = 'CREATE_WORKOUT_REQUEST';
 export const CREATE_WORKOUT_SUCCESS = 'CREATE_WORKOUT_SUCCESS';
 export const CREATE_WORKOUT_FAILURE = 'CREATE_WORKOUT_FAILURE';
-// export const CREATE_WORKOUT_RESET = 'CREATE_WORKOUT_RESET';
 
 export const UPDATE_WORKOUT_REQUEST = 'UPDATE_WORKOUT_REQUEST';
 export const UPDATE_WORKOUT_SUCCESS = 'UPDATE_WORKOUT_SUCCESS';
@@ -59,6 +58,7 @@ export const SET_LIST_FAILURE = 'SET_LIST_FAILURE';
 export const CREATE_SET_REQUEST = 'CREATE_SET_REQUEST';
 export const CREATE_SET_SUCCESS = 'CREATE_SET_SUCCESS';
 export const CREATE_SET_FAILURE = 'CREATE_SET_FAILURE';
+export const CREATE_SET_RESET = 'CREATE_SET_RESET';
 
 export const UPDATE_SET_REQUEST = 'UPDATE_SET_REQUEST';
 export const UPDATE_SET_SUCCESS = 'UPDATE_SET_SUCCESS';
@@ -150,12 +150,6 @@ export function createWorkout(workoutData) {
   };
 }
 
-// export function createWorkoutReset() {
-//   return {
-//     type: CREATE_WORKOUT_RESET,
-//   };
-// }
-
 export function updateWorkout(workoutID, workoutData) {
   return {
     [CALL_API]: {
@@ -244,6 +238,12 @@ export function createSet(liftEntryID, setData) {
       requestMethod: 'POST',
       requestData: setData,
     },
+  };
+}
+
+export function createSetReset() {
+  return {
+    type: CREATE_SET_RESET,
   };
 }
 

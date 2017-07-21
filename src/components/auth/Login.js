@@ -71,7 +71,7 @@ class Login extends Component {
               </button>
             </div>
             { errors &&
-              <Errors errorList={errors} />
+              <Errors errors={errors} />
             }
           </div>
         }
