@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import Errors from '@/components/global/Errors';
 import { cleanLogin } from '@/store/actions';
 
 class Login extends Component {
@@ -77,13 +78,7 @@ class Login extends Component {
               </button>
             </div>
             { errors &&
-              <div className="notification is-danger">
-                <ul>
-                  {Object.keys(errors).map(errorKey => (
-                    <li key={errorKey}>{errorKey} - {errors[errorKey]}</li>
-                  ))}
-                </ul>
-              </div>
+              <Errors errorList={errors} />
             }
           </div>
         }
