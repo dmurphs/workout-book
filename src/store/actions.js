@@ -10,12 +10,10 @@ import { CALL_API } from '@/middleware/api';
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
-export const CLEAN_LOGIN = 'CLEAN_LOGIN';
 
 export const REGISTER_REQUEST = 'REGISTER_REQUEST';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const REGISTER_FAILURE = 'REGISTER_FAILURE';
-export const REGISTER_RESET = 'REGISTER_RESET';
 
 export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
@@ -99,12 +97,6 @@ function loginError(errors) {
   };
 }
 
-export function cleanLogin() {
-  return {
-    type: CLEAN_LOGIN,
-  };
-}
-
 function requestRegister() {
   return {
     type: REGISTER_REQUEST,
@@ -121,12 +113,6 @@ function registerError(errors) {
   return {
     type: REGISTER_FAILURE,
     errors,
-  };
-}
-
-export function registerReset() {
-  return {
-    type: REGISTER_RESET,
   };
 }
 

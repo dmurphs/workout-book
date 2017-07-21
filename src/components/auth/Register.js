@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import Errors from '@/components/global/Errors';
 
-import { registerUser, registerReset } from '@/store/actions';
+import { registerUser } from '@/store/actions';
 
 class Register extends Component {
 
@@ -23,12 +23,6 @@ class Register extends Component {
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
-  }
-
-  componentWillUnmount() {
-    const { dispatch } = this.props;
-
-    dispatch(registerReset());
   }
 
   handleClick() {

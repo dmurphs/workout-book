@@ -29,7 +29,7 @@ class App extends Component{
     const { store, isAuthenticated } = this.props;
 
     const LoginWrapper = () => (
-      <Login onLoginClick={creds => store.dispatch(loginUser(creds))} dispatch={store.dispatch} isAuthenticated={isAuthenticated} />
+      <Login onLoginClick={creds => store.dispatch(loginUser(creds))} isAuthenticated={isAuthenticated} />
     );
 
     const RegisterWrapper = () => (

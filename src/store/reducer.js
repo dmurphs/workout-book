@@ -2,8 +2,8 @@ import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 
 import {
-  LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, CLEAN_LOGIN, LOGOUT_SUCCESS,
-  REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE, REGISTER_RESET,
+  LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_SUCCESS,
+  REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE,
   // CREATE_WORKOUT_REQUEST, CREATE_WORKOUT_SUCCESS, CREATE_WORKOUT_FAILURE, CREATE_WORKOUT_RESET,
   WORKOUT_LIST_REQUEST, WORKOUT_LIST_SUCCESS, WORKOUT_LIST_FAILURE,
   WORKOUT_DETAIL_REQUEST, WORKOUT_DETAIL_SUCCESS, WORKOUT_DETAIL_FAILURE,
@@ -43,18 +43,16 @@ function auth(state = {
         isAuthenticated: false,
         errors: action.errors,
       };
-    case CLEAN_LOGIN:
-      return {
-        ...state,
-        errors: null,
-      };
     case LOGOUT_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
         isAuthenticated: false,
       });
     default:
-      return state;
+      return {
+        ...state,
+        errors: null,
+      };
   }
 }
 
@@ -82,13 +80,11 @@ function registration(state = {
         isRegistered: false,
         errors: action.errors,
       };
-    case REGISTER_RESET:
+    default:
       return {
         isFetching: false,
         isRegistered: false,
       };
-    default:
-      return state;
   }
 }
 

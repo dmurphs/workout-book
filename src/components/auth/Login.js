@@ -4,7 +4,6 @@ import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import Errors from '@/components/global/Errors';
-import { cleanLogin } from '@/store/actions';
 
 class Login extends Component {
 
@@ -20,12 +19,6 @@ class Login extends Component {
 
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
-  }
-
-  componentWillUnmount() {
-    const { dispatch } = this.props;
-
-    dispatch(cleanLogin());
   }
 
   handleClick() {
@@ -94,7 +87,7 @@ Login.propTypes = {
   onLoginClick: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   errors: PropTypes.object, // eslint-disable-line
-  dispatch: PropTypes.func.isRequired,
+  // dispatch: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
