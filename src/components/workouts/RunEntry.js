@@ -109,7 +109,17 @@ class RunEntry extends Component {
   }
 
   render() {
-    const { notes, distance, duration, elevationDelta, errors } = this.props;
+    const {
+      notes,
+      distance,
+      duration,
+      elevationDelta,
+      notesErrors,
+      distanceErrors,
+      durationErrors,
+      elevationDeltaErrors,
+      nonFieldErrors,
+    } = this.props;
 
     return (
       <div className="card">
@@ -146,16 +156,35 @@ class RunEntry extends Component {
         { this.state.updateView &&
           <div className="card-content">
             <div className="field">
+              <label htmlFor="editNotes" className="label">Notes</label>
+              <div className="control">
+                <input
+                  id="editNotes"
+                  className={notesErrors ? 'input is-danger' : 'input'}
+                  type="text"
+                  value={this.state.notes}
+                  onChange={this.handleNotesChange}
+                  placeholder="notes"
+                />
+                {notesErrors &&
+                  <Errors errors={notesErrors} />
+                }
+              </div>
+            </div>
+            <div className="field">
               <label htmlFor="editDistance" className="label">Distance</label>
               <div className="control">
                 <input
                   id="editDistance"
-                  className="input"
+                  className={distanceErrors ? 'input is-danger' : 'input'}
                   type="number"
                   value={this.state.distance}
                   onChange={this.handleDistanceChange}
                   placeholder="distance"
                 />
+                {distanceErrors &&
+                  <Errors errors={distanceErrors} />
+                }
               </div>
             </div>
             <div className="field">
@@ -163,12 +192,15 @@ class RunEntry extends Component {
               <div className="control">
                 <input
                   id="editDuration"
-                  className="input"
+                  className={durationErrors ? 'input is-danger' : 'input'}
                   type="text"
                   value={this.state.duration}
                   onChange={this.handleDurationChange}
                   placeholder="duration"
                 />
+                {durationErrors &&
+                  <Errors errors={durationErrors} />
+                }
               </div>
             </div>
             <div className="field">
@@ -176,29 +208,19 @@ class RunEntry extends Component {
               <div className="control">
                 <input
                   id="editElevationDelta"
-                  className="input"
+                  className={elevationDeltaErrors ? 'input is-danger' : 'input'}
                   type="number"
                   value={this.state.elevationDelta}
                   onChange={this.handleElevationDeltaChange}
                   placeholder="elevation delta"
                 />
+                {elevationDeltaErrors &&
+                  <Errors errors={elevationDeltaErrors} />
+                }
               </div>
             </div>
-            <div className="field">
-              <label htmlFor="editNotes" className="label">Notes</label>
-              <div className="control">
-                <input
-                  id="editNotes"
-                  className="input"
-                  type="text"
-                  value={this.state.notes}
-                  onChange={this.handleNotesChange}
-                  placeholder="notes"
-                />
-              </div>
-            </div>
-            {errors &&
-              <Errors errors={errors} />
+            {nonFieldErrors &&
+              <Errors errors={nonFieldErrors} />
             }
             <button className="button is-success" onClick={() => this.onUpdateRunEntryClick()}>Save Changes</button>
             <button className="button is-warning" onClick={() => this.onCancelUpdateClick()}>Cancel</button>
@@ -218,7 +240,11 @@ RunEntry.propTypes = {
   elevationDelta: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
   isUpdated: PropTypes.bool.isRequired, // eslint-disable-line
-  errors: PropTypes.object, // eslint-disable-line
+  notesErrors: PropTypes.array, // eslint-disable-line
+  distanceErrors: PropTypes.array, // eslint-disable-line
+  durationErrors: PropTypes.array, // eslint-disable-line
+  elevationDeltaErrors: PropTypes.array, // eslint-disable-line
+  nonFieldErrors: PropTypes.array, // eslint-disable-line
 };
 
 function mapStateToProps(state) {
@@ -226,9 +252,19 @@ function mapStateToProps(state) {
 
   const { isUpdated, errors } = runEntryUpdate;
 
+  const notesErrors = errors ? errors.notes : null;
+  const distanceErrors = errors ? errors.distance : null;
+  const durationErrors = errors ? errors.duration : null;
+  const elevationDeltaErrors = errors ? errors.elevation_delta : null;
+  const nonFieldErrors = errors ? errors.non_field_errors : null;
+
   return {
     isUpdated,
-    errors,
+    notesErrors,
+    distanceErrors,
+    durationErrors,
+    elevationDeltaErrors,
+    nonFieldErrors,
   };
 }
 

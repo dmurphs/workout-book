@@ -7,13 +7,11 @@ export default class Errors extends Component {
     const { errors } = this.props;
 
     return (
-      <div className="notification is-danger">
-        <ul>
-          {Object.keys(errors).map(errorKey => (
-            <li key={errorKey}>{errorKey} - {errors[errorKey]}</li>
-          ))}
-        </ul>
-      </div>
+      <ul className="help is-danger">
+        {(errors).map(error => (
+          <li key={error}>{error}</li>
+        ))}
+      </ul>
     );
   }
 }

@@ -64,7 +64,7 @@ class CreateSet extends Component {
   }
 
   render() {
-    const { errors } = this.props;
+    const { numRepsErrors, weightErrors, nonFieldErrors } = this.props;
     const showForm = this.state.showForm;
 
     return (
@@ -74,24 +74,30 @@ class CreateSet extends Component {
             <h2>Create New Set</h2>
             <div className="field">
               <input
-                className="input"
+                className={numRepsErrors ? 'input is-danger' : 'input'}
                 type="number"
                 value={this.state.numReps}
                 onChange={this.handleNumRepsChange}
                 placeholder="number of reps"
               />
+              {numRepsErrors &&
+                <Errors errors={numRepsErrors} />
+              }
             </div>
             <div className="field">
               <input
-                className="input"
+                className={weightErrors ? 'input is-danger' : 'input'}
                 type="number"
                 value={this.state.weight}
                 onChange={this.handleWeightChange}
                 placeholder="weight"
               />
+              {weightErrors &&
+                <Errors errors={weightErrors} />
+              }
             </div>
-            {errors &&
-              <Errors errors={errors} />
+            {nonFieldErrors &&
+              <Errors errors={nonFieldErrors} />
             }
             <div className="field">
               <button className="button is-success" onClick={() => this.handleSetCreationClick()}>Create Set</button>
@@ -111,16 +117,24 @@ CreateSet.propTypes = {
   dispatch: PropTypes.func.isRequired,
   liftEntryID: PropTypes.number.isRequired,
   isCreated: PropTypes.bool.isRequired,
-  errors: PropTypes.object, // eslint-disable-line
+  numRepsErrors: PropTypes.array, // eslint-disable-line
+  weightErrors: PropTypes.array, // eslint-disable-line
+  nonFieldErrors: PropTypes.array // eslint-disable-line
 };
 
 function mapStateToProps(state) {
   const { setCreation } = state;
   const { isCreated, errors } = setCreation;
 
+  const numRepsErrors = errors ? errors.num_reps : null;
+  const weightErrors = errors ? errors.weight : null;
+  const nonFieldErrors = errors ? errors.non_field_errors : null;
+
   return {
     isCreated,
-    errors,
+    numRepsErrors,
+    weightErrors,
+    nonFieldErrors,
   };
 }
 

@@ -54,7 +54,15 @@ class Register extends Component {
   }
 
   render() {
-    const { isAuthenticated, isRegistered, isFetching, errors } = this.props;
+    const {
+      isAuthenticated,
+      isRegistered,
+      isFetching,
+      emailErrors,
+      usernameErrors,
+      passwordErrors,
+      nonFieldErrors,
+    } = this.props;
 
     return (
       <div className="column is-half is-offset-one-quarter">
@@ -63,38 +71,47 @@ class Register extends Component {
             <h1 className="title">Register</h1>
             <div className="field">
               <input
-                className="input"
+                className={emailErrors ? 'input is-danger' : 'input'}
                 type="email"
                 onChange={this.handleEmailChange}
                 value={this.state.email}
                 placeholder="Email"
               />
+              {emailErrors &&
+                <Errors errors={emailErrors} />
+              }
             </div>
             <div className="field">
               <input
-                className="input"
+                className={usernameErrors ? 'input is-danger' : 'input'}
                 type="text"
                 onChange={this.handleUsernameChange}
                 value={this.state.username}
                 placeholder="Username"
               />
+              {usernameErrors &&
+                <Errors errors={usernameErrors} />
+              }
             </div>
             <div className="field">
               <input
-                className="input"
+                className={passwordErrors ? 'input is-danger' : 'input'}
                 type="password"
                 onChange={this.handlePasswordChange}
                 value={this.state.password}
                 placeholder="Password"
               />
+              {passwordErrors &&
+                <Errors errors={passwordErrors} />
+              }
             </div>
             <div className="field">
               <button className="button is-success" onClick={() => this.handleClick()} >
                 Register
               </button>
             </div>
-            { errors &&
-              <Errors errors={errors} />
+            { nonFieldErrors &&
+              <Errors errors={nonFieldErrors} />
             }
           </div>
         }
@@ -112,9 +129,12 @@ class Register extends Component {
 Register.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
-  errors: PropTypes.object, // eslint-disable-line
   isFetching: PropTypes.bool.isRequired,
   isRegistered: PropTypes.bool.isRequired,
+  emailErrors: PropTypes.object, // eslint-disable-line
+  usernameErrors: PropTypes.array, // eslint-disable-line
+  passwordErrors: PropTypes.object, // eslint-disable-line
+  nonFieldErrors: PropTypes.object, // eslint-disable-line
 };
 
 function mapStateToProps(state) {
@@ -123,11 +143,19 @@ function mapStateToProps(state) {
   const isAuthenticated = auth.isAuthenticated;
   const { isFetching, isRegistered, errors } = registration;
 
+  const emailErrors = errors ? errors.email : null;
+  const usernameErrors = errors ? errors.username : null;
+  const passwordErrors = errors ? errors.password : null;
+  const nonFieldErrors = errors ? errors.non_field_errors : null;
+
   return {
     isAuthenticated,
     isFetching,
     isRegistered,
-    errors,
+    emailErrors,
+    usernameErrors,
+    passwordErrors,
+    nonFieldErrors,
   };
 }
 

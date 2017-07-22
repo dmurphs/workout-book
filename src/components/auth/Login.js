@@ -40,7 +40,7 @@ class Login extends Component {
   }
 
   render() {
-    const { isAuthenticated, errors } = this.props;
+    const { isAuthenticated, usernameErrors, passwordErrors, nonFieldErrors } = this.props;
 
     return (
       <div className="column is-half is-offset-one-quarter">
@@ -49,29 +49,35 @@ class Login extends Component {
             <h1 className="title">Login</h1>
             <div className="field">
               <input
-                className="input"
+                className={usernameErrors ? 'input is-danger' : 'input'}
                 type="text"
                 onChange={this.handleUsernameChange}
                 value={this.state.username}
                 placeholder="Username"
               />
+              {usernameErrors &&
+                <Errors errors={usernameErrors} />
+              }
             </div>
             <div className="field">
               <input
-                className="input"
+                className={passwordErrors ? 'input is-danger' : 'input'}
                 type="password"
                 onChange={this.handlePasswordChange}
                 value={this.state.password}
                 placeholder="Password"
               />
+              {passwordErrors &&
+                <Errors errors={passwordErrors} />
+              }
             </div>
             <div className="field">
               <button className="button is-success" onClick={() => this.handleClick()} >
                 Login
               </button>
             </div>
-            { errors &&
-              <Errors errors={errors} />
+            { nonFieldErrors &&
+              <Errors errors={nonFieldErrors} />
             }
           </div>
         }
@@ -86,7 +92,9 @@ class Login extends Component {
 Login.propTypes = {
   onLoginClick: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
-  errors: PropTypes.object, // eslint-disable-line
+  usernameErrors: PropTypes.array, // eslint-disable-line
+  passwordErrors: PropTypes.array, // eslint-disable-line
+  nonFieldErrors: PropTypes.array, // eslint-disable-line
   // dispatch: PropTypes.func.isRequired,
 };
 
@@ -95,9 +103,15 @@ function mapStateToProps(state) {
 
   const { isAuthenticated, errors } = auth;
 
+  const usernameErrors = errors ? errors.username : null;
+  const passwordErrors = errors ? errors.password : null;
+  const nonFieldErrors = errors ? errors.non_field_errors : null;
+
   return {
     isAuthenticated,
-    errors,
+    usernameErrors,
+    passwordErrors,
+    nonFieldErrors,
   };
 }
 

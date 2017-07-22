@@ -98,7 +98,16 @@ class LiftEntry extends Component {
   }
 
   render() {
-    const { dispatch, liftEntryID, liftID, notes, lifts, errors } = this.props;
+    const {
+      dispatch,
+      liftEntryID,
+      liftID,
+      notes,
+      lifts,
+      liftErrors,
+      notesErrors,
+      nonFieldErrors,
+    } = this.props;
 
     const matchingLiftRecord = lifts.filter(lift => lift.id === liftID)[0];
     let liftDisplay;
@@ -133,7 +142,7 @@ class LiftEntry extends Component {
               <div className="field">
                 <label className="label" htmlFor="liftEdit">Lift</label>
                 <div className="control">
-                  <div className="select">
+                  <div className={liftErrors ? 'select is-danger' : 'select'}>
                     <select id="liftEdit" value={this.state.liftID} onChange={this.handleLiftChange} >
                       <option value="">Select a lift</option>
                       {lifts.map((lift) => {
@@ -146,6 +155,9 @@ class LiftEntry extends Component {
                       })}
                     </select>
                   </div>
+                  {liftErrors &&
+                    <Errors errors={liftErrors} />
+                  }
                 </div>
               </div>
               <div className="field">
@@ -153,16 +165,19 @@ class LiftEntry extends Component {
                 <div className="control">
                   <input
                     id="notesEdit"
-                    className="input"
+                    className={notesErrors ? 'input is-danger' : 'input'}
                     type="text"
                     value={this.state.notes}
                     onChange={this.handleNotesChange}
                     placeholder="notes"
                   />
                 </div>
+                {notesErrors &&
+                  <Errors errors={notesErrors} />
+                }
               </div>
-              {errors &&
-                <Errors errors={errors} />
+              {nonFieldErrors &&
+                <Errors errors={nonFieldErrors} />
               }
               <div className="field">
                 <button className="button is-success" onClick={() => this.onUpdateLiftEntryClick()}>Save Changes</button>
@@ -188,7 +203,9 @@ LiftEntry.propTypes = {
   lifts: PropTypes.array.isRequired, // eslint-disable-line
   workoutID: PropTypes.number.isRequired,
   isUpdated: PropTypes.bool.isRequired,
-  errors: PropTypes.object, // eslint-disable-line
+  liftErrors: PropTypes.array, // eslint-disable-line
+  notesErrors: PropTypes.array, // eslint-disable-line
+  nonFieldErrors: PropTypes.array, // eslint-disable-line
 };
 
 function mapStateToProps(state) {
@@ -197,10 +214,16 @@ function mapStateToProps(state) {
 
   const { isUpdated, errors } = liftEntryUpdate;
 
+  const liftErrors = errors ? errors.lift : null;
+  const notesErrors = errors ? errors.notes : null;
+  const nonFieldErrors = errors ? errors.non_field_errors : null;
+
   return {
     lifts,
     isUpdated,
-    errors,
+    liftErrors,
+    notesErrors,
+    nonFieldErrors,
   };
 }
 

@@ -94,7 +94,7 @@ class Set extends Component {
   }
 
   render() {
-    const { numReps, weight, errors } = this.props;
+    const { numReps, weight, numRepsErrors, weightErrors, nonFieldErrors } = this.props;
 
     return (
       <div>
@@ -116,12 +116,15 @@ class Set extends Component {
               <div className="control">
                 <input
                   id="editNumReps"
-                  className="input"
+                  className={numRepsErrors ? 'input is-danger' : 'input'}
                   type="number"
                   value={this.state.numReps}
                   onChange={this.handleNumRepsChange}
                   placeholder="number of reps"
                 />
+                { numRepsErrors &&
+                  <Errors errors={numRepsErrors} />
+                }
               </div>
             </div>
             <div className="field">
@@ -129,16 +132,19 @@ class Set extends Component {
               <div className="control">
                 <input
                   id="editWeight"
-                  className="input"
+                  className={weightErrors ? 'input is-danger' : 'input'}
                   type="number"
                   value={this.state.weight}
                   onChange={this.handleWeightChange}
                   placeholder="weight"
                 />
+                { weightErrors &&
+                  <Errors errors={weightErrors} />
+                }
               </div>
             </div>
-            { errors &&
-              <Errors errors={errors} />
+            { nonFieldErrors &&
+              <Errors errors={nonFieldErrors} />
             }
             <div className="field">
               <button className="button is-success" onClick={() => this.onUpdateSetClick()}>Save Changes</button>
@@ -160,16 +166,24 @@ Set.propTypes = {
   liftEntryID: PropTypes.number.isRequired,
   dispatch: PropTypes.func.isRequired,
   isUpdated: PropTypes.bool.isRequired,
-  errors: PropTypes.object, // eslint-disable-line
+  numRepsErrors: PropTypes.array, // eslint-disable-line
+  weightErrors: PropTypes.array, // eslint-disable-line
+  nonFieldErrors: PropTypes.array // eslint-disable-line
 };
 
 function mapStateToProps(state) {
   const { setUpdate } = state;
   const { isUpdated, errors } = setUpdate;
 
+  const numRepsErrors = errors ? errors.num_reps : null;
+  const weightErrors = errors ? errors.weight : null;
+  const nonFieldErrors = errors ? errors.non_field_errors : null;
+
   return {
     isUpdated,
-    errors,
+    numRepsErrors,
+    weightErrors,
+    nonFieldErrors,
   };
 }
 

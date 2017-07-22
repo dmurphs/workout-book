@@ -70,7 +70,7 @@ class CreateLiftEntry extends Component {
   }
 
   render() {
-    const { lifts, errors } = this.props;
+    const { lifts, liftErrors, notesErrors, nonFieldErrors } = this.props;
     const { showForm } = this.state;
 
     return (
@@ -79,7 +79,7 @@ class CreateLiftEntry extends Component {
         <div>
           <h2>Create New Lift Entry</h2>
           <div className="field">
-            <div className="select">
+            <div className={liftErrors ? 'select is-danger' : 'select'}>
               <select value={this.state.selectedLift} onChange={this.handleLiftChange} >
                 <option value="">Select a lift</option>
                 {lifts.map((lift) => {
@@ -92,12 +92,18 @@ class CreateLiftEntry extends Component {
                 })}
               </select>
             </div>
+            {liftErrors &&
+              <Errors errors={liftErrors} />
+            }
           </div>
           <div className="field">
-            <input className="input" type="text" value={this.state.notes} onChange={this.handleNotesChange} placeholder="notes" />
+            <input className={notesErrors ? 'input is-danger' : 'input'} type="text" value={this.state.notes} onChange={this.handleNotesChange} placeholder="notes" />
+            {notesErrors &&
+              <Errors errors={notesErrors} />
+            }
           </div>
-          {errors &&
-            <Errors errors={errors} />
+          {nonFieldErrors &&
+            <Errors errors={nonFieldErrors} />
           }
           <div className="field">
             <button className="button is-success" onClick={() => this.handleLiftEntryCreateClick()}>Create Lift Entry</button>
@@ -118,7 +124,9 @@ CreateLiftEntry.propTypes = {
   workoutID: PropTypes.number.isRequired,
   lifts: PropTypes.array, // eslint-disable-line
   isCreated: PropTypes.bool.isRequired,
-  errors: PropTypes.object, // eslint-disable-line
+  liftErrors: PropTypes.array, // eslint-disable-line
+  notesErrors: PropTypes.array, // eslint-disable-line
+  nonFieldErrors: PropTypes.array, // eslint-disable-line
 };
 
 function mapStateToProps(state) {
@@ -127,10 +135,16 @@ function mapStateToProps(state) {
 
   const { isCreated, errors } = liftEntryCreation;
 
+  const liftErrors = errors ? errors.lift : null;
+  const notesErrors = errors ? errors.notes : null;
+  const nonFieldErrors = errors ? errors.non_field_errors : null;
+
   return {
     lifts,
     isCreated,
-    errors,
+    liftErrors,
+    notesErrors,
+    nonFieldErrors,
   };
 }
 
