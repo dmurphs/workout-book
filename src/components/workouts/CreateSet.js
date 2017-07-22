@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import Errors from '@/components/global/Errors';
+
 import { createSet, createSetReset, getSets } from '@/store/actions';
 
 class CreateSet extends Component {
@@ -62,7 +64,7 @@ class CreateSet extends Component {
   }
 
   render() {
-    const { weightErrors, numRepsErrors } = this.props;
+    const { errors } = this.props;
     const showForm = this.state.showForm;
 
     return (
@@ -72,36 +74,25 @@ class CreateSet extends Component {
             <h2>Create New Set</h2>
             <div className="field">
               <input
-                className={numRepsErrors ? 'is-danger input' : 'input'}
+                className="input"
                 type="number"
                 value={this.state.numReps}
                 onChange={this.handleNumRepsChange}
                 placeholder="number of reps"
               />
-              { numRepsErrors &&
-                <ul className="help is-danger">
-                  {numRepsErrors.map(error => (
-                    <li key="error">{error}</li>
-                  ))}
-                </ul>
-              }
             </div>
             <div className="field">
               <input
-                className={weightErrors ? 'is-danger input' : 'input'}
+                className="input"
                 type="number"
                 value={this.state.weight}
                 onChange={this.handleWeightChange}
                 placeholder="weight"
               />
-              { weightErrors &&
-                <ul className="help is-danger">
-                  {weightErrors.map(error => (
-                    <li key="error">{error}</li>
-                  ))}
-                </ul>
-              }
             </div>
+            {errors &&
+              <Errors errors={errors} />
+            }
             <div className="field">
               <button className="button is-success" onClick={() => this.handleSetCreationClick()}>Create Set</button>
               <button className="button is-warning" onClick={() => this.handleCancelCreationClick()}>Cancel</button>
@@ -120,21 +111,16 @@ CreateSet.propTypes = {
   dispatch: PropTypes.func.isRequired,
   liftEntryID: PropTypes.number.isRequired,
   isCreated: PropTypes.bool.isRequired,
-  weightErrors: PropTypes.array, // eslint-disable-line
-  numRepsErrors: PropTypes.array, // eslint-disable-line
+  errors: PropTypes.object, // eslint-disable-line
 };
 
 function mapStateToProps(state) {
   const { setCreation } = state;
   const { isCreated, errors } = setCreation;
 
-  const numRepsErrors = errors ? errors.num_reps : null;
-  const weightErrors = errors ? errors.weight : null;
-
   return {
     isCreated,
-    weightErrors,
-    numRepsErrors,
+    errors,
   };
 }
 
