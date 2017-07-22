@@ -1,10 +1,9 @@
 IMPORTANT STUFF
+add ability to create and edit lifts
 split up actions and reducers
-change default reducer values instead of having reset functionality
 clean up console warning messages
 clean up linter issues that are ignored currently
 error handling
-client side validation
 let user select date range for workouts on dashboard (default is past week)
 
 LOW PRIORITY STUFF
