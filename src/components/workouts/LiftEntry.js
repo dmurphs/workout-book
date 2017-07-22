@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import SetList from '@/components/workouts/SetList';
+import Errors from '@/components/global/Errors';
 
-import { updateLiftEntry, getLifts } from '@/store/actions';
+import { updateLiftEntry, updateLiftEntryReset, getLifts, getLiftEntries } from '@/store/actions';
 
 class LiftEntry extends Component {
 
@@ -14,11 +15,13 @@ class LiftEntry extends Component {
     const liftID = props.liftID;
     const notes = props.notes;
 
-    this.state = {
+    this.defaultState = {
       updateView: false,
       liftID,
       notes,
     };
+
+    this.state = this.defaultState;
 
     this.handleLiftChange = this.handleLiftChange.bind(this);
     this.handleNotesChange = this.handleNotesChange.bind(this);
@@ -47,7 +50,11 @@ class LiftEntry extends Component {
   }
 
   onCancelUpdateClick() {
-    this.setState({ updateView: false });
+    const { dispatch } = this.props;
+
+    dispatch(updateLiftEntryReset());
+
+    this.setState(this.defaultState);
   }
 
   setUpdateView() {
@@ -65,15 +72,20 @@ class LiftEntry extends Component {
     };
   }
 
+  dispatchGetLiftEntriesIfUpdated() {
+    const { dispatch, workoutID, isUpdated } = this.props;
+
+    if (isUpdated) {
+      dispatch(getLiftEntries(workoutID));
+    }
+  }
+
   dispatchUpdateLiftEntry(liftEntryData) {
-    const { liftEntryID, onUpdate, dispatch } = this.props;
+    const { liftEntryID, dispatch } = this.props;
 
     dispatch(updateLiftEntry(liftEntryID, liftEntryData)).then(
       () => {
-        onUpdate();
-      },
-      (error) => {
-        console.log(error); // eslint-disable-line
+        this.dispatchGetLiftEntriesIfUpdated();
       });
   }
 
@@ -86,7 +98,7 @@ class LiftEntry extends Component {
   }
 
   render() {
-    const { dispatch, liftEntryID, liftID, notes, lifts } = this.props;
+    const { dispatch, liftEntryID, liftID, notes, lifts, errors } = this.props;
 
     const matchingLiftRecord = lifts.filter(lift => lift.id === liftID)[0];
     let liftDisplay;
@@ -149,6 +161,9 @@ class LiftEntry extends Component {
                   />
                 </div>
               </div>
+              {errors &&
+                <Errors errors={errors} />
+              }
               <div className="field">
                 <button className="button is-success" onClick={() => this.onUpdateLiftEntryClick()}>Save Changes</button>
               </div>
@@ -171,15 +186,21 @@ LiftEntry.propTypes = {
   liftID: PropTypes.number.isRequired,
   notes: PropTypes.string.isRequired,
   lifts: PropTypes.array.isRequired, // eslint-disable-line
-  onUpdate: PropTypes.func.isRequired,
+  workoutID: PropTypes.number.isRequired,
+  isUpdated: PropTypes.bool.isRequired,
+  errors: PropTypes.object, // eslint-disable-line
 };
 
 function mapStateToProps(state) {
-  const { liftList } = state;
+  const { liftEntryUpdate, liftList } = state;
   const lifts = liftList.data;
+
+  const { isUpdated, errors } = liftEntryUpdate;
 
   return {
     lifts,
+    isUpdated,
+    errors,
   };
 }
 

@@ -46,10 +46,12 @@ export const LIFT_LIST_FAILURE = 'LIFT_LIST_FAILURE';
 export const CREATE_LIFT_ENTRY_REQUEST = 'CREATE_LIFT_ENTRY_REQUEST';
 export const CREATE_LIFT_ENTRY_SUCCESS = 'CREATE_LIFT_ENTRY_SUCCESS';
 export const CREATE_LIFT_ENTRY_FAILURE = 'CREATE_LIFT_ENTRY_FAILURE';
+export const CREATE_LIFT_ENTRY_RESET = 'CREATE_LIFT_ENTRY_RESET';
 
 export const UPDATE_LIFT_ENTRY_REQUEST = 'UPDATE_LIFT_ENTRY_REQUEST';
 export const UPDATE_LIFT_ENTRY_SUCCESS = 'UPDATE_LIFT_ENTRY_SUCCESS';
 export const UPDATE_LIFT_ENTRY_FAILURE = 'UPDATE_LIFT_ENTRY_FAILURE';
+export const UPDATE_LIFT_ENTRY_RESET = 'UPDATE_LIFT_ENTRY_RESET';
 
 export const SET_LIST_REQUEST = 'SET_LIST_REQUEST';
 export const SET_LIST_SUCCESS = 'SET_LIST_SUCCESS';
@@ -63,6 +65,7 @@ export const CREATE_SET_RESET = 'CREATE_SET_RESET';
 export const UPDATE_SET_REQUEST = 'UPDATE_SET_REQUEST';
 export const UPDATE_SET_SUCCESS = 'UPDATE_SET_SUCCESS';
 export const UPDATE_SET_FAILURE = 'UPDATE_SET_FAILURE';
+export const UPDATE_SET_RESET = 'UPDATE_SET_RESET';
 
 export const RUN_ENTRY_LIST_REQUEST = 'RUN_ENTRY_LIST_REQUEST';
 export const RUN_ENTRY_LIST_SUCCESS = 'RUN_ENTRY_LIST_SUCCESS';
@@ -71,10 +74,12 @@ export const RUN_ENTRY_LIST_FAILURE = 'RUN_ENTRY_LIST_FAILURE';
 export const CREATE_RUN_ENTRY_REQUEST = 'CREATE_RUN_ENTRY_REQUEST';
 export const CREATE_RUN_ENTRY_SUCCESS = 'CREATE_RUN_ENTRY_SUCCESS';
 export const CREATE_RUN_ENTRY_FAILURE = 'CREATE_RUN_ENTRY_FAILURE';
+export const CREATE_RUN_ENTRY_RESET = 'CREATE_RUN_ENTRY_RESET';
 
 export const UPDATE_RUN_ENTRY_REQUEST = 'UPDATE_RUN_ENTRY_REQUEST';
 export const UPDATE_RUN_ENTRY_SUCCESS = 'UPDATE_RUN_ENTRY_SUCCESS';
 export const UPDATE_RUN_ENTRY_FAILURE = 'UPDATE_RUN_ENTRY_FAILURE';
+export const UPDATE_RUN_ENTRY_RESET = 'UPDATE_RUN_ENTRY_RESET';
 
 function requestLogin(creds) {
   return {
@@ -207,6 +212,12 @@ export function createLiftEntry(workoutID, liftEntryData) {
   };
 }
 
+export function createLiftEntryReset() {
+  return {
+    type: CREATE_LIFT_ENTRY_RESET,
+  };
+}
+
 export function updateLiftEntry(liftEntryID, liftEntryData) {
   return {
     [CALL_API]: {
@@ -215,6 +226,12 @@ export function updateLiftEntry(liftEntryID, liftEntryData) {
       requestMethod: 'PUT',
       requestData: liftEntryData,
     },
+  };
+}
+
+export function updateLiftEntryReset() {
+  return {
+    type: UPDATE_LIFT_ENTRY_RESET,
   };
 }
 
@@ -258,6 +275,12 @@ export function updateSet(setID, setData) {
   };
 }
 
+export function updateSetReset() {
+  return {
+    type: UPDATE_SET_RESET,
+  };
+}
+
 export function getRunEntries(workoutID) {
   return {
     [CALL_API]: {
@@ -281,6 +304,12 @@ export function createRunEntry(workoutID, runEntryData) {
   };
 }
 
+export function createRunEntryReset() {
+  return {
+    type: CREATE_RUN_ENTRY_RESET,
+  };
+}
+
 export function updateRunEntry(runEntryID, runEntryData) {
   return {
     [CALL_API]: {
@@ -289,6 +318,12 @@ export function updateRunEntry(runEntryID, runEntryData) {
       requestMethod: 'PUT',
       requestData: runEntryData,
     },
+  };
+}
+
+export function updateRunEntryReset() {
+  return {
+    type: UPDATE_RUN_ENTRY_RESET,
   };
 }
 

@@ -46,7 +46,7 @@ class RunEntryList extends Component {
                     distance={runEntry.distance}
                     duration={runEntry.duration}
                     elevationDelta={runEntry.elevation_delta}
-                    onUpdate={() => this.updateComponent()}
+                    workoutID={workoutID}
                     dispatch={dispatch}
                   />
                 </li>
@@ -55,7 +55,6 @@ class RunEntryList extends Component {
             <CreateRunEntry
               workoutID={workoutID}
               dispatch={dispatch}
-              onRunCreated={() => this.updateComponent()}
             />
           </div>
         }

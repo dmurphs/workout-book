@@ -10,10 +10,6 @@ import { getLiftEntries } from '@/store/actions';
 class LiftEntryList extends Component {
 
   componentWillMount() {
-    this.updateComponent();
-  }
-
-  updateComponent() {
     const { dispatch, workoutID } = this.props;
 
     dispatch(getLiftEntries(workoutID));
@@ -49,13 +45,12 @@ class LiftEntryList extends Component {
                 liftEntryID={liftEntry.id}
                 liftID={liftEntry.lift}
                 notes={liftEntry.notes}
-                onUpdate={() => this.updateComponent()}
+                workoutID={workoutID}
               />
             ))}
             <CreateLiftEntry
               workoutID={workoutID}
               dispatch={dispatch}
-              onWorkoutCreated={() => this.updateComponent()}
             />
           </div>
         }

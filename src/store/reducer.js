@@ -8,11 +8,19 @@ import {
   WORKOUT_LIST_REQUEST, WORKOUT_LIST_SUCCESS, WORKOUT_LIST_FAILURE,
   WORKOUT_DETAIL_REQUEST, WORKOUT_DETAIL_SUCCESS, WORKOUT_DETAIL_FAILURE,
   LIFT_ENTRY_LIST_REQUEST, LIFT_ENTRY_LIST_SUCCESS, LIFT_ENTRY_LIST_FAILURE,
+  CREATE_LIFT_ENTRY_REQUEST, CREATE_LIFT_ENTRY_SUCCESS, CREATE_LIFT_ENTRY_FAILURE,
+  CREATE_LIFT_ENTRY_RESET,
+  UPDATE_LIFT_ENTRY_REQUEST, UPDATE_LIFT_ENTRY_SUCCESS, UPDATE_LIFT_ENTRY_FAILURE,
+  UPDATE_LIFT_ENTRY_RESET,
   LIFT_LIST_REQUEST, LIFT_LIST_SUCCESS, LIFT_LIST_FAILURE,
   SET_LIST_REQUEST, SET_LIST_SUCCESS, SET_LIST_FAILURE,
   CREATE_SET_REQUEST, CREATE_SET_SUCCESS, CREATE_SET_FAILURE, CREATE_SET_RESET,
-  UPDATE_SET_REQUEST, UPDATE_SET_SUCCESS, UPDATE_SET_FAILURE,
+  UPDATE_SET_REQUEST, UPDATE_SET_SUCCESS, UPDATE_SET_FAILURE, UPDATE_SET_RESET,
   RUN_ENTRY_LIST_REQUEST, RUN_ENTRY_LIST_SUCCESS, RUN_ENTRY_LIST_FAILURE,
+  CREATE_RUN_ENTRY_REQUEST, CREATE_RUN_ENTRY_SUCCESS, CREATE_RUN_ENTRY_FAILURE,
+  CREATE_RUN_ENTRY_RESET,
+  UPDATE_RUN_ENTRY_REQUEST, UPDATE_RUN_ENTRY_SUCCESS, UPDATE_RUN_ENTRY_FAILURE,
+  UPDATE_RUN_ENTRY_RESET,
 } from './actions';
 
 // The auth reducer. The starting state sets authentication
@@ -114,6 +122,86 @@ function defaultAPIGetReducer(requestType, successType, failureType, state, acti
       };
     default:
       return state;
+  }
+}
+
+function defaultAPICreationReducer(
+  requestType,
+  successType,
+  failureType,
+  resetType,
+  state,
+  action) {
+  switch (action.type) {
+    case requestType:
+      return {
+        ...state,
+        isFetching: true,
+        isCreated: false,
+      };
+    case successType:
+      return {
+        ...state,
+        isFetching: false,
+        isCreated: true,
+      };
+    case failureType:
+      return {
+        ...state,
+        isFetching: false,
+        isCreated: false,
+        errors: action.errors,
+      };
+    case resetType:
+      return {
+        isFetching: false,
+        isCreated: false,
+      };
+    default:
+      return {
+        isFetching: false,
+        isCreated: false,
+      };
+  }
+}
+
+function defaultAPIUpdateReducer(
+  requestType,
+  successType,
+  failureType,
+  resetType,
+  state,
+  action) {
+  switch (action.type) {
+    case requestType:
+      return {
+        ...state,
+        isFetching: true,
+        isUpdated: false,
+      };
+    case successType:
+      return {
+        ...state,
+        isFetching: false,
+        isUpdated: true,
+      };
+    case failureType:
+      return {
+        ...state,
+        isFetching: false,
+        isUpdated: false,
+        errors: action.errors,
+      };
+    case resetType:
+      return {
+        isFetching: false,
+        isUpdated: false,
+      };
+    default:
+      return {
+        isFetching: false,
+        isUpdated: false,
+      };
   }
 }
 
@@ -243,6 +331,32 @@ function liftEntries(state = {
   }
 }
 
+function liftEntryCreation(state = {
+  isFetching: false,
+  isCreated: false,
+}, action) {
+  return defaultAPICreationReducer(
+    CREATE_LIFT_ENTRY_REQUEST,
+    CREATE_LIFT_ENTRY_SUCCESS,
+    CREATE_LIFT_ENTRY_FAILURE,
+    CREATE_LIFT_ENTRY_RESET,
+    state,
+    action);
+}
+
+function liftEntryUpdate(state = {
+  isFetching: false,
+  isUpdated: false,
+}, action) {
+  return defaultAPIUpdateReducer(
+    UPDATE_LIFT_ENTRY_REQUEST,
+    UPDATE_LIFT_ENTRY_SUCCESS,
+    UPDATE_LIFT_ENTRY_FAILURE,
+    UPDATE_LIFT_ENTRY_RESET,
+    state,
+    action);
+}
+
 function liftList(state = {
   isFetching: false,
   received: false,
@@ -299,69 +413,26 @@ function setCreation(state = {
   isFetching: false,
   isCreated: false,
 }, action) {
-  switch (action.type) {
-    case CREATE_SET_REQUEST:
-      return {
-        ...state,
-        isFetching: true,
-        isCreated: false,
-      };
-    case CREATE_SET_SUCCESS:
-      return {
-        ...state,
-        isFetching: false,
-        isCreated: true,
-      };
-    case CREATE_SET_FAILURE:
-      return {
-        ...state,
-        isFetching: false,
-        isCreated: false,
-        errors: action.errors,
-      };
-    case CREATE_SET_RESET:
-      return {
-        isFetching: false,
-        isCreated: false,
-      };
-    default:
-      return {
-        isFetching: false,
-        isCreated: false,
-      };
-  }
+  return defaultAPICreationReducer(
+    CREATE_SET_REQUEST,
+    CREATE_SET_SUCCESS,
+    CREATE_SET_FAILURE,
+    CREATE_SET_RESET,
+    state,
+    action);
 }
 
 function setUpdate(state = {
   isFetching: false,
   isUpdated: false,
 }, action) {
-  switch (action.type) {
-    case UPDATE_SET_REQUEST:
-      return {
-        ...state,
-        isFetching: true,
-        isUpdated: false,
-      };
-    case UPDATE_SET_SUCCESS:
-      return {
-        ...state,
-        isFetching: false,
-        isUpdated: true,
-      };
-    case UPDATE_SET_FAILURE:
-      return {
-        ...state,
-        isFetching: false,
-        isUpdated: false,
-        errors: action.errors,
-      };
-    default:
-      return {
-        isFetching: false,
-        isUpdated: false,
-      };
-  }
+  return defaultAPIUpdateReducer(
+    UPDATE_SET_REQUEST,
+    UPDATE_SET_SUCCESS,
+    UPDATE_SET_FAILURE,
+    UPDATE_SET_RESET,
+    state,
+    action);
 }
 
 function runEntries(state = {
@@ -403,6 +474,32 @@ function runEntries(state = {
   }
 }
 
+function runEntryCreation(state = {
+  isFetching: false,
+  isCreated: false,
+}, action) {
+  return defaultAPICreationReducer(
+    CREATE_RUN_ENTRY_REQUEST,
+    CREATE_RUN_ENTRY_SUCCESS,
+    CREATE_RUN_ENTRY_FAILURE,
+    CREATE_RUN_ENTRY_RESET,
+    state,
+    action);
+}
+
+function runEntryUpdate(state = {
+  isFetching: false,
+  isUpdated: false,
+}, action) {
+  return defaultAPIUpdateReducer(
+    UPDATE_RUN_ENTRY_REQUEST,
+    UPDATE_RUN_ENTRY_SUCCESS,
+    UPDATE_RUN_ENTRY_FAILURE,
+    UPDATE_RUN_ENTRY_RESET,
+    state,
+    action);
+}
+
 // We combine the reducers here so that they
 // can be left split apart above
 export default combineReducers({
@@ -412,10 +509,14 @@ export default combineReducers({
   workoutList,
   workoutDetail,
   liftEntries,
+  liftEntryCreation,
+  liftEntryUpdate,
   liftList,
   sets,
   setCreation,
   setUpdate,
   runEntries,
+  runEntryCreation,
+  runEntryUpdate,
   routerReducer,
 });

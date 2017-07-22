@@ -1,5 +1,5 @@
 IMPORTANT STUFF
-use subscribe to handle changes in state (i.e. to reload workout list when new workout is created)
+split up actions and reducers
 change default reducer values instead of having reset functionality
 clean up console warning messages
 clean up linter issues that are ignored currently

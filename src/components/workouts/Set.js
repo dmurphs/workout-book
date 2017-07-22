@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import Errors from '@/components/global/Errors';
 
-import { updateSet, getSets } from '@/store/actions';
+import { updateSet, updateSetReset, getSets } from '@/store/actions';
 
 class Set extends Component {
 
@@ -14,11 +14,13 @@ class Set extends Component {
     const numReps = props.numReps;
     const weight = props.weight;
 
-    this.state = {
+    this.defaultState = {
       updateView: false,
       numReps,
       weight,
     };
+
+    this.state = this.defaultState;
 
     this.handleNumRepsChange = this.handleNumRepsChange.bind(this);
     this.handleWeightChange = this.handleWeightChange.bind(this);
@@ -43,6 +45,11 @@ class Set extends Component {
   }
 
   onCancelUpdateClick() {
+    const { dispatch } = this.props;
+
+    dispatch(updateSetReset());
+    this.setState(this.defaultState);
+
     this.setState({ updateView: false });
   }
 

@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { getLifts, createLiftEntry } from '@/store/actions';
+import Errors from '@/components/global/Errors';
+
+import { getLifts, getLiftEntries, createLiftEntry, createLiftEntryReset } from '@/store/actions';
 
 class CreateLiftEntry extends Component {
 
@@ -26,8 +28,24 @@ class CreateLiftEntry extends Component {
     dispatch(getLifts());
   }
 
+  dispatchGetLiftEntriesIfCreated() {
+    const { dispatch, workoutID, isCreated } = this.props;
+
+    if (isCreated) {
+      dispatch(getLiftEntries(workoutID));
+    }
+  }
+
+  handleCancelWorkoutCreateClick() {
+    const { dispatch } = this.props;
+
+    dispatch(createLiftEntryReset());
+
+    this.setState({ showForm: false });
+  }
+
   handleLiftEntryCreateClick() {
-    const { dispatch, workoutID, onWorkoutCreated } = this.props;
+    const { dispatch, workoutID } = this.props;
 
     const liftEntryData = {
       notes: this.state.notes,
@@ -39,7 +57,7 @@ class CreateLiftEntry extends Component {
 
     dispatch(createLiftEntry(workoutID, liftEntryData)).then(
       () => {
-        onWorkoutCreated();
+        this.dispatchGetLiftEntriesIfCreated();
       });
   }
 
@@ -52,7 +70,7 @@ class CreateLiftEntry extends Component {
   }
 
   render() {
-    const { lifts } = this.props;
+    const { lifts, errors } = this.props;
     const { showForm } = this.state;
 
     return (
@@ -78,9 +96,12 @@ class CreateLiftEntry extends Component {
           <div className="field">
             <input className="input" type="text" value={this.state.notes} onChange={this.handleNotesChange} placeholder="notes" />
           </div>
+          {errors &&
+            <Errors errors={errors} />
+          }
           <div className="field">
             <button className="button is-success" onClick={() => this.handleLiftEntryCreateClick()}>Create Lift Entry</button>
-            <button className="button is-warning" onClick={() => this.setState({ showForm: false })}>Cancel</button>
+            <button className="button is-warning" onClick={() => this.handleCancelWorkoutCreateClick()}>Cancel</button>
           </div>
         </div>
         }
@@ -95,16 +116,21 @@ class CreateLiftEntry extends Component {
 CreateLiftEntry.propTypes = {
   dispatch: PropTypes.func.isRequired,
   workoutID: PropTypes.number.isRequired,
-  onWorkoutCreated: PropTypes.func.isRequired,
   lifts: PropTypes.array, // eslint-disable-line
+  isCreated: PropTypes.bool.isRequired,
+  errors: PropTypes.object, // eslint-disable-line
 };
 
 function mapStateToProps(state) {
-  const { liftList } = state;
+  const { liftEntryCreation, liftList } = state;
   const lifts = liftList.data;
+
+  const { isCreated, errors } = liftEntryCreation;
 
   return {
     lifts,
+    isCreated,
+    errors,
   };
 }
 

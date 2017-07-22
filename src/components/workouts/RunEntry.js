@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { updateRunEntry } from '@/store/actions';
+import Errors from '@/components/global/Errors';
 
-export default class RunEntry extends Component {
+import { updateRunEntry, updateRunEntryReset, getRunEntries } from '@/store/actions';
+
+class RunEntry extends Component {
 
   constructor(props) {
     super(props);
@@ -13,13 +16,15 @@ export default class RunEntry extends Component {
     const duration = props.duration;
     const elevationDelta = props.elevationDelta;
 
-    this.state = {
+    this.defaultState = {
       updateView: false,
       notes,
       distance,
       duration,
       elevationDelta,
     };
+
+    this.state = this.defaultState;
 
     this.handleNotesChange = this.handleNotesChange.bind(this);
     this.handleDistanceChange = this.handleDistanceChange.bind(this);
@@ -44,7 +49,11 @@ export default class RunEntry extends Component {
   }
 
   onCancelUpdateClick() {
-    this.setState({ updateView: false });
+    const { dispatch } = this.props;
+
+    dispatch(updateRunEntryReset());
+
+    this.setState(this.defaultState);
   }
 
   setUpdateView() {
@@ -66,15 +75,20 @@ export default class RunEntry extends Component {
     };
   }
 
+  dispatchGetRunEntriesIfUpdated() {
+    const { workoutID, dispatch, isUpdated } = this.props;
+
+    if (isUpdated) {
+      dispatch(getRunEntries(workoutID));
+    }
+  }
+
   dispatchUpdateRunEntry(runEntryData) {
-    const { runEntryID, onUpdate, dispatch } = this.props;
+    const { runEntryID, dispatch } = this.props;
 
     dispatch(updateRunEntry(runEntryID, runEntryData)).then(
       () => {
-        onUpdate();
-      },
-      (error) => {
-        console.log(error); // eslint-disable-line
+        this.dispatchGetRunEntriesIfUpdated();
       });
   }
 
@@ -95,7 +109,7 @@ export default class RunEntry extends Component {
   }
 
   render() {
-    const { notes, distance, duration, elevationDelta } = this.props;
+    const { notes, distance, duration, elevationDelta, errors } = this.props;
 
     return (
       <div className="card">
@@ -150,7 +164,7 @@ export default class RunEntry extends Component {
                 <input
                   id="editDuration"
                   className="input"
-                  type="time"
+                  type="text"
                   value={this.state.duration}
                   onChange={this.handleDurationChange}
                   placeholder="duration"
@@ -183,6 +197,9 @@ export default class RunEntry extends Component {
                 />
               </div>
             </div>
+            {errors &&
+              <Errors errors={errors} />
+            }
             <button className="button is-success" onClick={() => this.onUpdateRunEntryClick()}>Save Changes</button>
             <button className="button is-warning" onClick={() => this.onCancelUpdateClick()}>Cancel</button>
           </div>
@@ -194,10 +211,25 @@ export default class RunEntry extends Component {
 
 RunEntry.propTypes = {
   runEntryID: PropTypes.number.isRequired,
+  workoutID: PropTypes.number.isRequired,
   notes: PropTypes.string.isRequired,
   distance: PropTypes.string.isRequired,
   duration: PropTypes.string.isRequired,
   elevationDelta: PropTypes.string.isRequired,
-  onUpdate: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
+  isUpdated: PropTypes.bool.isRequired, // eslint-disable-line
+  errors: PropTypes.object, // eslint-disable-line
 };
+
+function mapStateToProps(state) {
+  const { runEntryUpdate } = state;
+
+  const { isUpdated, errors } = runEntryUpdate;
+
+  return {
+    isUpdated,
+    errors,
+  };
+}
+
+export default connect(mapStateToProps)(RunEntry);

@@ -1,11 +1,14 @@
 // CreateRunEntry.js
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { createRunEntry } from '@/store/actions';
+import Errors from '@/components/global/Errors';
 
-export default class CreateLiftEntry extends Component {
+import { createRunEntry, createRunEntryReset, getRunEntries } from '@/store/actions';
+
+class CreateLiftEntry extends Component {
 
   constructor(props) {
     super(props);
@@ -25,8 +28,24 @@ export default class CreateLiftEntry extends Component {
     this.handleElevationDeltaChange = this.handleElevationDeltaChange.bind(this);
   }
 
+  dispatchGetRunEntriesIfCreated() {
+    const { workoutID, dispatch, isCreated } = this.props;
+
+    if (isCreated) {
+      dispatch(getRunEntries(workoutID));
+    }
+  }
+
+  handleRunEntryCancelClick() {
+    const { dispatch } = this.props;
+
+    dispatch(createRunEntryReset());
+
+    this.setState(this.defaultState);
+  }
+
   handleRunEntryCreateClick() {
-    const { dispatch, workoutID, onRunCreated } = this.props;
+    const { dispatch, workoutID } = this.props;
 
     const runEntryData = {
       notes: this.state.notes,
@@ -38,7 +57,7 @@ export default class CreateLiftEntry extends Component {
 
     dispatch(createRunEntry(workoutID, runEntryData)).then(
       () => {
-        onRunCreated();
+        this.dispatchGetRunEntriesIfCreated();
       });
   }
 
@@ -59,6 +78,7 @@ export default class CreateLiftEntry extends Component {
   }
 
   render() {
+    const { errors } = this.props;
     const showForm = this.state.showForm;
 
     return (
@@ -73,14 +93,17 @@ export default class CreateLiftEntry extends Component {
               <input className="input" type="number" value={this.state.distance} onChange={this.handleDistanceChange} placeholder="distance" />
             </div>
             <div className="field">
-              <input className="input" type="time" value={this.state.duration} onChange={this.handleDurationChange} placeholder="duration" />
+              <input className="input" type="text" value={this.state.duration} onChange={this.handleDurationChange} placeholder="duration" />
             </div>
             <div className="field">
               <input className="input" type="number" value={this.state.elevationDelta} onChange={this.handleElevationDeltaChange} placeholder="elevation delta" />
             </div>
+            {errors &&
+              <Errors errors={errors} />
+            }
             <div className="field">
               <button className="button is-success" onClick={() => this.handleRunEntryCreateClick()}>Create Run Entry</button>
-              <button className="button is-warning" onClick={() => this.setState({ showForm: false })}>Cancel</button>
+              <button className="button is-warning" onClick={() => this.handleRunEntryCancelClick()}>Cancel</button>
             </div>
           </div>
         }
@@ -95,5 +118,19 @@ export default class CreateLiftEntry extends Component {
 CreateLiftEntry.propTypes = {
   dispatch: PropTypes.func.isRequired,
   workoutID: PropTypes.number.isRequired,
-  onRunCreated: PropTypes.func.isRequired,
+  isCreated: PropTypes.bool.isRequired,
+  errors: PropTypes.object, // eslint-disable-line
 };
+
+function mapStateToProps(state) {
+  const { runEntryCreation } = state;
+
+  const { isCreated, errors } = runEntryCreation;
+
+  return {
+    isCreated,
+    errors,
+  };
+}
+
+export default connect(mapStateToProps)(CreateLiftEntry);
