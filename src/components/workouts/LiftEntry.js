@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import SetList from '@/components/workouts/SetList';
 import Errors from '@/components/global/Errors';
+import ManageLifts from '@/components/workouts/ManageLifts';
 
 import { updateLiftEntry, updateLiftEntryReset, getLifts, getLiftEntries } from '@/store/actions';
 
@@ -139,6 +140,7 @@ class LiftEntry extends Component {
           }
           { this.state.updateView &&
             <div>
+              <ManageLifts dispatch={dispatch} />
               <div className="field">
                 <label className="label" htmlFor="liftEdit">Lift</label>
                 <div className="control">

@@ -1,5 +1,4 @@
 IMPORTANT STUFF
-add validation for workout edit form
 add control for run duration input
 split up actions and reducers
 clean up console warning messages
