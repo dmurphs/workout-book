@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import Errors from '@/components/global/Errors';
 import LiftEntryList from '@/components/workouts/LiftEntryList';
 import RunEntryList from '@/components/workouts/RunEntryList';
 
-import { getWorkoutDetail, updateWorkout } from '@/store/actions';
+import { getWorkoutDetail, updateWorkout, updateWorkoutReset } from '@/store/actions';
 
 class Workout extends Component {
 
@@ -26,7 +27,9 @@ class Workout extends Component {
   }
 
   componentWillMount() {
-    this.updateComponent();
+    const { dispatch, workoutID } = this.props;
+
+    dispatch(getWorkoutDetail(workoutID));
   }
 
   onUpdateWorkoutClick() {
@@ -40,15 +43,15 @@ class Workout extends Component {
 
     dispatch(updateWorkout(workoutID, workoutData)).then(
       () => {
-        this.setState({ updateView: false });
-        this.updateComponent();
-      },
-      (error) => {
-        console.log(error); // eslint-disable-line
+        this.dispatchGetWorkoutIfUpdated();
       });
   }
 
   onCancelUpdateClick() {
+    const { dispatch } = this.props;
+
+    dispatch(updateWorkoutReset());
+
     this.setState({ updateView: false });
   }
 
@@ -70,10 +73,13 @@ class Workout extends Component {
     this.setState({ updateView: true, date, description });
   }
 
-  updateComponent() {
-    const { dispatch, workoutID } = this.props;
+  dispatchGetWorkoutIfUpdated() {
+    const { dispatch, workoutID, isUpdated } = this.props;
 
-    dispatch(getWorkoutDetail(workoutID));
+    if (isUpdated) {
+      dispatch(getWorkoutDetail(workoutID));
+      this.setState({ updateView: false });
+    }
   }
 
   handleDateChange(event) {
@@ -85,7 +91,16 @@ class Workout extends Component {
   }
 
   render() {
-    const { isFetching, received, dispatch, workoutID, workoutDetailByWorkoutID } = this.props;
+    const {
+      isFetching,
+      received,
+      dispatch,
+      workoutID,
+      workoutDetailByWorkoutID,
+      dateErrors,
+      descriptionErrors,
+      nonFieldErrors,
+    } = this.props;
 
     let date;
     let description;
@@ -126,27 +141,36 @@ class Workout extends Component {
                   <div className="control">
                     <input
                       id="dateEdit"
-                      className="input"
+                      className={dateErrors ? 'input is-danger' : 'input'}
                       type="date"
                       value={this.state.date}
                       onChange={this.handleDateChange}
                       placeholder="date"
                     />
                   </div>
+                  {dateErrors &&
+                    <Errors errors={dateErrors} />
+                  }
                 </div>
                 <div className="field">
                   <label className="label" htmlFor="descriptionEdit">Description</label>
                   <div className="control">
                     <input
                       id="descriptionEdit"
-                      className="input"
+                      className={descriptionErrors ? 'input is-danger' : 'input'}
                       type="text"
                       value={this.state.description}
                       onChange={this.handleDescriptionChange}
                       placeholder="description"
                     />
+                    {descriptionErrors &&
+                      <Errors errors={descriptionErrors} />
+                    }
                   </div>
                 </div>
+                {nonFieldErrors &&
+                  <Errors errors={nonFieldErrors} />
+                }
                 <div className="field">
                   <button className="button is-success" onClick={() => this.onUpdateWorkoutClick()}>Save Changes</button>
                 </div>
@@ -171,17 +195,30 @@ Workout.propTypes = {
   workoutID: PropTypes.number.isRequired,
   isFetching: PropTypes.bool.isRequired,
   received: PropTypes.bool.isRequired,
+  isUpdated: PropTypes.bool.isRequired,
   workoutDetailByWorkoutID: PropTypes.object.isRequired, // eslint-disable-line
+  dateErrors: PropTypes.array, // eslint-disable-line
+  descriptionErrors: PropTypes.array, // eslint-disable-line
+  nonFieldErrors: PropTypes.array, // eslint-disable-line
 };
 
 function mapStateToProps(state) {
-  const { workoutDetail } = state;
+  const { workoutDetail, workoutUpdate } = state;
   const { isFetching, received, workoutDetailByWorkoutID } = workoutDetail;
+  const { isUpdated, errors } = workoutUpdate;
+
+  const dateErrors = errors ? errors.date : null;
+  const descriptionErrors = errors ? errors.description : null;
+  const nonFieldErrors = errors ? errors.non_field_errors : null;
 
   return {
     isFetching,
     received,
+    isUpdated,
     workoutDetailByWorkoutID,
+    dateErrors,
+    descriptionErrors,
+    nonFieldErrors,
   };
 }
 

@@ -30,6 +30,7 @@ export const CREATE_WORKOUT_FAILURE = 'CREATE_WORKOUT_FAILURE';
 export const UPDATE_WORKOUT_REQUEST = 'UPDATE_WORKOUT_REQUEST';
 export const UPDATE_WORKOUT_SUCCESS = 'UPDATE_WORKOUT_SUCCESS';
 export const UPDATE_WORKOUT_FAILURE = 'UPDATE_WORKOUT_FAILURE';
+export const UPDATE_WORKOUT_RESET = 'UPDATE_WORKOUT_RESET';
 
 export const WORKOUT_DETAIL_REQUEST = 'WORKOUT_DETAIL_REQUEST';
 export const WORKOUT_DETAIL_SUCCESS = 'WORKOUT_DETAIL_SUCCESS';
@@ -173,6 +174,12 @@ export function updateWorkout(workoutID, workoutData) {
       requestMethod: 'PUT',
       requestData: workoutData,
     },
+  };
+}
+
+export function updateWorkoutReset() {
+  return {
+    type: UPDATE_WORKOUT_RESET,
   };
 }
 

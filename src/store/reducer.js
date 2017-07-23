@@ -5,6 +5,7 @@ import {
   LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_SUCCESS,
   REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE,
   // CREATE_WORKOUT_REQUEST, CREATE_WORKOUT_SUCCESS, CREATE_WORKOUT_FAILURE, CREATE_WORKOUT_RESET,
+  UPDATE_WORKOUT_REQUEST, UPDATE_WORKOUT_SUCCESS, UPDATE_WORKOUT_FAILURE, UPDATE_WORKOUT_RESET,
   WORKOUT_LIST_REQUEST, WORKOUT_LIST_SUCCESS, WORKOUT_LIST_FAILURE,
   WORKOUT_DETAIL_REQUEST, WORKOUT_DETAIL_SUCCESS, WORKOUT_DETAIL_FAILURE,
   LIFT_ENTRY_LIST_REQUEST, LIFT_ENTRY_LIST_SUCCESS, LIFT_ENTRY_LIST_FAILURE,
@@ -241,6 +242,19 @@ function defaultAPIUpdateReducer(
 //       return state;
 //   }
 // }
+
+function workoutUpdate(state = {
+  isFetching: false,
+  isUpdated: false,
+}, action) {
+  return defaultAPIUpdateReducer(
+    UPDATE_WORKOUT_REQUEST,
+    UPDATE_WORKOUT_SUCCESS,
+    UPDATE_WORKOUT_FAILURE,
+    UPDATE_WORKOUT_RESET,
+    state,
+    action);
+}
 
 function workoutList(state = {
   isFetching: false,
@@ -534,6 +548,7 @@ export default combineReducers({
   auth,
   registration,
   // workoutCreation,
+  workoutUpdate,
   workoutList,
   workoutDetail,
   liftEntries,
