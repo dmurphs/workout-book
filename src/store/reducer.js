@@ -13,6 +13,8 @@ import {
   UPDATE_LIFT_ENTRY_REQUEST, UPDATE_LIFT_ENTRY_SUCCESS, UPDATE_LIFT_ENTRY_FAILURE,
   UPDATE_LIFT_ENTRY_RESET,
   LIFT_LIST_REQUEST, LIFT_LIST_SUCCESS, LIFT_LIST_FAILURE,
+  CREATE_LIFT_REQUEST, CREATE_LIFT_SUCCESS, CREATE_LIFT_FAILURE, CREATE_LIFT_RESET,
+  UPDATE_LIFT_REQUEST, UPDATE_LIFT_SUCCESS, UPDATE_LIFT_FAILURE, UPDATE_LIFT_RESET,
   SET_LIST_REQUEST, SET_LIST_SUCCESS, SET_LIST_FAILURE,
   CREATE_SET_REQUEST, CREATE_SET_SUCCESS, CREATE_SET_FAILURE, CREATE_SET_RESET,
   UPDATE_SET_REQUEST, UPDATE_SET_SUCCESS, UPDATE_SET_FAILURE, UPDATE_SET_RESET,
@@ -370,6 +372,32 @@ function liftList(state = {
     action);
 }
 
+function liftCreation(state = {
+  isFetching: false,
+  isCreated: false,
+}, action) {
+  return defaultAPICreationReducer(
+    CREATE_LIFT_REQUEST,
+    CREATE_LIFT_SUCCESS,
+    CREATE_LIFT_FAILURE,
+    CREATE_LIFT_RESET,
+    state,
+    action);
+}
+
+function liftUpdate(state = {
+  isFetching: false,
+  isUpdated: false,
+}, action) {
+  return defaultAPIUpdateReducer(
+    UPDATE_LIFT_REQUEST,
+    UPDATE_LIFT_SUCCESS,
+    UPDATE_LIFT_FAILURE,
+    UPDATE_LIFT_RESET,
+    state,
+    action);
+}
+
 function sets(state = {
   isFetching: false,
   received: false,
@@ -512,6 +540,8 @@ export default combineReducers({
   liftEntryCreation,
   liftEntryUpdate,
   liftList,
+  liftCreation,
+  liftUpdate,
   sets,
   setCreation,
   setUpdate,

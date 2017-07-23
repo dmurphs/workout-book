@@ -1,5 +1,6 @@
 IMPORTANT STUFF
 add ability to create and edit lifts
+add validation for workout edit form
 split up actions and reducers
 clean up console warning messages
 clean up linter issues that are ignored currently

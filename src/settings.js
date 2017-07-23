@@ -18,6 +18,8 @@ export const CREATE_LIFT_ENTRY_URL = `${API_BASE_URL}lift_entry_create/`;
 export const UPDATE_LIFT_ENTRY_URL = `${API_BASE_URL}lift_entry_update/`;
 
 export const LIFT_LIST_URL = `${API_BASE_URL}lifts_list/`;
+export const CREATE_LIFT_URL = `${API_BASE_URL}lift_create/`;
+export const UPDATE_LIFT_URL = `${API_BASE_URL}lift_update/`;
 
 export const SET_LIST_URL = `${API_BASE_URL}sets_list/`;
 export const CREATE_SET_URL = `${API_BASE_URL}set_create/`;

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import ManageLifts from '@/components/workouts/ManageLifts';
 import Errors from '@/components/global/Errors';
 
 import { getLifts, getLiftEntries, createLiftEntry, createLiftEntryReset } from '@/store/actions';
@@ -36,7 +37,7 @@ class CreateLiftEntry extends Component {
     }
   }
 
-  handleCancelWorkoutCreateClick() {
+  handleCancelLiftEntryCreateClick() {
     const { dispatch } = this.props;
 
     dispatch(createLiftEntryReset());
@@ -70,7 +71,7 @@ class CreateLiftEntry extends Component {
   }
 
   render() {
-    const { lifts, liftErrors, notesErrors, nonFieldErrors } = this.props;
+    const { dispatch, lifts, liftErrors, notesErrors, nonFieldErrors } = this.props;
     const { showForm } = this.state;
 
     return (
@@ -78,6 +79,7 @@ class CreateLiftEntry extends Component {
         { showForm &&
         <div>
           <h2>Create New Lift Entry</h2>
+          <ManageLifts dispatch={dispatch} />
           <div className="field">
             <div className={liftErrors ? 'select is-danger' : 'select'}>
               <select value={this.state.selectedLift} onChange={this.handleLiftChange} >
@@ -107,7 +109,7 @@ class CreateLiftEntry extends Component {
           }
           <div className="field">
             <button className="button is-success" onClick={() => this.handleLiftEntryCreateClick()}>Create Lift Entry</button>
-            <button className="button is-warning" onClick={() => this.handleCancelWorkoutCreateClick()}>Cancel</button>
+            <button className="button is-warning" onClick={() => this.handleCancelLiftEntryCreateClick()}>Cancel</button>
           </div>
         </div>
         }

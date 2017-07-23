@@ -1,7 +1,7 @@
 import { LOGIN_URL, REGISTER_URL,
   WORKOUT_LIST_URL, CREATE_WORKOUT_URL, UPDATE_WORKOUT_URL, WORKOUT_DETAIL_URL,
   LIFT_ENTRY_LIST_URL, CREATE_LIFT_ENTRY_URL, UPDATE_LIFT_ENTRY_URL,
-  LIFT_LIST_URL,
+  LIFT_LIST_URL, CREATE_LIFT_URL, UPDATE_LIFT_URL,
   SET_LIST_URL, CREATE_SET_URL, UPDATE_SET_URL,
   RUN_ENTRY_LIST_URL, CREATE_RUN_ENTRY_URL, UPDATE_RUN_ENTRY_URL } from '@/settings';
 
@@ -52,6 +52,16 @@ export const UPDATE_LIFT_ENTRY_REQUEST = 'UPDATE_LIFT_ENTRY_REQUEST';
 export const UPDATE_LIFT_ENTRY_SUCCESS = 'UPDATE_LIFT_ENTRY_SUCCESS';
 export const UPDATE_LIFT_ENTRY_FAILURE = 'UPDATE_LIFT_ENTRY_FAILURE';
 export const UPDATE_LIFT_ENTRY_RESET = 'UPDATE_LIFT_ENTRY_RESET';
+
+export const CREATE_LIFT_REQUEST = 'CREATE_LIFT_REQUEST';
+export const CREATE_LIFT_SUCCESS = 'CREATE_LIFT_SUCCESS';
+export const CREATE_LIFT_FAILURE = 'CREATE_LIFT_FAILURE';
+export const CREATE_LIFT_RESET = 'CREATE_LIFT_RESET';
+
+export const UPDATE_LIFT_REQUEST = 'UPDATE_LIFT_REQUEST';
+export const UPDATE_LIFT_SUCCESS = 'UPDATE_LIFT_SUCCESS';
+export const UPDATE_LIFT_FAILURE = 'UPDATE_LIFT_FAILURE';
+export const UPDATE_LIFT_RESET = 'UPDATE_LIFT_RESET';
 
 export const SET_LIST_REQUEST = 'SET_LIST_REQUEST';
 export const SET_LIST_SUCCESS = 'SET_LIST_SUCCESS';
@@ -190,17 +200,6 @@ export function getLiftEntries(workoutID) {
   };
 }
 
-export function getLifts() {
-  return {
-    [CALL_API]: {
-      endpoint: LIFT_LIST_URL,
-      types: [LIFT_LIST_REQUEST, LIFT_LIST_SUCCESS, LIFT_LIST_FAILURE],
-      requestMethod: 'GET',
-      requestData: {},
-    },
-  };
-}
-
 export function createLiftEntry(workoutID, liftEntryData) {
   return {
     [CALL_API]: {
@@ -232,6 +231,51 @@ export function updateLiftEntry(liftEntryID, liftEntryData) {
 export function updateLiftEntryReset() {
   return {
     type: UPDATE_LIFT_ENTRY_RESET,
+  };
+}
+
+export function getLifts() {
+  return {
+    [CALL_API]: {
+      endpoint: LIFT_LIST_URL,
+      types: [LIFT_LIST_REQUEST, LIFT_LIST_SUCCESS, LIFT_LIST_FAILURE],
+      requestMethod: 'GET',
+      requestData: {},
+    },
+  };
+}
+
+export function createLift(liftData) {
+  return {
+    [CALL_API]: {
+      endpoint: `${CREATE_LIFT_URL}/`,
+      types: [CREATE_LIFT_REQUEST, CREATE_LIFT_SUCCESS, CREATE_LIFT_FAILURE],
+      requestMethod: 'POST',
+      requestData: liftData,
+    },
+  };
+}
+
+export function createLiftReset() {
+  return {
+    type: CREATE_LIFT_RESET,
+  };
+}
+
+export function updateLift(liftID, liftData) {
+  return {
+    [CALL_API]: {
+      endpoint: `${UPDATE_LIFT_URL}${liftID}/`,
+      types: [UPDATE_LIFT_REQUEST, UPDATE_LIFT_SUCCESS, UPDATE_LIFT_FAILURE],
+      requestMethod: 'PUT',
+      requestData: liftData,
+    },
+  };
+}
+
+export function updateLiftReset() {
+  return {
+    type: UPDATE_LIFT_RESET,
   };
 }
 
