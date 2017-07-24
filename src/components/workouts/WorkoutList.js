@@ -5,7 +5,39 @@ import PropTypes from 'prop-types';
 
 import { getWorkouts, updateWorkout } from '@/store/actions';
 
+function pad(num, digits) {
+  const strNum = `${num}`;
+  return strNum.length >= digits
+    ? strNum
+    : new Array((digits - strNum.length) + 1).join(0) + strNum;
+}
+
 class WorkoutList extends Component {
+
+  constructor(props) {
+    super(props);
+
+    const oneWeekAgo = new Date();
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+    const paddedStartYear = pad(oneWeekAgo.getFullYear(), 4);
+    const paddedStartMonth = pad(oneWeekAgo.getMonth() + 1, 2);
+    const paddedStartDate = pad(oneWeekAgo.getDate(), 2);
+    const startDate = `${paddedStartYear}-${paddedStartMonth}-${paddedStartDate}`;
+
+    const today = new Date();
+    const paddedEndYear = pad(today.getFullYear(), 4);
+    const paddedEndMonth = pad(today.getMonth() + 1, 2);
+    const paddedEndDate = pad(today.getDate(), 2);
+    const endDate = `${paddedEndYear}-${paddedEndMonth}-${paddedEndDate}`;
+
+    this.state = {
+      startDate,
+      endDate,
+    };
+
+    this.handleStartDateChange = this.handleStartDateChange.bind(this);
+    this.handleEndDateChange = this.handleEndDateChange.bind(this);
+  }
 
   componentWillMount() {
     this.updateComponent();
@@ -14,16 +46,12 @@ class WorkoutList extends Component {
   updateComponent() {
     const { dispatch } = this.props;
 
-    const today = new Date();
-    const todayStr = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
-
-    const oneWeekAgo = new Date();
-    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-    const oneWeekAgoStr = `${oneWeekAgo.getFullYear()}-${oneWeekAgo.getMonth() + 1}-${oneWeekAgo.getDate()}`;
+    const startDate = this.state.startDate;
+    const endDate = this.state.endDate;
 
     const dateRangeData = {
-      start_date: oneWeekAgoStr,
-      end_date: todayStr,
+      start_date: startDate,
+      end_date: endDate,
     };
 
     dispatch(getWorkouts(dateRangeData));
@@ -49,6 +77,14 @@ class WorkoutList extends Component {
       });
   }
 
+  handleStartDateChange(event) {
+    this.setState({ startDate: event.target.value });
+  }
+
+  handleEndDateChange(event) {
+    this.setState({ endDate: event.target.value });
+  }
+
   render() {
     const { isFetching, received, workouts } = this.props;
 
@@ -58,26 +94,53 @@ class WorkoutList extends Component {
           <h1>Loading Workouts...</h1>
         }
         { received &&
-          <table className="table is-bordered is-striped">
-            <tbody>
-              {workouts.map((workout) => {
-                const workoutID = workout.id;
-                const workoutDetailURL = `/workout/${workoutID}`;
-                const descriptionText = workout.description || '(No Description)';
+          <div>
+            <div className="field">
+              <label className="label" htmlFor="startDate">Start Date</label>
+              <input
+                className="input"
+                id="startDate"
+                type="date"
+                value={this.state.startDate}
+                onChange={this.handleStartDateChange}
+              />
+            </div>
+            <div className="field">
+              <label className="label" htmlFor="endDate">End Date</label>
+              <input
+                className="input"
+                id="endDate"
+                type="date"
+                value={this.state.endDate}
+                onChange={this.handleEndDateChange}
+              />
+            </div>
+            <button className="button" onClick={() => this.updateComponent()}>Submit</button>
+            <table className="table is-bordered is-striped">
+              <tbody>
+                {workouts.map((workout) => {
+                  const workoutID = workout.id;
+                  const workoutDetailURL = `/workout/${workoutID}`;
+                  const descriptionText = workout.description || '(No Description)';
 
-                return (
-                  <tr key={workout.id}>
-                    <td>
-                      <Link to={workoutDetailURL}>{workout.date} - {descriptionText}</Link>
-                    </td>
-                    <td>
-                      <button className="button is-danger" onClick={() => this.deleteWorkout(workoutID)}>Delete</button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                  return (
+                    <tr key={workout.id}>
+                      <td>
+                        <Link to={workoutDetailURL}>{workout.date} - {descriptionText}</Link>
+                      </td>
+                      <td>
+                        <button className="button is-danger" onClick={() => this.deleteWorkout(workoutID)}>
+                          <span className="icon">
+                            <i className="fa fa-close" />
+                          </span>
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         }
       </div>
     );

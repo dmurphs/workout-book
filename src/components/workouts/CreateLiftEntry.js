@@ -79,24 +79,28 @@ class CreateLiftEntry extends Component {
         { showForm &&
         <div>
           <h2>Create New Lift Entry</h2>
-          <ManageLifts dispatch={dispatch} />
-          <div className="field">
-            <div className={liftErrors ? 'select is-danger' : 'select'}>
-              <select value={this.state.selectedLift} onChange={this.handleLiftChange} >
-                <option value="">Select a lift</option>
-                {lifts.map((lift) => {
-                  const liftID = lift.id;
-                  const liftName = lift.name;
+          <div className="columns field">
+            <div className="column">
+              <div className={liftErrors ? 'select is-danger' : 'select'}>
+                <select value={this.state.selectedLift} onChange={this.handleLiftChange} >
+                  <option value="">Select a lift</option>
+                  {lifts.map((lift) => {
+                    const liftID = lift.id;
+                    const liftName = lift.name;
 
-                  return (
-                    <option key={liftID} value={liftID}>{liftName}</option>
-                  );
-                })}
-              </select>
+                    return (
+                      <option key={liftID} value={liftID}>{liftName}</option>
+                    );
+                  })}
+                </select>
+              </div>
+              {liftErrors &&
+                <Errors errors={liftErrors} />
+              }
             </div>
-            {liftErrors &&
-              <Errors errors={liftErrors} />
-            }
+            <div className="column">
+              <ManageLifts dispatch={dispatch} />
+            </div>
           </div>
           <div className="field">
             <input className={notesErrors ? 'input is-danger' : 'input'} type="text" value={this.state.notes} onChange={this.handleNotesChange} placeholder="notes" />

@@ -133,33 +133,50 @@ class LiftEntry extends Component {
                 }
               </div>
               <div className="column is-4">
-                <button className="button is-info" onClick={() => this.setUpdateView()}>Update</button>
-                <button className="button is-danger" onClick={() => this.onDeleteLiftEntryClick()}>Delete</button>
+                <button className="button is-info" onClick={() => this.setUpdateView()}>
+                  <span className="icon">
+                    <i className="fa fa-edit" />
+                  </span>
+                </button>
+                <button className="button is-danger" onClick={() => this.onDeleteLiftEntryClick()}>
+                  <span className="icon">
+                    <i className="fa fa-close" />
+                  </span>
+                </button>
               </div>
             </div>
           }
           { this.state.updateView &&
             <div>
-              <ManageLifts dispatch={dispatch} />
-              <div className="field">
-                <label className="label" htmlFor="liftEdit">Lift</label>
-                <div className="control">
-                  <div className={liftErrors ? 'select is-danger' : 'select'}>
-                    <select id="liftEdit" value={this.state.liftID} onChange={this.handleLiftChange} >
-                      <option value="">Select a lift</option>
-                      {lifts.map((lift) => {
-                        const liftSelectionID = lift.id;
-                        const liftName = lift.name;
+              <div className="field columns">
+                <div className="column">
+                  <label className="label" htmlFor="liftEdit">Lift</label>
+                  <div className="control">
+                    <div className={liftErrors ? 'select is-danger' : 'select'}>
+                      <select id="liftEdit" value={this.state.liftID} onChange={this.handleLiftChange} >
+                        <option value="">Select a lift</option>
+                        {lifts.map((lift) => {
+                          const liftSelectionID = lift.id;
+                          const liftName = lift.name;
 
-                        return (
-                          <option key={liftSelectionID} value={liftSelectionID}>{liftName}</option>
-                        );
-                      })}
-                    </select>
+                          return (
+                            <option
+                              key={liftSelectionID}
+                              value={liftSelectionID}
+                            >
+                              {liftName}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    </div>
+                    {liftErrors &&
+                      <Errors errors={liftErrors} />
+                    }
                   </div>
-                  {liftErrors &&
-                    <Errors errors={liftErrors} />
-                  }
+                </div>
+                <div className="column">
+                  <ManageLifts dispatch={dispatch} />
                 </div>
               </div>
               <div className="field">

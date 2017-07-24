@@ -104,8 +104,16 @@ class Set extends Component {
               <h1>{numReps} reps - {weight} lbs</h1>
             </div>
             <div className="column is-4">
-              <button className="button is-info" onClick={() => this.setUpdateView()}>Update</button>
-              <button className="button is-danger" onClick={() => this.onDeleteSetClick()}>Delete</button>
+              <button className="button is-info" onClick={() => this.setUpdateView()}>
+                <span className="icon">
+                  <i className="fa fa-edit" />
+                </span>
+              </button>
+              <button className="button is-danger" onClick={() => this.onDeleteSetClick()}>
+                <span className="icon">
+                  <i className="fa fa-close" />
+                </span>
+              </button>
             </div>
           </div>
         }
