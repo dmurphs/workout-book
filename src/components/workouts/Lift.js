@@ -114,10 +114,18 @@ class Lift extends Component {
               {descriptionText}
             </div>
             <div className="column">
-              <button className="button is-info" onClick={() => this.setUpdateView()}>Update</button>
+              <button className="button is-info" onClick={() => this.setUpdateView()}>
+                <span className="icon">
+                  <i className="fa fa-edit" />
+                </span>
+              </button>
             </div>
             <div className="column">
-              <button className="button is-danger" onClick={() => this.onDeleteLiftClick()}>Delete</button>
+              <button className="button is-danger" onClick={() => this.onDeleteLiftClick()}>
+                <span className="icon">
+                  <i className="fa fa-close" />
+                </span>
+              </button>
             </div>
           </div>
         }
