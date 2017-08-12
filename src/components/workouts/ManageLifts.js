@@ -31,7 +31,7 @@ export default class ManageLifts extends Component {
         }
         <div className={isActive ? 'modal is-active' : 'modal'}>
           <div className="modal-background" />
-          <div className="modal-content">
+          <div className="modal-content manage-lifts-table">
             <LiftList dispatch={dispatch} />
           </div>
           <button onClick={() => this.toggleActive()} className="modal-close is-large" />

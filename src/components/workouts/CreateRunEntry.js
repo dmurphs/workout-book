@@ -94,23 +94,11 @@ class CreateLiftEntry extends Component {
             <h2>Create New Run Entry</h2>
             <div className="field">
               <input
-                className={notesErrors ? 'input is-danger' : 'input'}
-                type="text"
-                value={this.state.notes}
-                onChange={this.handleNotesChange}
-                placeholder="notes"
-              />
-              {notesErrors &&
-                <Errors errors={notesErrors} />
-              }
-            </div>
-            <div className="field">
-              <input
                 className={distanceErrors ? 'input is-danger' : 'input'}
                 type="number"
                 value={this.state.distance}
                 onChange={this.handleDistanceChange}
-                placeholder="distance"
+                placeholder="distance (miles)"
               />
               {distanceErrors &&
                 <Errors errors={distanceErrors} />
@@ -122,7 +110,7 @@ class CreateLiftEntry extends Component {
                 type="text"
                 value={this.state.duration}
                 onChange={this.handleDurationChange}
-                placeholder="duration"
+                placeholder="duration (hh:mm:ss)"
               />
               {durationErrors &&
                 <Errors errors={durationErrors} />
@@ -134,10 +122,22 @@ class CreateLiftEntry extends Component {
                 type="number"
                 value={this.state.elevationDelta}
                 onChange={this.handleElevationDeltaChange}
-                placeholder="elevation delta"
+                placeholder="elevation delta (ft)"
               />
               {elevationDeltaErrors &&
                 <Errors errors={elevationDeltaErrors} />
+              }
+            </div>
+            <div className="field">
+              <input
+                className={notesErrors ? 'input is-danger' : 'input'}
+                type="text"
+                value={this.state.notes}
+                onChange={this.handleNotesChange}
+                placeholder="notes"
+              />
+              {notesErrors &&
+                <Errors errors={notesErrors} />
               }
             </div>
             {nonFieldErrors &&

@@ -90,7 +90,7 @@ class CreateSet extends Component {
                 type="number"
                 value={this.state.weight}
                 onChange={this.handleWeightChange}
-                placeholder="weight"
+                placeholder="weight (lbs)"
               />
               {weightErrors &&
                 <Errors errors={weightErrors} />

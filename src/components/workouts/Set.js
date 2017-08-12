@@ -136,7 +136,7 @@ class Set extends Component {
               </div>
             </div>
             <div className="field">
-              <label className="label" htmlFor="editWeight">Weight</label>
+              <label className="label" htmlFor="editWeight">Weight (lbs)</label>
               <div className="control">
                 <input
                   id="editWeight"
@@ -144,7 +144,7 @@ class Set extends Component {
                   type="number"
                   value={this.state.weight}
                   onChange={this.handleWeightChange}
-                  placeholder="weight"
+                  placeholder="weight (lbs)"
                 />
                 { weightErrors &&
                   <Errors errors={weightErrors} />
