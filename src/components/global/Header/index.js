@@ -12,7 +12,7 @@ export default class Header extends Component {
     return (
       <nav className="nav">
         <div className="nav-left">
-          <Link className="nav-item " to="/">Dashboard</Link>
+          <Link className="nav-item " to="/">Home</Link>
         </div>
         <div>
           { isAuthenticated &&

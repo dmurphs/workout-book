@@ -123,7 +123,7 @@ class LiftEntry extends Component {
         <div className="card-content">
           { !this.state.updateView &&
             <div className="columns">
-              <div className="column is-8">
+              <div className="column is-9">
                 <h1 className="title">{ liftDisplay }</h1>
                 { (notes && notes !== '') &&
                   <div>
@@ -132,7 +132,7 @@ class LiftEntry extends Component {
                   </div>
                 }
               </div>
-              <div className="column is-4">
+              <div className="column is-3">
                 <button className="button is-info" onClick={() => this.setUpdateView()}>
                   <span className="icon">
                     <i className="fa fa-edit" />

@@ -95,25 +95,31 @@ class WorkoutList extends Component {
         }
         { received &&
           <div>
-            <div className="field">
-              <label className="label" htmlFor="startDate">Start Date</label>
-              <input
-                className="input"
-                id="startDate"
-                type="date"
-                value={this.state.startDate}
-                onChange={this.handleStartDateChange}
-              />
-            </div>
-            <div className="field">
-              <label className="label" htmlFor="endDate">End Date</label>
-              <input
-                className="input"
-                id="endDate"
-                type="date"
-                value={this.state.endDate}
-                onChange={this.handleEndDateChange}
-              />
+            <div className="columns">
+              <div className="column is-6">
+                <div className="field">
+                  <label className="label" htmlFor="startDate">Start Date</label>
+                  <input
+                    className="input"
+                    id="startDate"
+                    type="date"
+                    value={this.state.startDate}
+                    onChange={this.handleStartDateChange}
+                  />
+                </div>
+              </div>
+              <div className="column is-6">
+                <div className="field">
+                  <label className="label" htmlFor="endDate">End Date</label>
+                  <input
+                    className="input"
+                    id="endDate"
+                    type="date"
+                    value={this.state.endDate}
+                    onChange={this.handleEndDateChange}
+                  />
+                </div>
+              </div>
             </div>
             <button className="button" onClick={() => this.updateComponent()}>Submit</button>
             <table className="table is-bordered is-striped">

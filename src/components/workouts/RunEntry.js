@@ -125,16 +125,20 @@ class RunEntry extends Component {
       <div className="card">
         { !this.state.updateView &&
           <div className="card-content">
-            <button className="button is-info" onClick={() => this.setUpdateView()}>
-              <span className="icon">
-                <i className="fa fa-edit" />
-              </span>
-            </button>
-            <button className="button is-danger" onClick={() => this.onDeleteRunEntryClick()}>
-              <span className="icon">
-                <i className="fa fa-close" />
-              </span>
-            </button>
+            <div className="columns">
+              <div className="column is-3 is-offset-9">
+                <button className="button is-info" onClick={() => this.setUpdateView()}>
+                  <span className="icon">
+                    <i className="fa fa-edit" />
+                  </span>
+                </button>
+                <button className="button is-danger" onClick={() => this.onDeleteRunEntryClick()}>
+                  <span className="icon">
+                    <i className="fa fa-close" />
+                  </span>
+                </button>
+              </div>
+            </div>
             <h1>Run Info</h1>
             <table className="table is-bordered is-striped">
               <tbody>

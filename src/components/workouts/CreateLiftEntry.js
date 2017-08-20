@@ -118,7 +118,7 @@ class CreateLiftEntry extends Component {
         </div>
         }
         { !showForm &&
-          <button className="button is-info" onClick={() => this.setState({ showForm: true })}>New Lift Entry</button>
+          <button className="button is-info" onClick={() => this.setState({ showForm: true })}>Add Lift Entry</button>
         }
       </div>
     );
