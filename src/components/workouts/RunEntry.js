@@ -166,54 +166,64 @@ class RunEntry extends Component {
         }
         { this.state.updateView &&
           <div className="card-content">
-            <div className="field">
-              <label htmlFor="editDistance" className="label">Distance (miles)</label>
-              <div className="control">
-                <input
-                  id="editDistance"
-                  className={distanceErrors ? 'input is-danger' : 'input'}
-                  type="number"
-                  value={this.state.distance}
-                  onChange={this.handleDistanceChange}
-                  placeholder="distance (miles)"
-                />
-                {distanceErrors &&
-                  <Errors errors={distanceErrors} />
-                }
-              </div>
-            </div>
-            <div className="field">
-              <label htmlFor="editDuration" className="label">Duration (hh:mm:ss)</label>
-              <div className="control">
-                <input
-                  id="editDuration"
-                  className={durationErrors ? 'input is-danger' : 'input'}
-                  type="text"
-                  value={this.state.duration}
-                  onChange={this.handleDurationChange}
-                  placeholder="duration (hh:mm:ss)"
-                />
-                {durationErrors &&
-                  <Errors errors={durationErrors} />
-                }
-              </div>
-            </div>
-            <div className="field">
-              <label htmlFor="editElevationDelta" className="label">Elevation Delta (ft)</label>
-              <div className="control">
-                <input
-                  id="editElevationDelta"
-                  className={elevationDeltaErrors ? 'input is-danger' : 'input'}
-                  type="number"
-                  value={this.state.elevationDelta}
-                  onChange={this.handleElevationDeltaChange}
-                  placeholder="elevation delta (ft)"
-                />
-                {elevationDeltaErrors &&
-                  <Errors errors={elevationDeltaErrors} />
-                }
-              </div>
-            </div>
+            <table className="table is-bordered is-striped">
+              <tbody>
+                <tr>
+                  <td>Distance (miles)</td>
+                  <td>
+                    <div className="control">
+                      <input
+                        id="editDistance"
+                        className={distanceErrors ? 'input is-danger' : 'input'}
+                        type="number"
+                        value={this.state.distance}
+                        onChange={this.handleDistanceChange}
+                        placeholder="distance (miles)"
+                      />
+                      {distanceErrors &&
+                        <Errors errors={distanceErrors} />
+                      }
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Duration (hh:mm:ss)</td>
+                  <td>
+                    <div className="control">
+                      <input
+                        id="editDuration"
+                        className={durationErrors ? 'input is-danger' : 'input'}
+                        type="text"
+                        value={this.state.duration}
+                        onChange={this.handleDurationChange}
+                        placeholder="duration (hh:mm:ss)"
+                      />
+                      {durationErrors &&
+                        <Errors errors={durationErrors} />
+                      }
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Elevation Delta (ft)</td>
+                  <td>
+                    <div className="control">
+                      <input
+                        id="editElevationDelta"
+                        className={elevationDeltaErrors ? 'input is-danger' : 'input'}
+                        type="number"
+                        value={this.state.elevationDelta}
+                        onChange={this.handleElevationDeltaChange}
+                        placeholder="elevation delta (ft)"
+                      />
+                      {elevationDeltaErrors &&
+                        <Errors errors={elevationDeltaErrors} />
+                      }
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
             <div className="field">
               <label htmlFor="editNotes" className="label">Notes</label>
               <div className="control">
