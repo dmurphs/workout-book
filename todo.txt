@@ -1,10 +1,10 @@
 IMPORTANT STUFF
+handle cascade removal of lift entries when deleting lift
 add control for run duration input
 split up actions and reducers
 clean up console warning messages
 clean up linter issues that are ignored currently
 error handling
-let user select date range for workouts on dashboard (default is past week)
 
 LOW PRIORITY STUFF
 add run map feature

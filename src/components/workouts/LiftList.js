@@ -30,19 +30,26 @@ class LiftList extends Component {
           <h1>Loading Lifts...</h1>
         }
         { received &&
-          <div>
-            {lifts.map(lift => (
-              <Lift
-                key={lift.id}
-                dispatch={dispatch}
-                liftID={lift.id}
-                name={lift.name}
-                description={lift.description}
-              />
-            ))}
-            <hr />
-            <CreateLift dispatch={dispatch} />
-          </div>
+          <table className="table is-bordered is-striped">
+            <thead>
+              <td>Name</td>
+              <td>Description</td>
+              <td />
+            </thead>
+            <tbody>
+              {lifts.map(lift => (
+                <Lift
+                  key={lift.id}
+                  dispatch={dispatch}
+                  liftID={lift.id}
+                  name={lift.name}
+                  description={lift.description}
+                />
+              ))}
+              <hr />
+              <CreateLift dispatch={dispatch} />
+            </tbody>
+          </table>
         }
       </div>
     );

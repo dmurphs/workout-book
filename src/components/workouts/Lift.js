@@ -103,56 +103,53 @@ class Lift extends Component {
 
     const descriptionText = description ? description : '(No Description)'; // eslint-disable-line
 
+    if (!updateView) {
+      return (
+        <tr>
+          <td>
+            {name}
+          </td>
+          <td>
+            {descriptionText}
+          </td>
+          <td>
+            <button className="button is-info" onClick={() => this.setUpdateView()}>
+              <span className="icon">
+                <i className="fa fa-edit" />
+              </span>
+            </button>
+            <button className="button is-danger" onClick={() => this.onDeleteLiftClick()}>
+              <span className="icon">
+                <i className="fa fa-close" />
+              </span>
+            </button>
+          </td>
+        </tr>
+      );
+    }
+
     return (
-      <div>
-        {!updateView &&
-          <div className="columns">
-            <div className="column">
-              {name}
-            </div>
-            <div className="column">
-              {descriptionText}
-            </div>
-            <div className="column">
-              <button className="button is-info" onClick={() => this.setUpdateView()}>
-                <span className="icon">
-                  <i className="fa fa-edit" />
-                </span>
-              </button>
-            </div>
-            <div className="column">
-              <button className="button is-danger" onClick={() => this.onDeleteLiftClick()}>
-                <span className="icon">
-                  <i className="fa fa-close" />
-                </span>
-              </button>
-            </div>
-          </div>
+      <tr>
+        <td>
+          <input className={nameErrors ? 'input is-danger' : 'input'} type="text" value={this.state.name} onChange={this.handleNameChange} placeholder="name" />
+          {nameErrors &&
+            <Errors errors={nameErrors} />
+          }
+        </td>
+        <td>
+          <input className={descriptionErrors ? 'input is-danger' : 'input'} type="text" value={this.state.description} onChange={this.handleDescriptionChange} placeholder="description" />
+          {descriptionErrors &&
+            <Errors errors={descriptionErrors} />
+          }
+        </td>
+        {nonFieldErrors &&
+          <Errors errors={nonFieldErrors} />
         }
-        {updateView &&
-          <div>
-            <div className="field">
-              <input className={nameErrors ? 'input is-danger' : 'input'} type="text" value={this.state.name} onChange={this.handleNameChange} placeholder="name" />
-              {nameErrors &&
-                <Errors errors={nameErrors} />
-              }
-            </div>
-            <div className="field">
-              <input className={descriptionErrors ? 'input is-danger' : 'input'} type="text" value={this.state.description} onChange={this.handleDescriptionChange} placeholder="description" />
-              {descriptionErrors &&
-                <Errors errors={descriptionErrors} />
-              }
-            </div>
-            {nonFieldErrors &&
-              <Errors errors={nonFieldErrors} />
-            }
-            <div className="field">
-              <button className="button is-success" onClick={() => this.onUpdateLiftEntryClick()}>Update Lift</button>
-              <button className="button is-warning" onClick={() => this.onCancelUpdateClick()}>Cancel</button>
-            </div>
-          </div>
-        }
-      </div>
+        <td>
+          <button className="button is-success" onClick={() => this.onUpdateLiftEntryClick()}>Update Lift</button>
+          <button className="button is-warning" onClick={() => this.onCancelUpdateClick()}>Cancel</button>
+        </td>
+      </tr>
     );
   }
 }
