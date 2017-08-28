@@ -6,14 +6,13 @@ import PropTypes from 'prop-types';
 
 import Errors from '@/components/global/Errors';
 
-import { createSet, createSetReset, getSets } from '@/store/actions';
+import { createSet, getSets } from '@/store/actions';
 
-class CreateSet extends Component {
+class CreateSetRow extends Component {
 
   constructor(props) {
     super(props);
     this.defaultState = {
-      showForm: false,
       numReps: '',
       weight: '',
     };
@@ -47,12 +46,8 @@ class CreateSet extends Component {
       });
   }
 
-  handleCancelCreationClick() {
-    const { dispatch } = this.props;
-
-    dispatch(createSetReset());
-
-    this.setState({ showForm: false });
+  handleResetClick() {
+    this.setState(this.defaultState);
   }
 
   handleNumRepsChange(event) {
@@ -65,55 +60,46 @@ class CreateSet extends Component {
 
   render() {
     const { numRepsErrors, weightErrors, nonFieldErrors } = this.props;
-    const showForm = this.state.showForm;
 
     return (
-      <div>
-        { showForm &&
-          <div>
-            <h2>Create New Set</h2>
-            <div className="field">
-              <input
-                className={numRepsErrors ? 'input is-danger' : 'input'}
-                type="number"
-                value={this.state.numReps}
-                onChange={this.handleNumRepsChange}
-                placeholder="number of reps"
-              />
-              {numRepsErrors &&
-                <Errors errors={numRepsErrors} />
-              }
-            </div>
-            <div className="field">
-              <input
-                className={weightErrors ? 'input is-danger' : 'input'}
-                type="number"
-                value={this.state.weight}
-                onChange={this.handleWeightChange}
-                placeholder="weight (lbs)"
-              />
-              {weightErrors &&
-                <Errors errors={weightErrors} />
-              }
-            </div>
-            {nonFieldErrors &&
-              <Errors errors={nonFieldErrors} />
-            }
-            <div className="field">
-              <button className="button is-success" onClick={() => this.handleSetCreationClick()}>Create Set</button>
-              <button className="button is-warning" onClick={() => this.handleCancelCreationClick()}>Cancel</button>
-            </div>
-          </div>
+      <tr>
+        <td>
+          <input
+            className={numRepsErrors ? 'input is-danger' : 'input'}
+            type="number"
+            value={this.state.numReps}
+            onChange={this.handleNumRepsChange}
+            placeholder="number of reps"
+          />
+          {numRepsErrors &&
+            <Errors errors={numRepsErrors} />
+          }
+        </td>
+        <td>
+          <input
+            className={weightErrors ? 'input is-danger' : 'input'}
+            type="number"
+            value={this.state.weight}
+            onChange={this.handleWeightChange}
+            placeholder="weight (lbs)"
+          />
+          {weightErrors &&
+            <Errors errors={weightErrors} />
+          }
+        </td>
+        {nonFieldErrors &&
+          <Errors errors={nonFieldErrors} />
         }
-        { !showForm &&
-          <button className="button is-info" onClick={() => this.setState({ showForm: true })}>Add Set</button>
-        }
-      </div>
+        <td>
+          <button className="button is-success" onClick={() => this.handleSetCreationClick()}>Create Set</button>
+          <button className="button is-warning" onClick={() => this.handleResetClick()}>Reset</button>
+        </td>
+      </tr>
     );
   }
 }
 
-CreateSet.propTypes = {
+CreateSetRow.propTypes = {
   dispatch: PropTypes.func.isRequired,
   liftEntryID: PropTypes.number.isRequired,
   isCreated: PropTypes.bool.isRequired,
@@ -138,4 +124,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(CreateSet);
+export default connect(mapStateToProps)(CreateSetRow);

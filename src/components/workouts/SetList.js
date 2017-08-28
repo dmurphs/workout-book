@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import CreateSet from '@/components/workouts/CreateSet';
+import CreateSetRow from '@/components/workouts/CreateSetRow';
 import SetRow from '@/components/workouts/SetRow';
 
 import { getSets } from '@/store/actions';
@@ -52,13 +52,12 @@ class SetList extends Component {
                     dispatch={dispatch}
                   />
                 ))}
+                <CreateSetRow
+                  liftEntryID={liftEntryID}
+                  dispatch={dispatch}
+                />
               </tbody>
             </table>
-            <hr />
-            <CreateSet
-              liftEntryID={liftEntryID}
-              dispatch={dispatch}
-            />
           </div>
         }
       </div>
