@@ -6,7 +6,7 @@ import Errors from '@/components/global/Errors';
 
 import { updateSet, updateSetReset, getSets } from '@/store/actions';
 
-class Set extends Component {
+class SetRow extends Component {
 
   constructor(props) {
     super(props);
@@ -96,78 +96,72 @@ class Set extends Component {
   render() {
     const { numReps, weight, numRepsErrors, weightErrors, nonFieldErrors } = this.props;
 
+    if (!this.state.updateView) {
+      return (
+        <tr>
+          <td>{numReps}</td>
+          <td>{weight}</td>
+          <td>
+            <button className="button is-info" onClick={() => this.setUpdateView()}>
+              <span className="icon">
+                <i className="fa fa-edit" />
+              </span>
+            </button>
+            <button className="button is-danger" onClick={() => this.onDeleteSetClick()}>
+              <span className="icon">
+                <i className="fa fa-close" />
+              </span>
+            </button>
+          </td>
+        </tr>
+      );
+    }
+
     return (
-      <div>
-        { !this.state.updateView &&
-          <div className="columns">
-            <div className="column is-8">
-              <h1>{numReps} reps - {weight} lbs</h1>
-            </div>
-            <div className="column is-4">
-              <button className="button is-info" onClick={() => this.setUpdateView()}>
-                <span className="icon">
-                  <i className="fa fa-edit" />
-                </span>
-              </button>
-              <button className="button is-danger" onClick={() => this.onDeleteSetClick()}>
-                <span className="icon">
-                  <i className="fa fa-close" />
-                </span>
-              </button>
-            </div>
-          </div>
-        }
-        { this.state.updateView &&
-          <div>
-            <div className="field">
-              <label className="label" htmlFor="editNumReps">Num Reps</label>
-              <div className="control">
-                <input
-                  id="editNumReps"
-                  className={numRepsErrors ? 'input is-danger' : 'input'}
-                  type="number"
-                  value={this.state.numReps}
-                  onChange={this.handleNumRepsChange}
-                  placeholder="number of reps"
-                />
-                { numRepsErrors &&
-                  <Errors errors={numRepsErrors} />
-                }
-              </div>
-            </div>
-            <div className="field">
-              <label className="label" htmlFor="editWeight">Weight (lbs)</label>
-              <div className="control">
-                <input
-                  id="editWeight"
-                  className={weightErrors ? 'input is-danger' : 'input'}
-                  type="number"
-                  value={this.state.weight}
-                  onChange={this.handleWeightChange}
-                  placeholder="weight (lbs)"
-                />
-                { weightErrors &&
-                  <Errors errors={weightErrors} />
-                }
-              </div>
-            </div>
-            { nonFieldErrors &&
-              <Errors errors={nonFieldErrors} />
+      <tr>
+        <td>
+          <div className="control">
+            <input
+              id="editNumReps"
+              className={numRepsErrors ? 'input is-danger' : 'input'}
+              type="number"
+              value={this.state.numReps}
+              onChange={this.handleNumRepsChange}
+              placeholder="number of reps"
+            />
+            { numRepsErrors &&
+              <Errors errors={numRepsErrors} />
             }
-            <div className="field">
-              <button className="button is-success" onClick={() => this.onUpdateSetClick()}>Save Changes</button>
-            </div>
-            <div className="field">
-              <button className="button is-warning" onClick={() => this.onCancelUpdateClick()}>Cancel</button>
-            </div>
           </div>
+        </td>
+        <td>
+          <div className="control">
+            <input
+              id="editWeight"
+              className={weightErrors ? 'input is-danger' : 'input'}
+              type="number"
+              value={this.state.weight}
+              onChange={this.handleWeightChange}
+              placeholder="weight (lbs)"
+            />
+            { weightErrors &&
+              <Errors errors={weightErrors} />
+            }
+          </div>
+        </td>
+        { nonFieldErrors &&
+          <Errors errors={nonFieldErrors} />
         }
-      </div>
+        <td>
+          <button className="button is-success" onClick={() => this.onUpdateSetClick()}>Save Changes</button>
+          <button className="button is-warning" onClick={() => this.onCancelUpdateClick()}>Cancel</button>
+        </td>
+      </tr>
     );
   }
 }
 
-Set.propTypes = {
+SetRow.propTypes = {
   setID: PropTypes.number.isRequired,
   numReps: PropTypes.number.isRequired,
   weight: PropTypes.number.isRequired,
@@ -195,4 +189,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Set);
+export default connect(mapStateToProps)(SetRow);

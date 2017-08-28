@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import CreateSet from '@/components/workouts/CreateSet';
-import Set from '@/components/workouts/Set';
+import SetRow from '@/components/workouts/SetRow';
 
 import { getSets } from '@/store/actions';
 
@@ -35,19 +35,25 @@ class SetList extends Component {
         { received &&
           <div>
             <h2>Sets</h2>
-            <ul>
-              {orderedSets.map(set => (
-                <li key={set.id}>
-                  <Set
+            <table className="table is-bordered is-striped">
+              <tbody>
+                <tr>
+                  <th>Number of Reps</th>
+                  <th>Weight (lbs)</th>
+                  <th />
+                </tr>
+                {orderedSets.map(set => (
+                  <SetRow
+                    key={set.id}
                     setID={set.id}
                     numReps={set.num_reps}
                     weight={set.weight}
                     liftEntryID={liftEntryID}
                     dispatch={dispatch}
                   />
-                </li>
-              ))}
-            </ul>
+                ))}
+              </tbody>
+            </table>
             <hr />
             <CreateSet
               liftEntryID={liftEntryID}

@@ -40,6 +40,7 @@ class LiftList extends Component {
                 description={lift.description}
               />
             ))}
+            <hr />
             <CreateLift dispatch={dispatch} />
           </div>
         }

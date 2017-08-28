@@ -80,7 +80,7 @@ class CreateLiftEntry extends Component {
         <div>
           <h2>Create New Lift Entry</h2>
           <div className="columns field">
-            <div className="column">
+            <div className="column is-4">
               <div className={liftErrors ? 'select is-danger' : 'select'}>
                 <select value={this.state.selectedLift} onChange={this.handleLiftChange} >
                   <option value="">Select a lift</option>
@@ -98,7 +98,7 @@ class CreateLiftEntry extends Component {
                 <Errors errors={liftErrors} />
               }
             </div>
-            <div className="column">
+            <div className="column is-4">
               <ManageLifts dispatch={dispatch} />
             </div>
           </div>
