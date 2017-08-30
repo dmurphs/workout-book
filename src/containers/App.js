@@ -12,6 +12,7 @@ import Login from '@/components/auth/Login';
 import Register from '@/components/auth/Register';
 import Dashboard from '@/components/workouts/Dashboard';
 import Workout from '@/components/workouts/Workout';
+import LiftList from '@/components/workouts/LiftList';
 
 import { loginUser } from '@/store/actions';
 
@@ -67,6 +68,7 @@ class App extends Component{
             <Route path="/register" component={RegisterWrapper} />
             <Route path="/login" component={LoginWrapper} />
             <Route path="/workout/:workoutID" component={WorkoutWrapper} />
+            <Route path="/lifts" component={LiftList} />
           </div>
         </Router>
       </Provider>

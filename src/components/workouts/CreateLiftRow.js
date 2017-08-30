@@ -4,14 +4,13 @@ import PropTypes from 'prop-types';
 
 import Errors from '@/components/global/Errors';
 
-import { createLift, createLiftReset, getLifts } from '@/store/actions';
+import { createLift, getLifts } from '@/store/actions';
 
-class CreateLift extends Component {
+class CreateLiftRow extends Component {
 
   constructor(props) {
     super(props);
     this.defaultState = {
-      showForm: false,
       name: '',
       description: '',
     };
@@ -31,11 +30,7 @@ class CreateLift extends Component {
   }
 
   handleCancelLiftCreateClick() {
-    const { dispatch } = this.props;
-
-    dispatch(createLiftReset());
-
-    this.setState({ showForm: false });
+    this.setState(this.defaultState);
   }
 
   handleLiftCreateClick() {
@@ -63,43 +58,34 @@ class CreateLift extends Component {
 
   render() {
     const { nameErrors, descriptionErrors, nonFieldErrors } = this.props;
-    const { showForm } = this.state;
 
     return (
-      <div>
-        { showForm &&
-        <div>
-          <h2>Create New Lift</h2>
-          <div className="field">
-            <input className={nameErrors ? 'input is-danger' : 'input'} type="text" value={this.state.name} onChange={this.handleNameChange} placeholder="name" />
-            {nameErrors &&
-              <Errors errors={nameErrors} />
-            }
-          </div>
-          <div className="field">
-            <input className={descriptionErrors ? 'input is-danger' : 'input'} type="text" value={this.state.description} onChange={this.handleDescriptionChange} placeholder="description" />
-            {descriptionErrors &&
-              <Errors errors={descriptionErrors} />
-            }
-          </div>
-          {nonFieldErrors &&
-            <Errors errors={nonFieldErrors} />
+      <tr>
+        <td>
+          <input className={nameErrors ? 'input is-danger' : 'input'} type="text" value={this.state.name} onChange={this.handleNameChange} placeholder="name" />
+          {nameErrors &&
+            <Errors errors={nameErrors} />
           }
-          <div className="field">
-            <button className="button is-success" onClick={() => this.handleLiftCreateClick()}>Create Lift</button>
-            <button className="button is-warning" onClick={() => this.handleCancelLiftCreateClick()}>Cancel</button>
-          </div>
-        </div>
+        </td>
+        <td>
+          <input className={descriptionErrors ? 'input is-danger' : 'input'} type="text" value={this.state.description} onChange={this.handleDescriptionChange} placeholder="description" />
+          {descriptionErrors &&
+            <Errors errors={descriptionErrors} />
+          }
+        </td>
+        {nonFieldErrors &&
+          <Errors errors={nonFieldErrors} />
         }
-        { !showForm &&
-          <button className="button is-info" onClick={() => this.setState({ showForm: true })}>New Lift</button>
-        }
-      </div>
+        <td>
+          <button className="button is-success" onClick={() => this.handleLiftCreateClick()}>Create Lift</button>
+          <button className="button is-warning" onClick={() => this.handleCancelLiftCreateClick()}>Cancel</button>
+        </td>
+      </tr>
     );
   }
 }
 
-CreateLift.propTypes = {
+CreateLiftRow.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isCreated: PropTypes.bool.isRequired,
   nameErrors: PropTypes.array, // eslint-disable-line
@@ -124,4 +110,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(CreateLift);
+export default connect(mapStateToProps)(CreateLiftRow);

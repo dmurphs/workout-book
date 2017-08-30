@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import SetList from '@/components/workouts/SetList';
 import Errors from '@/components/global/Errors';
-import ManageLifts from '@/components/workouts/ManageLifts';
 
 import { updateLiftEntry, updateLiftEntryReset, getLifts, getLiftEntries } from '@/store/actions';
 
@@ -176,7 +176,7 @@ class LiftEntry extends Component {
                   </div>
                 </div>
                 <div className="column">
-                  <ManageLifts dispatch={dispatch} />
+                  <Link to="/lifts">Manage Lifts</Link>
                 </div>
               </div>
               <div className="field">

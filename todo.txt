@@ -1,4 +1,5 @@
 IMPORTANT STUFF
+move rendering for set list rows into set list component (same with lifts)
 handle cascade removal of lift entries when deleting lift
 add control for run duration input
 split up actions and reducers

@@ -6,7 +6,7 @@ import Errors from '@/components/global/Errors';
 
 import { updateLift, updateLiftReset, getLifts } from '@/store/actions';
 
-class Lift extends Component {
+class LiftRow extends Component {
 
   constructor(props) {
     super(props);
@@ -154,7 +154,7 @@ class Lift extends Component {
   }
 }
 
-Lift.propTypes = {
+LiftRow.propTypes = {
   dispatch: PropTypes.func.isRequired,
   liftID: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
@@ -182,4 +182,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Lift);
+export default connect(mapStateToProps)(LiftRow);

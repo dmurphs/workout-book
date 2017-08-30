@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import CreateLift from '@/components/workouts/CreateLift';
-import Lift from '@/components/workouts/Lift';
+import CreateLiftRow from '@/components/workouts/CreateLiftRow';
+import LiftRow from '@/components/workouts/LiftRow';
 
 import { getLifts } from '@/store/actions';
 
@@ -38,7 +38,7 @@ class LiftList extends Component {
             </thead>
             <tbody>
               {lifts.map(lift => (
-                <Lift
+                <LiftRow
                   key={lift.id}
                   dispatch={dispatch}
                   liftID={lift.id}
@@ -46,8 +46,7 @@ class LiftList extends Component {
                   description={lift.description}
                 />
               ))}
-              <hr />
-              <CreateLift dispatch={dispatch} />
+              <CreateLiftRow dispatch={dispatch} />
             </tbody>
           </table>
         }

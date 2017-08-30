@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import ManageLifts from '@/components/workouts/ManageLifts';
 import Errors from '@/components/global/Errors';
 
 import { getLifts, getLiftEntries, createLiftEntry, createLiftEntryReset } from '@/store/actions';
@@ -71,7 +71,7 @@ class CreateLiftEntry extends Component {
   }
 
   render() {
-    const { dispatch, lifts, liftErrors, notesErrors, nonFieldErrors } = this.props;
+    const { lifts, liftErrors, notesErrors, nonFieldErrors } = this.props;
     const { showForm } = this.state;
 
     return (
@@ -99,7 +99,7 @@ class CreateLiftEntry extends Component {
               }
             </div>
             <div className="column is-4">
-              <ManageLifts dispatch={dispatch} />
+              <Link to="/lifts">Manage Lifts</Link>
             </div>
           </div>
           <div className="field">
