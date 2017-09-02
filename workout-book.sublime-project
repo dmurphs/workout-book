@@ -1,0 +1,24 @@
+{
+	"folders":
+	[
+		{
+			"path": "/Users/dan/pydev/fitpy"
+		},
+		{
+			"path": "src"
+		},
+		{
+			"path": "tools"
+		},
+		{
+			"path": "."
+		},
+		{
+			"path": "node_modules"
+		}
+	],
+
+	"syntax_override": {
+        "\\.js$": ["Babel", "JavaScript (Babel)"]
+    }
+}

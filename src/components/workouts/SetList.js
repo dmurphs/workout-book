@@ -40,7 +40,6 @@ class SetList extends Component {
                 <tr>
                   <th>Number of Reps</th>
                   <th>Weight (lbs)</th>
-                  <th />
                 </tr>
                 {orderedSets.map(set => (
                   <SetRow

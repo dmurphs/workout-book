@@ -151,6 +151,7 @@ class LiftEntry extends Component {
               <div className="field columns">
                 <div className="column">
                   <label className="label" htmlFor="liftEdit">Lift</label>
+                  <Link to="/lifts">Manage Lifts</Link>
                   <div className="control">
                     <div className={liftErrors ? 'select is-danger' : 'select'}>
                       <select id="liftEdit" value={this.state.liftID} onChange={this.handleLiftChange} >
@@ -174,9 +175,6 @@ class LiftEntry extends Component {
                       <Errors errors={liftErrors} />
                     }
                   </div>
-                </div>
-                <div className="column">
-                  <Link to="/lifts">Manage Lifts</Link>
                 </div>
               </div>
               <div className="field">
