@@ -105,7 +105,7 @@ class LiftRow extends Component {
 
     if (!updateView) {
       return (
-        <tr>
+        <tr onDoubleClick={() => this.setUpdateView()}>
           <td>
             {name}
           </td>

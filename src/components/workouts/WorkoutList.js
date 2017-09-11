@@ -78,11 +78,15 @@ class WorkoutList extends Component {
   }
 
   handleStartDateChange(event) {
-    this.setState({ startDate: event.target.value });
+    this.setState({ startDate: event.target.value }, () => {
+      this.updateComponent();
+    });
   }
 
   handleEndDateChange(event) {
-    this.setState({ endDate: event.target.value });
+    this.setState({ endDate: event.target.value }, () => {
+      this.updateComponent();
+    });
   }
 
   render() {
@@ -121,7 +125,6 @@ class WorkoutList extends Component {
                 </div>
               </div>
             </div>
-            <button className="button" onClick={() => this.updateComponent()}>Submit</button>
             <table className="table is-bordered is-striped">
               <tbody>
                 {workouts.map((workout) => {

@@ -171,7 +171,7 @@ export function updateWorkout(workoutID, workoutData) {
     [CALL_API]: {
       endpoint: `${UPDATE_WORKOUT_URL}${workoutID}/`,
       types: [UPDATE_WORKOUT_REQUEST, UPDATE_WORKOUT_SUCCESS, UPDATE_WORKOUT_FAILURE],
-      requestMethod: 'PUT',
+      requestMethod: 'PATCH',
       requestData: workoutData,
     },
   };
@@ -229,7 +229,7 @@ export function updateLiftEntry(liftEntryID, liftEntryData) {
     [CALL_API]: {
       endpoint: `${UPDATE_LIFT_ENTRY_URL}${liftEntryID}/`,
       types: [UPDATE_LIFT_ENTRY_REQUEST, UPDATE_LIFT_ENTRY_SUCCESS, UPDATE_LIFT_ENTRY_FAILURE],
-      requestMethod: 'PUT',
+      requestMethod: 'PATCH',
       requestData: liftEntryData,
     },
   };
@@ -274,7 +274,7 @@ export function updateLift(liftID, liftData) {
     [CALL_API]: {
       endpoint: `${UPDATE_LIFT_URL}${liftID}/`,
       types: [UPDATE_LIFT_REQUEST, UPDATE_LIFT_SUCCESS, UPDATE_LIFT_FAILURE],
-      requestMethod: 'PUT',
+      requestMethod: 'PATCH',
       requestData: liftData,
     },
   };
@@ -320,7 +320,7 @@ export function updateSet(setID, setData) {
     [CALL_API]: {
       endpoint: `${UPDATE_SET_URL}${setID}/`,
       types: [UPDATE_SET_REQUEST, UPDATE_SET_SUCCESS, UPDATE_SET_FAILURE],
-      requestMethod: 'PUT',
+      requestMethod: 'PATCH',
       requestData: setData,
     },
   };
@@ -366,7 +366,7 @@ export function updateRunEntry(runEntryID, runEntryData) {
     [CALL_API]: {
       endpoint: `${UPDATE_RUN_ENTRY_URL}${runEntryID}/`,
       types: [UPDATE_RUN_ENTRY_REQUEST, UPDATE_RUN_ENTRY_SUCCESS, UPDATE_RUN_ENTRY_FAILURE],
-      requestMethod: 'PUT',
+      requestMethod: 'PATCH',
       requestData: runEntryData,
     },
   };

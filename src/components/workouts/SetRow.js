@@ -98,7 +98,7 @@ class SetRow extends Component {
 
     if (!this.state.updateView) {
       return (
-        <tr>
+        <tr onDoubleClick={() => this.setUpdateView()}>
           <td>{numReps}</td>
           <td>{weight}</td>
           <td>

@@ -24,7 +24,7 @@ class LiftList extends Component {
     } = this.props;
 
     return (
-      <div>
+      <div className="container">
         <h1 className="subtitle">Lifts</h1>
         { isFetching &&
           <h1>Loading Lifts...</h1>

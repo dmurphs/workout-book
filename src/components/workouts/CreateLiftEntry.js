@@ -81,25 +81,25 @@ class CreateLiftEntry extends Component {
           <h2>Create New Lift Entry</h2>
           <div className="columns field">
             <div className="column is-4">
-              <div className={liftErrors ? 'select is-danger' : 'select'}>
-                <select value={this.state.selectedLift} onChange={this.handleLiftChange} >
-                  <option value="">Select a lift</option>
-                  {lifts.map((lift) => {
-                    const liftID = lift.id;
-                    const liftName = lift.name;
+              <Link to="/lifts">Manage Lifts</Link>
+              <div className="control">
+                <div className={liftErrors ? 'select is-danger' : 'select'}>
+                  <select value={this.state.selectedLift} onChange={this.handleLiftChange} >
+                    <option value="">Select a lift</option>
+                    {lifts.map((lift) => {
+                      const liftID = lift.id;
+                      const liftName = lift.name;
 
-                    return (
-                      <option key={liftID} value={liftID}>{liftName}</option>
-                    );
-                  })}
-                </select>
+                      return (
+                        <option key={liftID} value={liftID}>{liftName}</option>
+                      );
+                    })}
+                  </select>
+                </div>
               </div>
               {liftErrors &&
                 <Errors errors={liftErrors} />
               }
-            </div>
-            <div className="column is-4">
-              <Link to="/lifts">Manage Lifts</Link>
             </div>
           </div>
           <div className="field">
