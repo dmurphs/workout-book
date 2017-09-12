@@ -164,7 +164,7 @@ class SetRow extends Component {
 SetRow.propTypes = {
   setID: PropTypes.number.isRequired,
   numReps: PropTypes.number.isRequired,
-  weight: PropTypes.number.isRequired,
+  weight: PropTypes.number, // eslint-disable-line
   liftEntryID: PropTypes.number.isRequired,
   dispatch: PropTypes.func.isRequired,
   isUpdated: PropTypes.bool.isRequired,
