@@ -66,4 +66,6 @@ flow-typed/
 # compiled
 /dist
 
+yarn.lock
+
 # End of https://www.gitignore.io/api/node
