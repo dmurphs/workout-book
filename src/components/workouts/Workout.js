@@ -155,7 +155,7 @@ class Workout extends Component {
                 <div className="field">
                   <label className="label" htmlFor="descriptionEdit">Description</label>
                   <div className="control">
-                    <input
+                    <textarea
                       id="descriptionEdit"
                       className={descriptionErrors ? 'input is-danger' : 'input'}
                       type="text"

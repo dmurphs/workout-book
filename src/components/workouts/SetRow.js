@@ -98,9 +98,9 @@ class SetRow extends Component {
 
     if (!this.state.updateView) {
       return (
-        <tr onDoubleClick={() => this.setUpdateView()}>
-          <td className="edit-cell">{numReps}</td>
-          <td className="edit-cell">{weight}</td>
+        <tr>
+          <td onDoubleClick={() => this.setUpdateView()} className="edit-cell">{numReps}</td>
+          <td onDoubleClick={() => this.setUpdateView()} className="edit-cell">{weight}</td>
           <td>
             <button className="button is-info" onClick={() => this.setUpdateView()}>
               <span className="icon">

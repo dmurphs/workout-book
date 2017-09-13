@@ -227,7 +227,7 @@ class RunEntry extends Component {
             <div className="field">
               <label htmlFor="editNotes" className="label">Notes</label>
               <div className="control">
-                <input
+                <textarea
                   id="editNotes"
                   className={notesErrors ? 'input is-danger' : 'input'}
                   type="text"

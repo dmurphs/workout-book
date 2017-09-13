@@ -105,11 +105,11 @@ class LiftRow extends Component {
 
     if (!updateView) {
       return (
-        <tr onDoubleClick={() => this.setUpdateView()}>
-          <td className="edit-cell">
+        <tr>
+          <td onDoubleClick={() => this.setUpdateView()} className="edit-cell">
             {name}
           </td>
-          <td className="edit-cell">
+          <td onDoubleClick={() => this.setUpdateView()} className="edit-cell">
             {descriptionText}
           </td>
           <td>

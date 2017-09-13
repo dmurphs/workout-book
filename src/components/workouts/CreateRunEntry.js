@@ -129,7 +129,7 @@ class CreateLiftEntry extends Component {
               }
             </div>
             <div className="field">
-              <input
+              <textarea
                 className={notesErrors ? 'input is-danger' : 'input'}
                 type="text"
                 value={this.state.notes}
