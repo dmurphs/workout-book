@@ -4,7 +4,7 @@ let BASE_URL;
 if (process.env.NODE_ENV === 'development') {
   BASE_URL = 'http://localhost:8000/';
 } else if (process.env.NODE_ENV === 'production') {
-  BASE_URL = 'http://workout-book-client.herokuapp.com/';
+  BASE_URL = 'https://workout-book-client.herokuapp.com/';
 }
 
 export const LOGIN_URL = `${BASE_URL}api-token-auth/`;
