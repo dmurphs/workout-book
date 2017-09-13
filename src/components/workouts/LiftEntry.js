@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import SetList from '@/components/workouts/SetList';
 import Errors from '@/components/global/Errors';
+import ManageLifts from '@/components/workouts/ManageLifts';
 
 import { updateLiftEntry, updateLiftEntryReset, getLifts, getLiftEntries } from '@/store/actions';
 
@@ -151,7 +151,6 @@ class LiftEntry extends Component {
               <div className="field columns">
                 <div className="column">
                   <label className="label" htmlFor="liftEdit">Lift</label>
-                  <Link to="/lifts">Manage Lifts</Link>
                   <div className="control">
                     <div className={liftErrors ? 'select is-danger' : 'select'}>
                       <select id="liftEdit" value={this.state.liftID} onChange={this.handleLiftChange} >
@@ -174,6 +173,7 @@ class LiftEntry extends Component {
                     {liftErrors &&
                       <Errors errors={liftErrors} />
                     }
+                    <ManageLifts dispatch={dispatch} />
                   </div>
                 </div>
               </div>

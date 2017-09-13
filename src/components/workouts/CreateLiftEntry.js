@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import Errors from '@/components/global/Errors';
+import ManageLifts from '@/components/workouts/ManageLifts';
 
 import { getLifts, getLiftEntries, createLiftEntry, createLiftEntryReset } from '@/store/actions';
 
@@ -71,7 +71,7 @@ class CreateLiftEntry extends Component {
   }
 
   render() {
-    const { lifts, liftErrors, notesErrors, nonFieldErrors } = this.props;
+    const { dispatch, lifts, liftErrors, notesErrors, nonFieldErrors } = this.props;
     const { showForm } = this.state;
 
     return (
@@ -81,7 +81,6 @@ class CreateLiftEntry extends Component {
           <h2>Create New Lift Entry</h2>
           <div className="columns field">
             <div className="column is-4">
-              <Link to="/lifts">Manage Lifts</Link>
               <div className="control">
                 <div className={liftErrors ? 'select is-danger' : 'select'}>
                   <select value={this.state.selectedLift} onChange={this.handleLiftChange} >
@@ -100,6 +99,7 @@ class CreateLiftEntry extends Component {
               {liftErrors &&
                 <Errors errors={liftErrors} />
               }
+              <ManageLifts dispatch={dispatch} />
             </div>
           </div>
           <div className="field">

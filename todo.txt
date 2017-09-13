@@ -1,6 +1,7 @@
 IMPORTANT STUFF
 move rendering for set list rows into set list component (same with lifts)
-add control for run duration input
+pass workout id into manage lifts so if lift gets deactivated associated lift entries are updated when returning to workout
+add custom control for run duration input
 split up actions and reducers
 clean up console warning messages
 clean up linter issues that are ignored currently
