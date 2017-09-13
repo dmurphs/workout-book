@@ -5,6 +5,8 @@ if (process.env.NODE_ENV === 'development') {
   BASE_URL = 'http://localhost:8000/';
 } else if (process.env.NODE_ENV === 'production') {
   BASE_URL = 'https://workout-book-api.herokuapp.com/';
+} else {
+  throw 'No service URL'; // eslint-disable-line
 }
 
 export const LOGIN_URL = `${BASE_URL}api-token-auth/`;
