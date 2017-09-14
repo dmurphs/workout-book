@@ -8,7 +8,8 @@
     "dev": "better-npm-run dev",
     "dev:watch": "nodemon --exec 'better-npm-run dev' --watch tools/",
     "build": "better-npm-run build",
-    "build:watch": "nodemon --exec 'better-npm-run build' --watch tools/"
+    "build:watch": "nodemon --exec 'better-npm-run build' --watch tools/",
+    "postinstall": "yarn build"
   },
   "betterScripts": {
     "dev": {
@@ -81,7 +82,7 @@
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
-    "react-router-redux": "^4.0.8",
+    "react-router-redux": "^5.0.0-alpha.6",
     "redux": "^3.6.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0"
