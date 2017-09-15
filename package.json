@@ -9,7 +9,7 @@
     "dev:watch": "nodemon --exec 'better-npm-run dev' --watch tools/",
     "build": "better-npm-run build",
     "build:watch": "nodemon --exec 'better-npm-run build' --watch tools/",
-    "postinstall": "yarn build"
+    "postinstall": "better-npm-run build"
   },
   "betterScripts": {
     "dev": {
