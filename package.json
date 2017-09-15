@@ -63,8 +63,7 @@
     "stylelint-config-standard": "^16.0.0",
     "uglifyjs-webpack-plugin": "^0.4.3",
     "webpack-bundle-analyzer": "^2.8.2",
-    "webpack-dev-server": "^2.4.5",
-    "webpack-merge": "^4.1.0"
+    "webpack-dev-server": "^2.4.5"
   },
   "dependencies": {
     "better-npm-run": "^0.0.15",
@@ -85,6 +84,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "require-dir": "^0.3.2",
-    "webpack": "^2.6.1"
+    "webpack": "^2.6.1",
+    "webpack-merge": "^4.1.0",
   }
 }
