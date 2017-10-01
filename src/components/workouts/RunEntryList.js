@@ -43,9 +43,9 @@ class RunEntryList extends Component {
                   <RunEntry
                     runEntryID={runEntry.id}
                     notes={runEntry.notes}
-                    distance={runEntry.distance}
+                    distance={runEntry.run.distance}
                     duration={runEntry.duration}
-                    elevationDelta={runEntry.elevation_delta}
+                    elevationDelta={runEntry.run.elevation_delta}
                     workoutID={workoutID}
                     dispatch={dispatch}
                   />
