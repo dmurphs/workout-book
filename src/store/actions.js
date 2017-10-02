@@ -3,6 +3,7 @@ import { LOGIN_URL, REGISTER_URL,
   LIFT_ENTRY_LIST_URL, CREATE_LIFT_ENTRY_URL, UPDATE_LIFT_ENTRY_URL,
   LIFT_LIST_URL, CREATE_LIFT_URL, UPDATE_LIFT_URL,
   SET_LIST_URL, CREATE_SET_URL, UPDATE_SET_URL,
+  RUN_LIST_URL,
   RUN_ENTRY_LIST_URL, CREATE_RUN_ENTRY_URL, UPDATE_RUN_ENTRY_URL } from '@/settings';
 
 import { CALL_API } from '@/middleware/api';
@@ -77,6 +78,10 @@ export const UPDATE_SET_REQUEST = 'UPDATE_SET_REQUEST';
 export const UPDATE_SET_SUCCESS = 'UPDATE_SET_SUCCESS';
 export const UPDATE_SET_FAILURE = 'UPDATE_SET_FAILURE';
 export const UPDATE_SET_RESET = 'UPDATE_SET_RESET';
+
+export const RUN_LIST_REQUEST = 'RUN_LIST_REQUEST';
+export const RUN_LIST_SUCCESS = 'RUN_LIST_SUCCESS';
+export const RUN_LIST_FAILURE = 'RUN_LIST_FAILURE';
 
 export const RUN_ENTRY_LIST_REQUEST = 'RUN_ENTRY_LIST_REQUEST';
 export const RUN_ENTRY_LIST_SUCCESS = 'RUN_ENTRY_LIST_SUCCESS';
@@ -329,6 +334,17 @@ export function updateSet(setID, setData) {
 export function updateSetReset() {
   return {
     type: UPDATE_SET_RESET,
+  };
+}
+
+export function getRuns() {
+  return {
+    [CALL_API]: {
+      endpoint: `${RUN_LIST_URL}/`,
+      types: [RUN_LIST_REQUEST, RUN_LIST_SUCCESS, RUN_LIST_FAILURE],
+      requestMethod: 'GET',
+      requestData: {},
+    },
   };
 }
 

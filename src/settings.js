@@ -33,6 +33,8 @@ export const SET_LIST_URL = `${API_BASE_URL}sets_list/`;
 export const CREATE_SET_URL = `${API_BASE_URL}set_create/`;
 export const UPDATE_SET_URL = `${API_BASE_URL}set_update/`;
 
+export const RUN_LIST_URL = `${API_BASE_URL}runs_list/`;
+
 export const RUN_ENTRY_LIST_URL = `${API_BASE_URL}run_entries_list/`;
 export const CREATE_RUN_ENTRY_URL = `${API_BASE_URL}run_entry_create/`;
 export const UPDATE_RUN_ENTRY_URL = `${API_BASE_URL}run_entry_update/`;

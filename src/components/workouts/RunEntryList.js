@@ -42,6 +42,8 @@ class RunEntryList extends Component {
                 <li key={runEntry.id}>
                   <RunEntry
                     runEntryID={runEntry.id}
+                    runID={runEntry.run.id}
+                    runName={runEntry.run.name}
                     notes={runEntry.notes}
                     distance={runEntry.run.distance}
                     duration={runEntry.duration}

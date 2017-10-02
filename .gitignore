@@ -68,4 +68,11 @@ flow-typed/
 
 package-lock.json
 
+# Sublime
+*.sublime-project
+*.sublime-workspace
+
+# Mac
+.DS_store
+
 # End of https://www.gitignore.io/api/node

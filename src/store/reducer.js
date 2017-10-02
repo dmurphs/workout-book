@@ -19,6 +19,7 @@ import {
   SET_LIST_REQUEST, SET_LIST_SUCCESS, SET_LIST_FAILURE,
   CREATE_SET_REQUEST, CREATE_SET_SUCCESS, CREATE_SET_FAILURE, CREATE_SET_RESET,
   UPDATE_SET_REQUEST, UPDATE_SET_SUCCESS, UPDATE_SET_FAILURE, UPDATE_SET_RESET,
+  RUN_LIST_REQUEST, RUN_LIST_SUCCESS, RUN_LIST_FAILURE,
   RUN_ENTRY_LIST_REQUEST, RUN_ENTRY_LIST_SUCCESS, RUN_ENTRY_LIST_FAILURE,
   CREATE_RUN_ENTRY_REQUEST, CREATE_RUN_ENTRY_SUCCESS, CREATE_RUN_ENTRY_FAILURE,
   CREATE_RUN_ENTRY_RESET,
@@ -477,6 +478,19 @@ function setUpdate(state = {
     action);
 }
 
+function runList(state = {
+  isFetching: false,
+  received: false,
+  data: [],
+}, action) {
+  return defaultAPIGetReducer(
+  RUN_LIST_REQUEST,
+  RUN_LIST_SUCCESS,
+  RUN_LIST_FAILURE,
+  state,
+  action);
+}
+
 function runEntries(state = {
   isFetching: false,
   received: false,
@@ -560,6 +574,7 @@ export default combineReducers({
   sets,
   setCreation,
   setUpdate,
+  runList,
   runEntries,
   runEntryCreation,
   runEntryUpdate,
