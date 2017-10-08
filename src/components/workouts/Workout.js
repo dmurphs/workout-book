@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Errors from '@/components/global/Errors';
-import LiftEntryList from '@/components/workouts/LiftEntryList';
-import RunEntryList from '@/components/workouts/RunEntryList';
+import LiftEntryList from '@/components/workouts/liftEntry/LiftEntryList';
+import RunEntryList from '@/components/workouts/runEntry/RunEntryList';
 
 import { getWorkoutDetail, updateWorkout, updateWorkoutReset } from '@/store/actions';
 

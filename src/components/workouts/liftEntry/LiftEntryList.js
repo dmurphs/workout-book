@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import CreateLiftEntry from '@/components/workouts/CreateLiftEntry';
-import LiftEntry from '@/components/workouts/LiftEntry';
+import CreateLiftEntry from '@/components/workouts/liftEntry/CreateLiftEntry';
+import LiftEntry from '@/components/workouts/liftEntry/LiftEntry';
 
 import { getLiftEntries } from '@/store/actions';
 

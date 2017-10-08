@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import SetList from '@/components/workouts/SetList';
+import SetList from '@/components/workouts/liftEntry/set/SetList';
 import Errors from '@/components/global/Errors';
-import ManageLifts from '@/components/workouts/ManageLifts';
+import ManageLifts from '@/components/workouts/lift/ManageLifts';
 
 import { updateLiftEntry, updateLiftEntryReset, getLifts, getLiftEntries } from '@/store/actions';
 

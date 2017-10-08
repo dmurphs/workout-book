@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import CreateRunEntry from '@/components/workouts/CreateRunEntry';
-import RunEntry from '@/components/workouts/RunEntry';
+import CreateRunEntry from '@/components/workouts/runEntry/CreateRunEntry';
+import RunEntry from '@/components/workouts/runEntry/RunEntry';
 
 import { getRunEntries } from '@/store/actions';
 

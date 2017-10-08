@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import LiftList from '@/components/workouts/LiftList';
+import LiftList from '@/components/workouts/lift/LiftList';
 
 export default class ManageLifts extends Component {
 

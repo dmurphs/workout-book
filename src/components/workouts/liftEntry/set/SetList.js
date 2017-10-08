@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import CreateSetRow from '@/components/workouts/CreateSetRow';
-import SetRow from '@/components/workouts/SetRow';
+import CreateSetRow from '@/components/workouts/liftEntry/set/CreateSetRow';
+import SetRow from '@/components/workouts/liftEntry/set/SetRow';
 
 import { getSets } from '@/store/actions';
 

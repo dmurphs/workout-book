@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Errors from '@/components/global/Errors';
-import ManageLifts from '@/components/workouts/ManageLifts';
+import ManageLifts from '@/components/workouts/lift/ManageLifts';
 
 import { getLifts, getLiftEntries, createLiftEntry, createLiftEntryReset } from '@/store/actions';
 

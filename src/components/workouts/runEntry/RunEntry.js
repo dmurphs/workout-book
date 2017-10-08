@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import RunEntryForm from '@/components/workouts/RunEntryForm';
+import RunEntryForm from '@/components/workouts/runEntry/RunEntryForm';
 
 import { updateRunEntry, updateRunEntryReset, getRunEntries } from '@/store/actions';
 
