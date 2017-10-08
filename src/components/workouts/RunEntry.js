@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import Errors from '@/components/global/Errors';
+import RunEntryForm from '@/components/workouts/RunEntryForm';
 
-import { updateRunEntry, updateRunEntryReset, getRunEntries, getRuns } from '@/store/actions';
+import { updateRunEntry, updateRunEntryReset, getRunEntries } from '@/store/actions';
 
 class RunEntry extends Component {
 
@@ -29,18 +29,6 @@ class RunEntry extends Component {
     };
 
     this.state = this.defaultState;
-
-    this.handleRunChange = this.handleRunChange.bind(this);
-    this.handleNotesChange = this.handleNotesChange.bind(this);
-    this.handleDistanceChange = this.handleDistanceChange.bind(this);
-    this.handleDurationChange = this.handleDurationChange.bind(this);
-    this.handleElevationDeltaChange = this.handleElevationDeltaChange.bind(this);
-  }
-
-  componentWillMount() {
-    const { dispatch } = this.props;
-
-    dispatch(getRuns());
   }
 
   onUpdateRunEntryClick() {
@@ -101,49 +89,25 @@ class RunEntry extends Component {
       });
   }
 
-  handleRunChange(event) {
-    const { runs } = this.props;
-
-    const newRunID = parseInt(event.target.value, 10);
-
-    const matchingRun = runs.find(run => run.id === newRunID);
-
-    this.setState({
-      runID: newRunID,
-      name: matchingRun.name,
-      distance: matchingRun.distance,
-      elevationDelta: matchingRun.elevation_delta,
-    });
-  }
-
-  handleNotesChange(event) {
-    this.setState({ notes: event.target.value });
-  }
-
-  handleDistanceChange(event) {
-    this.setState({ distance: event.target.value });
-  }
-
-  handleDurationChange(event) {
-    this.setState({ duration: event.target.value });
-  }
-
-  handleElevationDeltaChange(event) {
-    this.setState({ elevationDelta: event.target.value });
+  updateStateValue(key, value) {
+    const updatedState = {
+      ...this.state,
+      [key]: value,
+    };
+    this.setState(updatedState);
   }
 
   render() {
     const {
-      runs,
+      dispatch,
       runName,
       notes,
       distance,
       duration,
       elevationDelta,
+      runIDErrors,
       notesErrors,
-      // distanceErrors,
       durationErrors,
-      // elevationDeltaErrors,
       nonFieldErrors,
     } = this.props;
 
@@ -197,78 +161,17 @@ class RunEntry extends Component {
         }
         { this.state.updateView &&
           <div className="card-content">
-            <div className="control">
-              <div className="select">
-                <select id="runEdit" value={this.state.runID} onChange={this.handleRunChange} >
-                  <option value="">Select a run</option>
-                  {runs.map((run) => {
-                    const runId = run.id;
-                    const name = run.name;
-
-                    return (
-                      <option
-                        key={runId}
-                        value={runId}
-                      >
-                        {name}
-                      </option>
-                    );
-                  })}
-                </select>
-              </div>
-            </div>
-
-            <h2>Selected Run Information</h2>
-            <table className="table is-bordered is-striped">
-              <tbody>
-                <tr>
-                  <td>Distance</td>
-                  <td>{this.state.distance} miles</td>
-                </tr>
-                <tr>
-                  <td>Elevation Delta</td>
-                  <td>{this.state.elevationDelta} ft</td>
-                </tr>
-              </tbody>
-            </table>
-
-            <hr />
-
-            <div className="field">
-              <label htmlFor="duration" className="label">Duration (hh:mm:ss)</label>
-              <div className="control">
-                <input
-                  id="duration"
-                  className={durationErrors ? 'input is-danger' : 'input'}
-                  type="text"
-                  value={this.state.duration}
-                  onChange={this.handleDurationChange}
-                  placeholder="duration (hh:mm:ss)"
-                />
-                {notesErrors &&
-                  <Errors errors={notesErrors} />
-                }
-              </div>
-            </div>
-            <div className="field">
-              <label htmlFor="editNotes" className="label">Notes</label>
-              <div className="control">
-                <textarea
-                  id="editNotes"
-                  className={notesErrors ? 'input is-danger' : 'input'}
-                  type="text"
-                  value={this.state.notes}
-                  onChange={this.handleNotesChange}
-                  placeholder="notes"
-                />
-                {notesErrors &&
-                  <Errors errors={notesErrors} />
-                }
-              </div>
-            </div>
-            {nonFieldErrors &&
-              <Errors errors={nonFieldErrors} />
-            }
+            <RunEntryForm
+              dispatch={dispatch}
+              runID={this.state.runID}
+              notes={this.state.notes}
+              duration={this.state.duration}
+              onUpdateField={(key, value) => this.updateStateValue(key, value)}
+              runIDErrors={runIDErrors}
+              notesErrors={notesErrors}
+              durationErrors={durationErrors}
+              nonFieldErrors={nonFieldErrors}
+            />
             <button className="button is-success" onClick={() => this.onUpdateRunEntryClick()}>Save Changes</button>
             <button className="button is-warning" onClick={() => this.onCancelUpdateClick()}>Cancel</button>
           </div>
@@ -281,41 +184,35 @@ class RunEntry extends Component {
 RunEntry.propTypes = {
   runEntryID: PropTypes.number.isRequired,
   runID: PropTypes.number.isRequired,
-  runName: PropTypes.string.isRequired,
   workoutID: PropTypes.number.isRequired,
+  runName: PropTypes.string.isRequired,
   notes: PropTypes.string.isRequired,
   distance: PropTypes.string.isRequired,
   duration: PropTypes.string.isRequired,
   elevationDelta: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
   isUpdated: PropTypes.bool.isRequired, // eslint-disable-line
-  runs: PropTypes.array.isRequired, // eslint-disable-line
+  runIDErrors: PropTypes.array, // eslint-disable-line
   notesErrors: PropTypes.array, // eslint-disable-line
-  // distanceErrors: PropTypes.array, // eslint-disable-line
   durationErrors: PropTypes.array, // eslint-disable-line
-  // elevationDeltaErrors: PropTypes.array, // eslint-disable-line
   nonFieldErrors: PropTypes.array, // eslint-disable-line
 };
 
 function mapStateToProps(state) {
-  const { runEntryUpdate, runList } = state;
-  const runs = runList.data;
+  const { runEntryUpdate } = state;
 
   const { isUpdated, errors } = runEntryUpdate;
 
+  const runIDErrors = errors ? errors.runID : null;
   const notesErrors = errors ? errors.notes : null;
-  // const distanceErrors = errors ? errors.distance : null;
   const durationErrors = errors ? errors.duration : null;
-  // const elevationDeltaErrors = errors ? errors.elevation_delta : null;
   const nonFieldErrors = errors ? errors.non_field_errors : null;
 
   return {
-    runs,
     isUpdated,
+    runIDErrors,
     notesErrors,
-    // distanceErrors,
     durationErrors,
-    // elevationDeltaErrors,
     nonFieldErrors,
   };
 }

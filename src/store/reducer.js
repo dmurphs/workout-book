@@ -20,6 +20,7 @@ import {
   CREATE_SET_REQUEST, CREATE_SET_SUCCESS, CREATE_SET_FAILURE, CREATE_SET_RESET,
   UPDATE_SET_REQUEST, UPDATE_SET_SUCCESS, UPDATE_SET_FAILURE, UPDATE_SET_RESET,
   RUN_LIST_REQUEST, RUN_LIST_SUCCESS, RUN_LIST_FAILURE,
+  // UPDATE_RUN_REQUEST, UPDATE_RUN_SUCCESS, UPDATE_RUN_FAILURE,
   RUN_ENTRY_LIST_REQUEST, RUN_ENTRY_LIST_SUCCESS, RUN_ENTRY_LIST_FAILURE,
   CREATE_RUN_ENTRY_REQUEST, CREATE_RUN_ENTRY_SUCCESS, CREATE_RUN_ENTRY_FAILURE,
   CREATE_RUN_ENTRY_RESET,
@@ -32,7 +33,7 @@ import {
 // we would also want a util to check if the token is expired.
 function auth(state = {
   isFetching: false,
-  isAuthenticated: localStorage.getItem('token') ? true : false, // eslint-disable-line no-unneeded-ternary
+  isAuthenticated: localStorage.getItem('token') !== null,
 }, action) {
   switch (action.type) {
     case LOGIN_REQUEST:
@@ -491,6 +492,19 @@ function runList(state = {
   action);
 }
 
+// function runUpdate(state = {
+//   isFetching: false,
+//   isUpdated: false,
+// }, action) {
+//   return defaultAPIUpdateReducer(
+//     UPDATE_RUN_REQUEST,
+//     UPDATE_RUN_SUCCESS,
+//     UPDATE_RUN_FAILURE,
+//     UPDATE_RUN_RESET,
+//     state,
+//     action);
+// }
+
 function runEntries(state = {
   isFetching: false,
   received: false,
@@ -575,6 +589,7 @@ export default combineReducers({
   setCreation,
   setUpdate,
   runList,
+  // runUpdate,
   runEntries,
   runEntryCreation,
   runEntryUpdate,

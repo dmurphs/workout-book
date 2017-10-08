@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import Errors from '@/components/global/Errors';
+import RunEntryForm from '@/components/workouts/RunEntryForm';
 
 import { createRunEntry, createRunEntryReset, getRunEntries } from '@/store/actions';
 
@@ -14,18 +14,12 @@ class CreateLiftEntry extends Component {
     super(props);
     this.defaultState = {
       showForm: false,
-      notes: '',
-      distance: '',
-      duration: '',
-      elevationDelta: '',
+      notes: null,
+      duration: null,
+      runID: null,
     };
 
     this.state = this.defaultState;
-
-    this.handleNotesChange = this.handleNotesChange.bind(this);
-    this.handleDistanceChange = this.handleDistanceChange.bind(this);
-    this.handleDurationChange = this.handleDurationChange.bind(this);
-    this.handleElevationDeltaChange = this.handleElevationDeltaChange.bind(this);
   }
 
   dispatchGetRunEntriesIfCreated() {
@@ -49,9 +43,8 @@ class CreateLiftEntry extends Component {
 
     const runEntryData = {
       notes: this.state.notes,
-      distance: this.state.distance,
+      run_id: this.state.runID,
       duration: this.state.duration,
-      elevation_delta: this.state.elevationDelta,
       is_active: true,
     };
 
@@ -61,28 +54,20 @@ class CreateLiftEntry extends Component {
       });
   }
 
-  handleNotesChange(event) {
-    this.setState({ notes: event.target.value });
-  }
-
-  handleDistanceChange(event) {
-    this.setState({ distance: event.target.value });
-  }
-
-  handleDurationChange(event) {
-    this.setState({ duration: event.target.value });
-  }
-
-  handleElevationDeltaChange(event) {
-    this.setState({ elevationDelta: event.target.value });
+  updateStateValue(key, value) {
+    const updatedState = {
+      ...this.state,
+      [key]: value,
+    };
+    this.setState(updatedState);
   }
 
   render() {
     const {
+      dispatch,
+      runIDErrors,
       notesErrors,
-      distanceErrors,
       durationErrors,
-      elevationDeltaErrors,
       nonFieldErrors,
     } = this.props;
     const showForm = this.state.showForm;
@@ -91,62 +76,19 @@ class CreateLiftEntry extends Component {
       <div>
         { showForm &&
           <div>
-            <h2>Create New Run Entry</h2>
-            <div className="field">
-              <input
-                className={distanceErrors ? 'input is-danger' : 'input'}
-                type="number"
-                value={this.state.distance}
-                onChange={this.handleDistanceChange}
-                placeholder="distance (miles)"
-              />
-              {distanceErrors &&
-                <Errors errors={distanceErrors} />
-              }
-            </div>
-            <div className="field">
-              <input
-                className={durationErrors ? 'input is-danger' : 'input'}
-                type="text"
-                value={this.state.duration}
-                onChange={this.handleDurationChange}
-                placeholder="duration (hh:mm:ss)"
-              />
-              {durationErrors &&
-                <Errors errors={durationErrors} />
-              }
-            </div>
-            <div className="field">
-              <input
-                className={elevationDeltaErrors ? 'input is-danger' : 'input'}
-                type="number"
-                value={this.state.elevationDelta}
-                onChange={this.handleElevationDeltaChange}
-                placeholder="elevation delta (ft)"
-              />
-              {elevationDeltaErrors &&
-                <Errors errors={elevationDeltaErrors} />
-              }
-            </div>
-            <div className="field">
-              <textarea
-                className={notesErrors ? 'input is-danger' : 'input'}
-                type="text"
-                value={this.state.notes}
-                onChange={this.handleNotesChange}
-                placeholder="notes"
-              />
-              {notesErrors &&
-                <Errors errors={notesErrors} />
-              }
-            </div>
-            {nonFieldErrors &&
-              <Errors errors={nonFieldErrors} />
-            }
-            <div className="field">
-              <button className="button is-success" onClick={() => this.handleRunEntryCreateClick()}>Create Run Entry</button>
-              <button className="button is-warning" onClick={() => this.handleRunEntryCancelClick()}>Cancel</button>
-            </div>
+            <RunEntryForm
+              dispatch={dispatch}
+              runID={this.state.runID}
+              notes={this.state.notes}
+              duration={this.state.duration}
+              onUpdateField={(key, value) => this.updateStateValue(key, value)}
+              runIDErrors={runIDErrors}
+              notesErrors={notesErrors}
+              durationErrors={durationErrors}
+              nonFieldErrors={nonFieldErrors}
+            />
+            <button className="button is-success" onClick={() => this.handleRunEntryCreateClick()}>Create Run Entry</button>
+            <button className="button is-warning" onClick={() => this.handleRunEntryCancelClick()}>Cancel</button>
           </div>
         }
         { !showForm &&
@@ -161,30 +103,30 @@ CreateLiftEntry.propTypes = {
   dispatch: PropTypes.func.isRequired,
   workoutID: PropTypes.number.isRequired,
   isCreated: PropTypes.bool.isRequired,
+  runIDErrors: PropTypes.array, // eslint-disable-line
   notesErrors: PropTypes.array, // eslint-disable-line
-  distanceErrors: PropTypes.array, // eslint-disable-line
   durationErrors: PropTypes.array, // eslint-disable-line
-  elevationDeltaErrors: PropTypes.array, // eslint-disable-line
   nonFieldErrors: PropTypes.array, // eslint-disable-line
+  runs: PropTypes.array, // eslint-disable-line
 };
 
 function mapStateToProps(state) {
-  const { runEntryCreation } = state;
+  const { runEntryCreation, runList } = state;
 
+  const runs = runList.data;
   const { isCreated, errors } = runEntryCreation;
 
+  const runIDErrors = errors ? errors.run_id : null;
   const notesErrors = errors ? errors.notes : null;
-  const distanceErrors = errors ? errors.distance : null;
   const durationErrors = errors ? errors.duration : null;
-  const elevationDeltaErrors = errors ? errors.elevation_delta : null;
   const nonFieldErrors = errors ? errors.non_field_errors : null;
 
   return {
+    runs,
     isCreated,
+    runIDErrors,
     notesErrors,
-    distanceErrors,
     durationErrors,
-    elevationDeltaErrors,
     nonFieldErrors,
   };
 }

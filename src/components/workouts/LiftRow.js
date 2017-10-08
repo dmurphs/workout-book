@@ -26,7 +26,7 @@ class LiftRow extends Component {
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
   }
 
-  onUpdateLiftEntryClick() {
+  onUpdateLiftClick() {
     const liftData = this.getCurrentLiftData();
 
     this.dispatchUpdateLift(liftData);
@@ -146,7 +146,7 @@ class LiftRow extends Component {
           <Errors errors={nonFieldErrors} />
         }
         <td>
-          <button className="button is-success" onClick={() => this.onUpdateLiftEntryClick()}>Update Lift</button>
+          <button className="button is-success" onClick={() => this.onUpdateLiftClick()}>Update Lift</button>
           <button className="button is-warning" onClick={() => this.onCancelUpdateClick()}>Cancel</button>
         </td>
       </tr>
