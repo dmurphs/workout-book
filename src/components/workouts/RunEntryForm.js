@@ -3,12 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import Errors from '@/components/global/Errors';
-
+import { getControlValue } from '@/utils';
 import { getRuns } from '@/store/actions';
-
-function getControlValue(fieldValue) {
-  return fieldValue === null ? '' : fieldValue;
-}
 
 class CreateLiftEntry extends Component {
 
