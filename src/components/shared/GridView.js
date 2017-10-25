@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-// import Errors from '@/components/global/Errors';
-// import { getControlValue } from '@/utils';
+import Errors from '@/components/global/Errors';
 
 export default class GridView extends Component {
 
@@ -82,11 +80,15 @@ export default class GridView extends Component {
         {displayFields.map(field => (
           <td key={field.name}>
             <input
-              className="input"
+              className={this.getUpdateErrorsByField(field.name) ? 'input is-danger' : 'input'}
+              placeholder={field.name}
               type={field.type}
               value={matchingUpdateRecord[field.name]}
               onChange={event => this.setUpdatedState(event, field.name, record.id)}
             />
+            {this.getUpdateErrorsByField(field.name) &&
+              <Errors errors={this.getUpdateErrorsByField(field.name)} />
+            }
           </td>
         ))}
         <td>
@@ -131,6 +133,18 @@ export default class GridView extends Component {
     this.setState({ recordUpdates: nextRecordUpdates });
   }
 
+  getCreationErrorsByField(fieldName) {
+    const { creationErrors } = this.props;
+
+    return creationErrors ? creationErrors[fieldName] : null;
+  }
+
+  getUpdateErrorsByField(fieldName) {
+    const { updateErrors } = this.props;
+
+    return updateErrors ? updateErrors[fieldName] : null;
+  }
+
   render() {
     const {
       records,
@@ -152,16 +166,22 @@ export default class GridView extends Component {
               ))}
               <td />
             </tr>
-            {records.map(record => this.getRow(record))}
+            {
+              // Get row based on edit state of record
+              records.map(record => this.getRow(record))
+            }
             <tr>
               {displayFields.map(field => (
                 <td key={field.name}>
                   <input
-                    className="input"
+                    className={this.getCreationErrorsByField(field.name) ? 'input is-danger' : 'input'}
                     type={field.type}
                     onChange={event => this.setCreateState(event, field.name)}
                     placeholder={field.name}
                   />
+                  {this.getCreationErrorsByField(field.name) &&
+                    <Errors errors={this.getCreationErrorsByField(field.name)} />
+                  }
                 </td>
               ))}
               <td>
@@ -183,5 +203,6 @@ GridView.propTypes = {
   onUpdateRecord: PropTypes.func.isRequired,
   displayFields: PropTypes.array.isRequired, // eslint-disable-line
   records: PropTypes.array.isRequired, // eslint-disable-line
-  // errors: PropTypes.object.isRequired, // eslint-disable-line
+  updateErrors: PropTypes.object, // eslint-disable-line
+  creationErrors: PropTypes.object, // eslint-disable-line
 };

@@ -26,7 +26,7 @@ class LiftList extends Component {
 
     dispatch(createLift(liftData)).then(
       () => {
-        this.dispatchGetLiftsIfCreated();
+        this.dispatchGetLiftsIfCreatedOrUpdated();
       },
       (error) => {
         console.error('Error Creating Lift', error); // eslint-disable-line
@@ -38,29 +38,17 @@ class LiftList extends Component {
 
     dispatch(updateLift(updatedLiftData)).then(
       () => {
-        dispatch(getLifts());
+        this.dispatchGetLiftsIfCreatedOrUpdated();
       },
       (error) => {
         console.log('Error updating lift', error); //eslint-disable-line
       });
   }
 
-  getUpdateState() {
-    const { lifts } = this.props;
+  dispatchGetLiftsIfCreatedOrUpdated() {
+    const { dispatch, isCreated, isUpdated } = this.props;
 
-    return lifts;
-  }
-
-  getLiftById(liftID) {
-    const { lifts } = this.props;
-
-    return lifts.find(lift => lift.id === liftID);
-  }
-
-  dispatchGetLiftsIfCreated() {
-    const { dispatch, isCreated } = this.props;
-
-    if (isCreated) {
+    if (isCreated || isUpdated) {
       dispatch(getLifts());
     }
   }
@@ -70,7 +58,8 @@ class LiftList extends Component {
       isFetchingList,
       received,
       lifts,
-      // dispatch,
+      creationErrors,
+      updateErrors,
     } = this.props;
 
     const fields = [
@@ -89,6 +78,8 @@ class LiftList extends Component {
             displayFields={fields}
             onCreateRecord={newLiftData => this.onCreateLift(newLiftData)}
             onUpdateRecord={liftData => this.onUpdateLift(liftData)}
+            creationErrors={creationErrors}
+            updateErrors={updateErrors}
           />
         }
       </div>
@@ -101,22 +92,32 @@ LiftList.propTypes = {
   isFetchingList: PropTypes.bool.isRequired,
   received: PropTypes.bool.isRequired,
   isCreated: PropTypes.bool.isRequired,
+  isUpdated: PropTypes.bool.isRequired,
   lifts: PropTypes.array.isRequired, // eslint-disable-line
+  creationErrors: PropTypes.object, // eslint-disable-line
+  updateErrors: PropTypes.object, // eslint-disable-line
 };
 
 function mapStateToProps(state) {
-  const { liftList, liftCreation } = state;
+  const { liftList, liftCreation, liftUpdate } = state;
   const lifts = liftList.data;
   const { received } = liftList;
   const isFetchingList = liftList.isFetching;
 
   const { isCreated } = liftCreation;
+  const creationErrors = liftCreation.errors;
+
+  const { isUpdated } = liftUpdate;
+  const updateErrors = liftUpdate.errors;
 
   return {
     isFetchingList,
     isCreated,
+    isUpdated,
     received,
     lifts,
+    creationErrors,
+    updateErrors,
   };
 }
 
