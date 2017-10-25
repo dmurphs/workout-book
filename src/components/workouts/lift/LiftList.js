@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import GridView from '@/components/shared/GridView';
-// import CreateLiftRow from '@/components/workouts/CreateLiftRow';
-// import LiftRow from '@/components/workouts/LiftRow';
 
 import { getLifts, createLift, updateLift } from '@/store/actions';
 
