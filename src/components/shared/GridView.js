@@ -10,23 +10,52 @@ export default class GridView extends Component {
   constructor(props) {
     super(props);
 
+    const { records } = this.props;
+
     this.state = {
-      updateIDs: [],
+      editingIDs: [],
+      recordUpdates: records,
+      create: {},
     };
   }
 
+  onCancelUpdate(recordID) {
+    const { recordUpdates, editingIDs } = this.state;
+    const { records } = this.props;
+
+    const originalRecord = records
+      .find(record => record.id === recordID);
+
+    const nextRecordUpdates = recordUpdates.map((record) => {
+      if (record.id !== recordID) {
+        return record;
+      }
+
+      return originalRecord;
+    });
+
+    const nextEditingIDs = editingIDs
+      .filter(id => id !== recordID);
+
+    this.setState({
+      editingIDs: nextEditingIDs,
+      recordUpdates: nextRecordUpdates,
+    });
+  }
+
   setUpdateView(recordID) {
-    const updateIDs = this.state.updateIDs;
+    const { editingIDs } = this.state;
 
-    updateIDs.push(recordID);
+    editingIDs.push(recordID);
 
-    this.setState({ updateIDs });
+    this.setState({ editingIDs });
   }
 
   getRow(record) {
-    const { displayFields } = this.props;
+    const { displayFields, onUpdateRecord } = this.props;
+    const { editingIDs } = this.state;
 
-    const isUpdate = this.state.updateIDs.includes(record.id);
+    const isUpdate = editingIDs.includes(record.id);
 
     if (!isUpdate) {
       return (
@@ -44,13 +73,62 @@ export default class GridView extends Component {
       );
     }
 
-    return (<h1>Update...</h1>);
+    const { recordUpdates } = this.state;
+    const matchingUpdateRecord = recordUpdates
+      .find(recordUpdate => recordUpdate.id === record.id);
+
+    return (
+      <tr key={record.id}>
+        {displayFields.map(field => (
+          <td key={field.name}>
+            <input
+              className="input"
+              type={field.type}
+              value={matchingUpdateRecord[field.name]}
+              onChange={event => this.setUpdatedState(event, field.name, record.id)}
+            />
+          </td>
+        ))}
+        <td>
+          <button
+            className="button is-info"
+            onClick={() => onUpdateRecord(matchingUpdateRecord)}
+          >Save Changes</button>
+          <button
+            className="button is-warning"
+            onClick={() => this.onCancelUpdate(record.id)}
+          >Cancel</button>
+        </td>
+      </tr>
+    );
   }
 
-  updateCreateState(event, fieldName) {
-    const { onCreateFieldUpdated } = this.props;
+  setCreateState(event, fieldName) {
+    const { create } = this.state;
 
-    onCreateFieldUpdated(fieldName, event.target.value);
+    const nextCreateState = {
+      ...create,
+      [fieldName]: event.target.value,
+    };
+
+    this.setState({ create: nextCreateState });
+  }
+
+  setUpdatedState(event, fieldName, recordID) {
+    const { recordUpdates } = this.state;
+
+    const nextRecordUpdates = recordUpdates.map((record) => {
+      if (record.id !== recordID) {
+        return record;
+      }
+
+      return {
+        ...record,
+        [fieldName]: event.target.value,
+      };
+    });
+
+    this.setState({ recordUpdates: nextRecordUpdates });
   }
 
   render() {
@@ -58,10 +136,11 @@ export default class GridView extends Component {
       records,
       displayFields,
       onCreateRecord,
-      // onUpdateRecord,
       // errors,
       // dispatch,
     } = this.props;
+
+    const { create } = this.state;
 
     return (
       <div>
@@ -80,7 +159,7 @@ export default class GridView extends Component {
                   <input
                     className="input"
                     type={field.type}
-                    onChange={event => this.updateCreateState(event, field.name)}
+                    onChange={event => this.setCreateState(event, field.name)}
                     placeholder={field.name}
                   />
                 </td>
@@ -88,7 +167,7 @@ export default class GridView extends Component {
               <td>
                 <button
                   className="button is-success"
-                  onClick={() => onCreateRecord()}
+                  onClick={() => onCreateRecord(create)}
                 >Create Lift</button>
               </td>
             </tr>
@@ -100,10 +179,8 @@ export default class GridView extends Component {
 }
 
 GridView.propTypes = {
-  // dispatch: PropTypes.func.isRequired,
-  onCreateFieldUpdated: PropTypes.func.isRequired,
   onCreateRecord: PropTypes.func.isRequired,
-  // onUpdateRecord: PropTypes.func.isRequired,
+  onUpdateRecord: PropTypes.func.isRequired,
   displayFields: PropTypes.array.isRequired, // eslint-disable-line
   records: PropTypes.array.isRequired, // eslint-disable-line
   // errors: PropTypes.object.isRequired, // eslint-disable-line

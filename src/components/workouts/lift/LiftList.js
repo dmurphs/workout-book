@@ -6,22 +6,9 @@ import GridView from '@/components/shared/GridView';
 // import CreateLiftRow from '@/components/workouts/CreateLiftRow';
 // import LiftRow from '@/components/workouts/LiftRow';
 
-import { getLifts, createLift } from '@/store/actions';
+import { getLifts, createLift, updateLift } from '@/store/actions';
 
 class LiftList extends Component {
-
-  constructor(props) {
-    super(props);
-
-    this.defaultState = {
-      create: {
-        name: null,
-        description: null,
-      },
-    };
-
-    this.state = this.defaultState;
-  }
 
   componentWillMount() {
     const { dispatch } = this.props;
@@ -29,34 +16,45 @@ class LiftList extends Component {
     dispatch(getLifts());
   }
 
-  onCreateLift() {
+  onCreateLift(newLiftData) {
     const { dispatch } = this.props;
 
-    const createState = this.state.create;
-
     const liftData = {
-      ...createState,
+      ...newLiftData,
       is_active: true,
     };
 
     dispatch(createLift(liftData)).then(
       () => {
         this.dispatchGetLiftsIfCreated();
+      },
+      (error) => {
+        console.error('Error Creating Lift', error); // eslint-disable-line
       });
   }
 
-  /*eslint-disable*/
-  onUpdateLift(liftID) {
-  }
-  /*esint-enable*/
+  onUpdateLift(updatedLiftData) {
+    const { dispatch } = this.props;
 
-  dispatchUpdateLift(liftData) {
-    const { liftID, dispatch } = this.props;
-
-    dispatch(updateLift(liftID, liftData)).then(
+    dispatch(updateLift(updatedLiftData)).then(
       () => {
-        this.dispatchGetLiftsIfUpdated();
+        dispatch(getLifts());
+      },
+      (error) => {
+        console.log('Error updating lift', error); //eslint-disable-line
       });
+  }
+
+  getUpdateState() {
+    const { lifts } = this.props;
+
+    return lifts;
+  }
+
+  getLiftById(liftID) {
+    const { lifts } = this.props;
+
+    return lifts.find(lift => lift.id === liftID);
   }
 
   dispatchGetLiftsIfCreated() {
@@ -65,13 +63,6 @@ class LiftList extends Component {
     if (isCreated) {
       dispatch(getLifts());
     }
-  }
-
-  updateCreateFieldState(fieldName, value) {
-    const createState = this.state.create;
-
-    createState[fieldName] = value;
-    this.setState({ create: createState });
   }
 
   render() {
@@ -96,9 +87,8 @@ class LiftList extends Component {
           <GridView
             records={lifts}
             displayFields={fields}
-            onCreateFieldUpdated={(fieldName, value) => this.updateCreateFieldState(fieldName,value)} // eslint-disable-line
-            onCreateRecord={() => this.onCreateLift()}
-            onUpdateRecord={(liftID) => this.onUpdateLift(liftID)}
+            onCreateRecord={newLiftData => this.onCreateLift(newLiftData)}
+            onUpdateRecord={liftData => this.onUpdateLift(liftData)}
           />
         }
       </div>

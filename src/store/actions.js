@@ -278,10 +278,10 @@ export function createLiftReset() {
   };
 }
 
-export function updateLift(liftID, liftData) {
+export function updateLift(liftData) {
   return {
     [CALL_API]: {
-      endpoint: `${UPDATE_LIFT_URL}${liftID}/`,
+      endpoint: `${UPDATE_LIFT_URL}${liftData.id}/`,
       types: [UPDATE_LIFT_REQUEST, UPDATE_LIFT_SUCCESS, UPDATE_LIFT_FAILURE],
       requestMethod: 'PATCH',
       requestData: liftData,
