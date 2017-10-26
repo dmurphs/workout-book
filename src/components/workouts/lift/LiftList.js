@@ -4,7 +4,11 @@ import PropTypes from 'prop-types';
 
 import GridView from '@/components/shared/GridView';
 
-import { getLifts, createLift, updateLift } from '@/store/actions';
+import { getLifts,
+        createLift,
+        updateLift,
+        createLiftReset,
+        updateLiftReset } from '@/store/actions';
 
 class LiftList extends Component {
 
@@ -14,7 +18,7 @@ class LiftList extends Component {
     dispatch(getLifts());
   }
 
-  onCreateLift(newLiftData) {
+  createLift(newLiftData) {
     const { dispatch } = this.props;
 
     const liftData = {
@@ -31,7 +35,16 @@ class LiftList extends Component {
       });
   }
 
-  onUpdateLift(updatedLiftData) {
+  inactivateLift(liftData) {
+    const inactivatedLift = {
+      ...liftData,
+      is_active: false,
+    };
+
+    this.updateLift(inactivatedLift);
+  }
+
+  updateLift(updatedLiftData) {
     const { dispatch } = this.props;
 
     dispatch(updateLift(updatedLiftData)).then(
@@ -49,6 +62,18 @@ class LiftList extends Component {
     if (isCreated || isUpdated) {
       dispatch(getLifts());
     }
+  }
+
+  dispatchResetCreate() {
+    const { dispatch } = this.props;
+
+    dispatch(createLiftReset());
+  }
+
+  dispatchResetUpdate() {
+    const { dispatch } = this.props;
+
+    dispatch(updateLiftReset());
   }
 
   render() {
@@ -74,10 +99,13 @@ class LiftList extends Component {
           <GridView
             records={lifts}
             displayFields={fields}
-            onCreateRecord={newLiftData => this.onCreateLift(newLiftData)}
-            onUpdateRecord={liftData => this.onUpdateLift(liftData)}
+            onCreateRecord={newLiftData => this.createLift(newLiftData)}
+            onUpdateRecord={liftData => this.updateLift(liftData)}
+            onDeleteRecord={liftData => this.inactivateLift(liftData)}
             creationErrors={creationErrors}
             updateErrors={updateErrors}
+            onCreateReset={() => this.dispatchResetCreate()}
+            onUpdateReset={() => this.dispatchResetUpdate()}
           />
         }
       </div>

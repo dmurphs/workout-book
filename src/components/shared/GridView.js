@@ -8,24 +8,37 @@ export default class GridView extends Component {
   constructor(props) {
     super(props);
 
+    const { displayFields } = this.props;
+
+    const defaultRecord = {};
+    displayFields.forEach((field) => {
+      defaultRecord[field] = null;
+    });
+
+    this.defaultRecordState = defaultRecord;
+
     this.state = {
-      updateRecord: null,
-      createRecord: null,
+      updateRecord: this.defaultRecordState,
+      createRecord: this.defaultRecordState,
     };
   }
 
   onCancelUpdate() {
     this.setState({ updateRecord: null });
+
+    this.resetUpdateStoreState();
   }
 
   setUpdateView(record) {
     const nextUpdateRecord = record;
 
     this.setState({ updateRecord: nextUpdateRecord });
+
+    this.resetUpdateStoreState();
   }
 
   getRow(record) {
-    const { displayFields, onUpdateRecord } = this.props;
+    const { displayFields, onUpdateRecord, onDeleteRecord } = this.props;
     const { updateRecord } = this.state;
 
     if (updateRecord === null || updateRecord.id !== record.id) {
@@ -38,7 +51,19 @@ export default class GridView extends Component {
             <button
               className="button is-info"
               onClick={() => this.setUpdateView(record)}
-            >Update</button>
+            >
+              <span className="icon">
+                <i className="fa fa-edit" />
+              </span>
+            </button>
+            <button
+              className="button is-danger"
+              onClick={() => onDeleteRecord(record)}
+            >
+              <span className="icon">
+                <i className="fa fa-close" />
+              </span>
+            </button>
           </td>
         </tr>
       );
@@ -52,8 +77,8 @@ export default class GridView extends Component {
               className={this.getUpdateErrorsByField(field.name) ? 'input is-danger' : 'input'}
               placeholder={field.name}
               type={field.type}
-              value={updateRecord[field.name]}
-              onChange={event => this.setUpdatedState(event, field.name)}
+              value={updateRecord[field.name] || ''}
+              onChange={event => this.setComponentState(event, field.name, 'updateRecord')}
             />
             {this.getUpdateErrorsByField(field.name) &&
               <Errors errors={this.getUpdateErrorsByField(field.name)} />
@@ -74,26 +99,15 @@ export default class GridView extends Component {
     );
   }
 
-  setCreateState(event, fieldName) {
-    const { createRecord } = this.state;
+  setComponentState(event, fieldName, key) {
+    const currentState = this.state[key];
 
-    const nextCreateState = {
-      ...createRecord,
+    const nextState = {
+      ...currentState,
       [fieldName]: event.target.value,
     };
 
-    this.setState({ createRecord: nextCreateState });
-  }
-
-  setUpdatedState(event, fieldName) {
-    const { updateRecord } = this.state;
-
-    const nextUpdateRecord = {
-      ...updateRecord,
-      [fieldName]: event.target.value,
-    };
-
-    this.setState({ updateRecord: nextUpdateRecord });
+    this.setState({ [key]: nextState });
   }
 
   getCreationErrorsByField(fieldName) {
@@ -106,6 +120,20 @@ export default class GridView extends Component {
     const { updateErrors } = this.props;
 
     return updateErrors ? updateErrors[fieldName] : null;
+  }
+
+  resetCreateState() {
+    const { onCreateReset } = this.props;
+
+    this.setState({ createRecord: this.defaultRecordState });
+
+    onCreateReset();
+  }
+
+  resetUpdateStoreState() {
+    const { onUpdateReset } = this.props;
+
+    onUpdateReset();
   }
 
   render() {
@@ -139,7 +167,8 @@ export default class GridView extends Component {
                   <input
                     className={this.getCreationErrorsByField(field.name) ? 'input is-danger' : 'input'}
                     type={field.type}
-                    onChange={event => this.setCreateState(event, field.name)}
+                    value={this.state.createRecord[field.name] || ''}
+                    onChange={event => this.setComponentState(event, field.name, 'createRecord')}
                     placeholder={field.name}
                   />
                   {this.getCreationErrorsByField(field.name) &&
@@ -152,6 +181,10 @@ export default class GridView extends Component {
                   className="button is-success"
                   onClick={() => onCreateRecord(createRecord)}
                 >Create Lift</button>
+                <button
+                  className="button is-warning"
+                  onClick={() => this.resetCreateState()}
+                >Cancel</button>
               </td>
             </tr>
           </tbody>
@@ -164,8 +197,11 @@ export default class GridView extends Component {
 GridView.propTypes = {
   onCreateRecord: PropTypes.func.isRequired,
   onUpdateRecord: PropTypes.func.isRequired,
+  onDeleteRecord: PropTypes.func.isRequired,
   displayFields: PropTypes.array.isRequired, // eslint-disable-line
   records: PropTypes.array.isRequired, // eslint-disable-line
   updateErrors: PropTypes.object, // eslint-disable-line
   creationErrors: PropTypes.object, // eslint-disable-line
+  onCreateReset: PropTypes.func.isRequired,
+  onUpdateReset: PropTypes.func.isRequired,
 };
